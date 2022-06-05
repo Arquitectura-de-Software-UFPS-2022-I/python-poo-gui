@@ -13,7 +13,7 @@ public class PythonPooGui {
     
     public static void main(String[] args) {
         
-        // Iniciar el sistema con un nombre 
+        // Iniciar el sistema con un nombre.
         IMainView main = new MainView("App");
         
     }

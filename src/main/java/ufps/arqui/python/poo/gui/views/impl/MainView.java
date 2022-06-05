@@ -15,8 +15,7 @@ import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 /**
  * Vista principal, donde se concentra la inicialización de cada parte 
  * del proyecto.
- * 
- * 
+ *  
  * @author Omar Ramón Montes
  */
 public class MainView extends JFrame implements IMainView{
@@ -38,7 +37,7 @@ public class MainView extends JFrame implements IMainView{
     }
     
     /**
-     * Inicialización de patron MVC del panel de menú
+     * Inicialización de patron MVC del panel de menú.
      */
     private void initMenu() {    
         IMenuController menuController = new MenuController(this.modelo);
@@ -47,6 +46,18 @@ public class MainView extends JFrame implements IMainView{
         this.modelo.addObserver(this.panelMenu);
         
         this.add(this.panelMenu.getPanel());
+    }
+    
+    /**
+     * Inicializar la ventana principal del sistema.
+     */
+    private void init() {        
+        this.setPreferredSize(new Dimension(800, 600));
+        this.pack();
+        
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     @Override
@@ -67,18 +78,6 @@ public class MainView extends JFrame implements IMainView{
     @Override
     public IPanelMundo getPanelMundo() {
         return panelMundo;
-    }
-    
-    /**
-     * Inicializar la ventana principal del sistema
-     */
-    private void init() {        
-        this.setPreferredSize(new Dimension(800, 600));
-        this.pack();
-        
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
     }
     
 }

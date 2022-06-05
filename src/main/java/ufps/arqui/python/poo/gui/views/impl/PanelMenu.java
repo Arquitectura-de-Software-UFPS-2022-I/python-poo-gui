@@ -14,12 +14,17 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
- *
- * @author USUARIO
+ * Panel para visaulizar las opciones del proyecto.
+ * 
+ * En el menú se podrán realizar las diferentes opciones del sistema,
+ * como por ejemplo guardar el proyecto, crear uno nuevo, ver el manual, etc.
+ * 
+ * @author Omar Ramón Montes
  */
 public class PanelMenu implements IPanelMenu {
     
     private final IMenuController controller;    
+    
     // elementos de GUI
     private final JButton btnAbrirProyecto;
     private final JPanel panel;
@@ -32,13 +37,13 @@ public class PanelMenu implements IPanelMenu {
         this.btnAbrirProyecto = new JButton("Abrir");
         this.lblContenido = new JLabel("Hola mundo");
         
-        this.panel.add(this.btnAbrirProyecto);
-        this.panel.add(this.lblContenido);
-        
         this.init();        
     }
 
-    private void init() {
+    private void init() {        
+        this.panel.add(this.btnAbrirProyecto);
+        this.panel.add(this.lblContenido);
+        
         this.btnAbrirProyecto.addActionListener(e -> {     
             // TODO: ejecutar código para obtener el nombre y directorio
             
@@ -50,7 +55,9 @@ public class PanelMenu implements IPanelMenu {
     
     @Override
     public void update(Observable o, Object arg) {
+        // Validar que el objeto observable sea Proyecto.
         if (o instanceof Proyecto) {
+            // Actualizar contenido del label, cuando el modelo cambie.
             this.lblContenido.setText(((Proyecto) o).toString());
         }
     }
