@@ -1,7 +1,18 @@
 package ufps.arqui.python.poo.gui;
 
-import ufps.arqui.python.poo.gui.views.IMainView;
-import ufps.arqui.python.poo.gui.views.impl.MainView;
+import ufps.arqui.python.poo.gui.controllers.IMenuController;
+import ufps.arqui.python.poo.gui.controllers.IMundoController;
+import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.controllers.ITerminalController;
+import ufps.arqui.python.poo.gui.controllers.impl.MenuController;
+import ufps.arqui.python.poo.gui.controllers.impl.MundoController;
+import ufps.arqui.python.poo.gui.controllers.impl.ProyectoController;
+import ufps.arqui.python.poo.gui.controllers.impl.TerminalController;
+import ufps.arqui.python.poo.gui.models.Proyecto;
+import ufps.arqui.python.poo.gui.views.*;
+import ufps.arqui.python.poo.gui.views.impl.*;
+
+import java.awt.*;
 
 /**
  * Clase Main para la inicialización del proyecto.
@@ -12,10 +23,36 @@ import ufps.arqui.python.poo.gui.views.impl.MainView;
 public class PythonPooGui {
     
     public static void main(String[] args) {
-        
-        // Iniciar el sistema con un nombre.
-        IMainView main = new MainView("App");
-        
+        // Modelo
+        Proyecto modelo = new Proyecto();
+
+        // Inicializar el menú.
+        IMenuController menuController = new MenuController(modelo);
+        IPanelMenu panelMenu = new PanelMenu(menuController);
+
+        // Inicializar el terminal.
+        ITerminalController terminalController = new TerminalController(modelo);
+        IPanelTerminal panelTerminal = new PanelTerminal(terminalController);
+
+        // Inicializar el mundo.
+        IMundoController mundoController = new MundoController(modelo);
+        IPanelMundo panelMundo = new PanelMundo(mundoController);
+
+        // Inicializar el proyecto.
+        IProyectoController proyectoController = new ProyectoController(modelo);
+        IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
+
+        // Agregar Observadores del modelo
+        modelo.addObserver(panelMenu);
+        modelo.addObserver(panelTerminal);
+        modelo.addObserver(panelMundo);
+        modelo.addObserver(panelProyecto);
+
+        // Iniciar de ventana principal.
+        IMainView main = new MainView("POO Con Python", panelMenu, panelMundo, panelProyecto, panelTerminal);
+
+        // Ejecutar interfaz
+        main.init();
     }
     
 }

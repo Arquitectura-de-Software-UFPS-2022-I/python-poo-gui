@@ -11,6 +11,8 @@ public interface IMainView {
     IPanelMenu getPanelMenu();    
     IPanelProyecto getPanelProyecto();  
     IPanelTerminal getPanelTerminal();  
-    IPanelMundo getPanelMundo();  
+    IPanelMundo getPanelMundo();
+
+    void init();
     
 }

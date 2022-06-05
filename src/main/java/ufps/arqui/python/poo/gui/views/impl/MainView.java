@@ -3,8 +3,6 @@ package ufps.arqui.python.poo.gui.views.impl;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
-import ufps.arqui.python.poo.gui.controllers.IMenuController;
-import ufps.arqui.python.poo.gui.controllers.impl.MenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.IMainView;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
@@ -20,40 +18,33 @@ import ufps.arqui.python.poo.gui.views.IPanelTerminal;
  */
 public class MainView extends JFrame implements IMainView{
     
-    IPanelMenu panelMenu;
-    IPanelMundo panelMundo;
-    IPanelProyecto panelProyecto;
-    IPanelTerminal panelTerminal;
-    
-    private final Proyecto modelo;
+    private final IPanelMenu panelMenu;
+    private final IPanelMundo panelMundo;
+    private final IPanelProyecto panelProyecto;
+    private final IPanelTerminal panelTerminal;
 
-    public MainView(String title) throws HeadlessException {
+    public MainView(String title, IPanelMenu panelMenu, IPanelMundo panelMundo,
+                    IPanelProyecto panelProyecto, IPanelTerminal panelTerminal) throws HeadlessException {
         super(title);
-        
-        this.modelo = new Proyecto();
-        
-        this.initMenu();
-        this.init();
-    }
-    
-    /**
-     * Inicialización de patron MVC del panel de menú.
-     */
-    private void initMenu() {    
-        IMenuController menuController = new MenuController(this.modelo);
-        this.panelMenu = new PanelMenu(menuController);
-        
-        this.modelo.addObserver(this.panelMenu);
-        
-        this.add(this.panelMenu.getPanel());
+
+        this.panelMenu = panelMenu;
+        this.panelMundo = panelMundo;
+        this.panelProyecto = panelProyecto;
+        this.panelTerminal = panelTerminal;
+
     }
     
     /**
      * Inicializar la ventana principal del sistema.
      */
-    private void init() {        
+    @Override
+    public void init() {
         this.setPreferredSize(new Dimension(800, 600));
         this.pack();
+
+        if (this.panelMenu != null) {
+            this.add(this.panelMenu.getPanel());
+        }
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);

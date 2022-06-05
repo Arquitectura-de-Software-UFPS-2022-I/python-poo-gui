@@ -14,7 +14,7 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
- * Panel para visaulizar las opciones del proyecto.
+ * Panel para visualizar las opciones del proyecto.
  * 
  * En el menú se podrán realizar las diferentes opciones del sistema,
  * como por ejemplo guardar el proyecto, crear uno nuevo, ver el manual, etc.
