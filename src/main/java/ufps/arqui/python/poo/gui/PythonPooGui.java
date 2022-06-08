@@ -12,7 +12,9 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.*;
 import ufps.arqui.python.poo.gui.views.impl.*;
 
-import java.awt.*;
+import javax.swing.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Clase Main para la inicialización del proyecto.
@@ -22,7 +24,7 @@ import java.awt.*;
  */
 public class PythonPooGui {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
         // Modelo
         Proyecto modelo = new Proyecto();
 
@@ -48,11 +50,26 @@ public class PythonPooGui {
         modelo.addObserver(panelMundo);
         modelo.addObserver(panelProyecto);
 
+        // Crear splash al momento de iniciar el sistema.
+        JWindow window = new JWindow();
+        window.setSize(460, 344);
+        window.setLocationRelativeTo(null);
+        window.getContentPane().add(new JLabel("", new ImageIcon(new URL("https://c.tenor.com/fdNuq0ikCLwAAAAC/blue-octopus.gif")), SwingConstants.CENTER));
+        window.setVisible(true);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // Iniciar de ventana principal.
         IMainView main = new MainView("POO Con Python", panelMenu, panelMundo, panelProyecto, panelTerminal);
 
         // Ejecutar interfaz
         main.init();
+        
+        // Cerrar splash cuando la interfaz ya es visible.
+        window.dispose();
     }
     
 }
