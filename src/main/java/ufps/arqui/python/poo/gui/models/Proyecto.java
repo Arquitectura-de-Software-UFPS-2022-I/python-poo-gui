@@ -1,35 +1,37 @@
 package ufps.arqui.python.poo.gui.models;
 
+import java.io.File;
 import java.util.Observable;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
- * 
- * Aquí se almacenará la información del proyecto, para que los demás 
- * componentes puedan interacturar con el proyecto, como por ejemplo
- * lista de clases con sus metodos y parametros; datos del proyecto; datos del 
- * mundo como los objetos.
+ *
+ * Aquí se almacenará la información del proyecto, para que los demás
+ * componentes puedan interacturar con el proyecto, como por ejemplo lista de
+ * clases con sus metodos y parametros; datos del proyecto; datos del mundo como
+ * los objetos.
+ *
  * @author Omar Ramón Montes
  */
-public class Proyecto extends Observable{
-    
+public class Proyecto extends Observable {
+
     /**
      * Nombre del proyecto.
      */
     private String nombre;
-    
+
     /**
-     * Ruta del directorio raiz donde se guarda el proyecto.
+     * Ubicación del directorio donde se ejecutará la aplicación.
+     *
      */
-    private String directorio;
+    private File directorioRaiz;
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getDirectorio() {
-        return directorio;
-    }
+    /**
+     * Directtorio de trabajo, donde el usuario tendra su proyecto.
+     *
+     * El directorio debe llamarse src, y debe estár dentro del directorio raiz.
+     */
+    private Directorio directorioTrabajo;
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -37,17 +39,32 @@ public class Proyecto extends Observable{
         super.notifyObservers(this.nombre);
     }
 
-    public void setDirectorio(String directorio) {
-        this.directorio = directorio;
+    public void setDirectorioRaiz(File directorioRaiz) {
+        this.directorioRaiz = directorioRaiz;
+        // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
+        // Validar si existe, y realizar la lectura de los archivos, sino, 
+        // registrarlo.
         super.setChanged();
-        super.notifyObservers(this.directorio);
-    } 
+        super.notifyObservers(this.directorioRaiz);
+    }
 
-    @Override
-    public String toString() {
-        return "{" + "nombre=" + nombre + ", directorio=" + directorio + '}';
+    public String getNombre() {
+        return nombre;
+    }
+
+    public File getDirectorioRaiz() {
+        return directorioRaiz;
+    }
+
+    public Directorio getDirectorioTrabajo() {
+        return directorioTrabajo;
     }
     
     
-    
+
+    @Override
+    public String toString() {
+        return "Proyecto{" + "nombre=" + nombre + ", directorioRaiz=" + directorioRaiz + ", directorioTrabajo=" + directorioTrabajo + '}';
+    }
+
 }

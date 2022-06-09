@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
+import java.io.File;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
@@ -20,7 +21,7 @@ public class MenuController implements IMenuController{
     @Override
     public void abrirProyecto(String nombre, String directorio) {
         this.proyecto.setNombre(nombre);
-        this.proyecto.setDirectorio(directorio);
+        this.proyecto.setDirectorioRaiz(new File(directorio));
     }
 
     @Override
