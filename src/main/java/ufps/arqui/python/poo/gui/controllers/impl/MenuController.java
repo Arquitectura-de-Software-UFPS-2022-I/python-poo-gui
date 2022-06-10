@@ -6,8 +6,8 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
  * Controlador del menú superior del proyecto.
- * 
- * 
+ *
+ * Implementación del controlador menú
  * @author Omar Ramón Montes
  */
 public class MenuController implements IMenuController{

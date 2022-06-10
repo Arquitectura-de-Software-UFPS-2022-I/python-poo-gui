@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui.views;
 
-import javax.swing.*;
 import java.util.Observer;
 
 /**
@@ -10,7 +9,5 @@ import java.util.Observer;
  * y crear una relación de herencia.
  * @author Omar Ramón Montes
  */
-public interface IPanelProyecto  extends Observer {
-
-    JPanel getPanel();
+public interface IPanelProyecto  extends Observer, IPanelView {
 }

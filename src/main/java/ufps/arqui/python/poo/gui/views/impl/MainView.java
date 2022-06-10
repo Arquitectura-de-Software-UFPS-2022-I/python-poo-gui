@@ -3,7 +3,6 @@ package ufps.arqui.python.poo.gui.views.impl;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
-import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.IMainView;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;

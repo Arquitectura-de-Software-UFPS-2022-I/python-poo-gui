@@ -4,9 +4,9 @@ import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
- * Implementación del Controlador de la terminal del proyecto.
+ * Controlador de la terminal del proyecto.
  *
- * Donde el usuario puede ejecutar metodos de python.
+ * Implementación del Controlador de la terminal.
  * @author Omar Ramón Montes
  */
 public class TerminalController implements ITerminalController {
