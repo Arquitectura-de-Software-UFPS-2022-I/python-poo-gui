@@ -1,7 +1,6 @@
 package ufps.arqui.python.poo.gui.views;
 
 import java.util.Observer;
-import javax.swing.JPanel;
 
 /**
  * Interfaz del menú para visualizar las opciones del proyecto.
@@ -10,8 +9,5 @@ import javax.swing.JPanel;
  * como por ejemplo guardar el proyecto, crear uno nuevo, ver el manual, etc.
  * @author Omar Ramón Montes
  */
-public interface IPanelMenu extends Observer {
-    
-    JPanel getPanel();
-    
+public interface IPanelMenu extends Observer, IPanelView {
 }

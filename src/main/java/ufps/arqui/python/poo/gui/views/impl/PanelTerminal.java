@@ -3,7 +3,7 @@ package ufps.arqui.python.poo.gui.views.impl;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.util.Observable;
 
 /**

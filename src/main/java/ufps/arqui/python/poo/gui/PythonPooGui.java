@@ -12,7 +12,10 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.*;
 import ufps.arqui.python.poo.gui.views.impl.*;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JWindow;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import java.net.MalformedURLException;
 import java.net.URL;
 
