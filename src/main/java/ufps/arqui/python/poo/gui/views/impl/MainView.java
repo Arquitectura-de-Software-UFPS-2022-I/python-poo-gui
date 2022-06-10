@@ -16,8 +16,9 @@ import ufps.arqui.python.poo.gui.views.IPanelTerminal;
  *  
  * @author Omar Ramón Montes
  */
-public class MainView extends JFrame implements IMainView{
+public class MainView implements IMainView{
     
+    private final JFrame frame;
     private final IPanelMenu panelMenu;
     private final IPanelMundo panelMundo;
     private final IPanelProyecto panelProyecto;
@@ -25,7 +26,7 @@ public class MainView extends JFrame implements IMainView{
 
     public MainView(String title, IPanelMenu panelMenu, IPanelMundo panelMundo,
                     IPanelProyecto panelProyecto, IPanelTerminal panelTerminal) throws HeadlessException {
-        super(title);
+        this.frame = new JFrame(title);
 
         this.panelMenu = panelMenu;
         this.panelMundo = panelMundo;
@@ -39,16 +40,16 @@ public class MainView extends JFrame implements IMainView{
      */
     @Override
     public void init() {
-        this.setPreferredSize(new Dimension(800, 600));
-        this.pack();
+        this.frame.setPreferredSize(new Dimension(800, 600));
+        this.frame.pack();
 
         if (this.panelMenu != null) {
-            this.add(this.panelMenu.getPanel());
+            this.frame.add(this.panelMenu.getPanel());
         }
         
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
     }
 
     @Override

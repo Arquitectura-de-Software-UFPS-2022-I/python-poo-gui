@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
@@ -18,14 +19,19 @@ import java.util.Observable;
 public class PanelProyecto implements IPanelProyecto {
 
     private final IProyectoController controller;
+    private final JPanel panel;
+    
+    // elementos de GUI
+    
 
     public PanelProyecto(IProyectoController controller) {
         this.controller = controller;
+        this.panel = new JPanel(new GridBagLayout());
     }
 
     @Override
     public JPanel getPanel() {
-        return null;
+        return this.panel;
     }
 
     @Override
