@@ -35,7 +35,7 @@ public class Mundo extends Observable {
 
     public void nuevaEntrada(String entrada) {
         this.entradas.add(entrada);
-        this.salidas.add(entrada);
+        this.salidas.add("--comando--"+entrada);
         this.update("nuevaEntrada");
     }
 

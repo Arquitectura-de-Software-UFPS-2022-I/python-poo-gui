@@ -11,4 +11,11 @@ import java.util.Observer;
  * @author Omar Ramón Montes
  */
 public interface IPanelTerminal extends Observer, IPanelView {
+
+    /**
+     * Metodo invocado por la terminal interactiva, cuando se registra una nueva salida de la terminal.
+     * @param salida salida de la terminal
+     * @param error permite saber si la salida, es un error.
+     */
+    void nuevaSalida(String salida, boolean error);
 }

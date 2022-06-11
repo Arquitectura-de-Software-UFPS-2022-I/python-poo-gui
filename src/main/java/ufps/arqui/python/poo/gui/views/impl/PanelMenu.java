@@ -22,6 +22,7 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 public class PanelMenu implements IPanelMenu {
 
     private final IMenuController controller;
+
     private final JPanel panel;
     private JButton btnAbrir;
     private JTextField txtUrl;
@@ -53,7 +54,7 @@ public class PanelMenu implements IPanelMenu {
                     controller.abrirProyecto("Nombre1", txtUrl.getText());
                     JOptionPane.showMessageDialog(null, "Directorio seleccionado", "Hecho", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception error) {
-                    JOptionPane.showMessageDialog(null, error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "-->"+error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

@@ -27,6 +27,6 @@ public class TerminalController implements ITerminalController {
 
     @Override
     public void nuevaSalida(String salida, boolean error) {
-        this.mundo.nuevaSalida((error?"error: ":"")+salida.replaceAll(">>>",""));
+        this.mundo.nuevaSalida((error?"--error--":"")+salida.replaceAll(">>>",""));
     }
 }
