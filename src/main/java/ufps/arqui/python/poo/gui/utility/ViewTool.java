@@ -22,9 +22,7 @@ public class ViewTool {
         Documentación para aprender GridBagLayout: 
         https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
      */
-    public static void insert(Container contenedor, Component componente, int gridx, int gridy, double weightx, double weighty, int gridwidth, int gridheight, int fill, int anchor, Insets insets, int ipadx, int ipady) throws Exception{
-        if(!(contenedor.getLayout() instanceof GridBagLayout))
-            throw new Exception("El contenerdor ["+contenedor.getClass()+"] no tiene establecido el layout aceptado ["+GridBagLayout.class+"]");
+    public static void insert(Container contenedor, Component componente, int gridx, int gridy, double weightx, double weighty, int gridwidth, int gridheight, int fill, int anchor, Insets insets, int ipadx, int ipady) {
         if(insets == null){
             insets = new Insets(0, 0, 0, 0);
         }

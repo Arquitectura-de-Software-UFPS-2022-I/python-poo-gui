@@ -46,9 +46,15 @@ public class PythonPooGui {
         // Inicializar el proyecto.
         IProyectoController proyectoController = new ProyectoController(modelo);
         IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
-
+        
+        IPanelFichero panelFichero = new PanelFichero();
+        
+        IPanelMundoTerminal panelMundoTerminal = new PanelMundoTerminal(panelMundo, panelTerminal);
+        IPanelFicheroProyecto panelFicheroProyecto = new PanelFicheroProyecto(panelFichero, panelProyecto);
+        
         // Agregar Observadores del modelo
         modelo.addObserver(panelMenu);
+        modelo.addObserver(panelFichero);
         modelo.addObserver(panelTerminal);
         modelo.addObserver(panelMundo);
         modelo.addObserver(panelProyecto);
@@ -66,10 +72,7 @@ public class PythonPooGui {
 //        }
 
         // Iniciar de ventana principal.
-        IMainView main = new MainView("POO Con Python", panelMenu, panelMundo, panelProyecto, panelTerminal);
-
-        // Ejecutar interfaz
-        main.init();
+        IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
         
         // Cerrar splash cuando la interfaz ya es visible.
         window.dispose();
