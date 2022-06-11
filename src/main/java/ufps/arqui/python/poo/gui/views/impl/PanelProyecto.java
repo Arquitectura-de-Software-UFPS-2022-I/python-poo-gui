@@ -3,7 +3,8 @@ package ufps.arqui.python.poo.gui.views.impl;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 
 /**
@@ -16,14 +17,27 @@ import java.util.Observable;
 public class PanelProyecto implements IPanelProyecto {
 
     private final IProyectoController controller;
+    private final JPanel panel;
+    private JButton btnAbrir;
 
     public PanelProyecto(IProyectoController controller) {
         this.controller = controller;
+        this.panel = new JPanel();
+
+        this.inicializarContenido();
     }
 
     @Override
     public JPanel getPanel() {
-        return null;
+        return this.panel;
+    }
+
+    @Override
+    public void inicializarContenido() {
+
+        this.btnAbrir = new JButton("Proyecto");
+        this.panel.add(btnAbrir);
+        this.panel.setVisible(true);
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface IMenuController {
      * @param nombre representa el nombre del proyecto.
      * @param directorio representa el directorio raiz donde se guardo.
      */
-    void abrirProyecto(String nombre, String directorio);
+    void abrirProyecto(String nombre, String directorio) throws Exception;
     
     /**
      * Debe permitir visualiza el manual de usuario del sistema.

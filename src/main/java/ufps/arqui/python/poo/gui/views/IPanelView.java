@@ -9,4 +9,6 @@ import javax.swing.JPanel;
  */
 public interface IPanelView {
     JPanel getPanel();
+
+    void inicializarContenido();
 }

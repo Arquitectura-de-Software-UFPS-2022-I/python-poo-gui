@@ -16,6 +16,6 @@ public interface IMainView {
 
     IPanelMundo getPanelMundo();
 
-    void init();
+    void inicializarContenido();
     
 }

@@ -1,6 +1,7 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
+import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
@@ -12,9 +13,20 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
 public class TerminalController implements ITerminalController {
 
     private final Proyecto proyecto;
+    private final Mundo mundo;
 
-    public TerminalController(Proyecto proyecto) {
+    public TerminalController(Proyecto proyecto, Mundo mundo) {
         this.proyecto = proyecto;
+        this.mundo = mundo;
     }
 
+    @Override
+    public void ejecutarComando(String commando) {
+        this.mundo.nuevaEntrada(commando);
+    }
+
+    @Override
+    public void nuevaSalida(String salida, boolean error) {
+        this.mundo.nuevaSalida((error?"error: ":"")+salida.replaceAll(">>>",""));
+    }
 }
