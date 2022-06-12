@@ -19,9 +19,14 @@ public class MenuController implements IMenuController{
     }   
 
     @Override
-    public void abrirProyecto(String nombre, String directorio) {
-        this.proyecto.setNombre(nombre);
-        this.proyecto.setDirectorioRaiz(new File(directorio));
+    public void abrirProyecto(String nombre, String directorio) throws Exception {
+        File dir = new File(directorio);
+        if (dir.exists() && dir.isDirectory()) {
+            this.proyecto.setNombre(nombre);
+            this.proyecto.setDirectorioRaiz(dir);
+        } else {
+            throw new Exception("El directorio no existe");
+        }
     }
 
     @Override

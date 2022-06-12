@@ -1,10 +1,9 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.util.Observable;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
@@ -12,10 +11,10 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
  * Panel para visualizar las opciones del proyecto.
- * 
+ * <p>
  * En el menú se podrán realizar las diferentes opciones del sistema,
  * como por ejemplo guardar el proyecto, crear uno nuevo, ver el manual, etc.
- * 
+ *
  * @author Omar Ramón Montes
  */
 public class PanelMenu implements IPanelMenu {
@@ -42,11 +41,12 @@ public class PanelMenu implements IPanelMenu {
         
         this.modalCrearProyecto = new ModalCrearProyecto(this);
         
-        this.init();
+        this.inicializarContenido();
         this.addEvents();
     }
 
-    private void init() throws Exception {
+    @Override
+    public void inicializarContenido() {
         ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
         ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
         ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
@@ -67,7 +67,7 @@ public class PanelMenu implements IPanelMenu {
             
         });
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
         // Validar que el objeto observable sea Proyecto.

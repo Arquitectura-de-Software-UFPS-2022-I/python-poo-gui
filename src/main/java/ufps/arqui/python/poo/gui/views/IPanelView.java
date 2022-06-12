@@ -9,4 +9,10 @@ import javax.swing.JPanel;
  */
 public interface IPanelView {
     JPanel getPanel();
+
+    /**
+     * Debe inicializar los componentes que tendrá en panel.
+     */
+    void inicializarContenido();
+
 }

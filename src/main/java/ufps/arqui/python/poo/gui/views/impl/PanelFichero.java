@@ -25,10 +25,11 @@ public class PanelFichero implements IPanelFichero{
         
         this.btnNewFile = new JButton("Nuevo archivo");
         
-        this.init();
+        this.inicializarContenido();
     }
     
-    private void init() throws Exception{
+    @Override
+    public void inicializarContenido() {
         ViewTool.insert(this.panel, this.btnNewFile, 0, 0, 0, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
     }
     

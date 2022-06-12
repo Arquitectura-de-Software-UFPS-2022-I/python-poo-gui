@@ -13,9 +13,9 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
 
 /**
- * Vista principal, donde se concentra la inicialización de cada parte 
+ * Vista principal, donde se concentra la inicialización de cada parte
  * del proyecto.
- *  
+ *
  * @author Omar Ramón Montes
  */
 public class MainView implements IMainView{
@@ -50,7 +50,7 @@ public class MainView implements IMainView{
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.add(this.panelFicheroProyecto.getPanel());
         splitPane.add(this.panelMundoTerminal.getPanel());
-        splitPane.setResizeWeight(0.1);
+        splitPane.setResizeWeight(0.7);
         
         ViewTool.insert(container, this.panelMenu.getPanel(),   0, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.LINE_START, null, 0, 0);
         ViewTool.insert(container, splitPane,                   0, 1, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);

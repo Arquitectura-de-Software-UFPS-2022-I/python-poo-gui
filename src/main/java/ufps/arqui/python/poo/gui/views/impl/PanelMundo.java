@@ -4,7 +4,8 @@ import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 
 /**
@@ -18,12 +19,20 @@ public class PanelMundo implements IPanelMundo {
 
     private final IMundoController controller;
     private final JPanel panel;
-    
-    // elementos de GUI
+    private JButton btnAbrir;
 
     public PanelMundo(IMundoController controller) {
         this.controller = controller;
-        this.panel = new JPanel(new GridBagLayout());
+        this.panel = new JPanel();
+
+        this.inicializarContenido();
+    }
+
+    @Override
+    public void inicializarContenido() {
+        this.btnAbrir = new JButton("Mundo");
+        this.panel.add(btnAbrir);
+        this.panel.setVisible(true);
     }
 
     @Override
@@ -33,6 +42,5 @@ public class PanelMundo implements IPanelMundo {
 
     @Override
     public void update(Observable o, Object arg) {
-
     }
 }

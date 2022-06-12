@@ -8,6 +8,7 @@ import ufps.arqui.python.poo.gui.controllers.impl.MenuController;
 import ufps.arqui.python.poo.gui.controllers.impl.MundoController;
 import ufps.arqui.python.poo.gui.controllers.impl.ProyectoController;
 import ufps.arqui.python.poo.gui.controllers.impl.TerminalController;
+import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.views.*;
 import ufps.arqui.python.poo.gui.views.impl.*;
@@ -16,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JWindow;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -27,16 +27,17 @@ import java.net.URL;
  */
 public class PythonPooGui {
     
-    public static void main(String[] args) throws MalformedURLException, Exception {
+    public static void main(String[] args) throws Exception {
         // Modelo
         Proyecto modelo = new Proyecto();
+        Mundo mundo = new Mundo();
 
         // Inicializar el menú.
         IMenuController menuController = new MenuController(modelo);
         IPanelMenu panelMenu = new PanelMenu(menuController);
 
         // Inicializar el terminal.
-        ITerminalController terminalController = new TerminalController(modelo);
+        ITerminalController terminalController = new TerminalController(modelo, mundo);
         IPanelTerminal panelTerminal = new PanelTerminal(terminalController);
 
         // Inicializar el mundo.
@@ -58,6 +59,8 @@ public class PythonPooGui {
         modelo.addObserver(panelTerminal);
         modelo.addObserver(panelMundo);
         modelo.addObserver(panelProyecto);
+        modelo.addObserver(panelTerminal);
+        mundo.addObserver(panelTerminal);
 
         // Crear splash al momento de iniciar el sistema.
         JWindow window = new JWindow();

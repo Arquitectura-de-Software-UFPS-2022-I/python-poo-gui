@@ -35,17 +35,14 @@ public class Proyecto extends Observable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-        super.setChanged();
-        super.notifyObservers(this.nombre);
+        this.update("nombre");
     }
 
     public void setDirectorioRaiz(File directorioRaiz) {
         this.directorioRaiz = directorioRaiz;
         // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
-        // Validar si existe, y realizar la lectura de los archivos, sino, 
-        // registrarlo.
-        super.setChanged();
-        super.notifyObservers(this.directorioRaiz);
+        // Validar si existe, y realizar la lectura de los archivos, sino, registrarlo.
+        this.update("directorio");
     }
 
     public String getNombre() {
@@ -60,7 +57,10 @@ public class Proyecto extends Observable {
         return directorioTrabajo;
     }
     
-    
+    private void update(String type) {
+        super.setChanged();
+        super.notifyObservers(type);
+    }
 
     @Override
     public String toString() {

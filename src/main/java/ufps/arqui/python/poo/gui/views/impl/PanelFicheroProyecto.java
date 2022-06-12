@@ -25,10 +25,11 @@ public class PanelFicheroProyecto implements IPanelFicheroProyecto{
         this.panelProyecto = panelProyecto;
         this.panel = new JPanel(new GridBagLayout());
         
-        this.init();
+        this.inicializarContenido();
     }
     
-    private void init() throws Exception{
+    @Override
+    public void inicializarContenido() {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         
         splitPane.add(this.panelFichero.getPanel());
