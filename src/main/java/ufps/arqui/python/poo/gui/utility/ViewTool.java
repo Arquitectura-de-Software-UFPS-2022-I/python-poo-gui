@@ -1,9 +1,7 @@
 package ufps.arqui.python.poo.gui.utility;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -11,13 +9,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 /**
- *
+ * Herramienta para configurar la vista con grillas.
  * @author Sachikia
  */
 public class ViewTool {
-    public static final GridBagLayout GBL = new GridBagLayout();
     private static final GridBagConstraints GBC = new GridBagConstraints();
-    
     /*
         Documentación para aprender GridBagLayout: 
         https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
@@ -39,6 +35,23 @@ public class ViewTool {
         ViewTool.GBC.ipady = ipady;
         contenedor.add(componente, ViewTool.GBC);
         reset();
+    }
+
+    public static void insert(ConfGrid configGrid) {
+
+        ViewTool.GBC.gridx = configGrid.getGridx();
+        ViewTool.GBC.gridy = configGrid.getGridy();
+        ViewTool.GBC.weightx = configGrid.getWeightx();
+        ViewTool.GBC.weighty = configGrid.getWeighty();
+        ViewTool.GBC.gridwidth = configGrid.getGridwidth();
+        ViewTool.GBC.gridheight = configGrid.getGridheight();
+        ViewTool.GBC.fill = configGrid.getFill();
+        ViewTool.GBC.anchor = configGrid.getAnchor();
+        ViewTool.GBC.insets = configGrid.getInsets();
+        ViewTool.GBC.ipadx = configGrid.getIpadx();
+        ViewTool.GBC.ipady = configGrid.getIpady();
+
+        configGrid.getContenedor().add(configGrid.getComponente(), ViewTool.GBC);
     }
     
     private static void reset(){

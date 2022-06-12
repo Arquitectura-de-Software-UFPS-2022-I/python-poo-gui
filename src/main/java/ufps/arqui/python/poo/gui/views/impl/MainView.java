@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IMainView;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
@@ -51,9 +52,22 @@ public class MainView implements IMainView{
         splitPane.add(this.panelFicheroProyecto.getPanel());
         splitPane.add(this.panelMundoTerminal.getPanel());
         splitPane.setResizeWeight(0.7);
-        
-        ViewTool.insert(container, this.panelMenu.getPanel(),   0, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.LINE_START, null, 0, 0);
-        ViewTool.insert(container, splitPane,                   0, 1, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
+
+        ConfGrid config = new ConfGrid(container, this.panelMenu.getPanel());
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.LINE_START);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(container, splitPane);
+        config.setGridy(1);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setFill(GridBagConstraints.BOTH);
+        ViewTool.insert(config);
+
+//        ViewTool.insert(container, this.panelMenu.getPanel(),   0, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(container, splitPane,                   0, 1, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
         
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocationRelativeTo(null);

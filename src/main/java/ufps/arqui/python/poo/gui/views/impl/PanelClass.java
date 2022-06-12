@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase
@@ -41,8 +42,15 @@ public class PanelClass {
         
         this.lblName.setHorizontalAlignment(SwingConstants.CENTER);
         this.lblName.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
-        
-        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
+
+        ConfGrid config = new ConfGrid(panel, lblName);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
     }
 
     private void draggableMode() {

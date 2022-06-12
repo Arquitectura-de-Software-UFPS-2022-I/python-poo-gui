@@ -6,6 +6,7 @@ import java.util.Observable;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
@@ -35,8 +36,14 @@ public class PanelFicheroProyecto implements IPanelFicheroProyecto{
         splitPane.add(this.panelFichero.getPanel());
         splitPane.add(this.panelProyecto.getPanel());
         splitPane.setResizeWeight(0.08);
-        
-        ViewTool.insert(this.panel, splitPane, 0, 0, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
+
+        ConfGrid config = new ConfGrid(panel, splitPane);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setFill(GridBagConstraints.BOTH);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(this.panel, splitPane, 0, 0, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
     }
 
     @Override

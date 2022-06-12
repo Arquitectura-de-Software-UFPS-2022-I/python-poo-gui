@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
@@ -61,21 +62,104 @@ public class ModalCrearProyecto {
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
 
-        ViewTool.insert(panelForm, lblName, 0, 0, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
-        ViewTool.insert(panelForm, this.txtName, 1, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 10);
-        ViewTool.insert(panelForm, lblPath, 0, 1, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
-        ViewTool.insert(panelForm, this.txtPath, 1, 1, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 10);
-        ViewTool.insert(panelForm, this.btnChoose, 2, 1, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 0), 0, 0);
-        ViewTool.insert(panelForm, lblFullPath, 0, 2, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
-        ViewTool.insert(panelForm, this.lblAbsolutePath, 1, 2, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
+        ConfGrid config = new ConfGrid(panelForm, lblName);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, this.txtName);
+        config.setGridx(1);
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        config.setGridy(10);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, lblPath);
+        config.setGridy(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, txtPath);
+        config.setGridx(1);
+        config.setGridy(1);
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        config.setIpady(10);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, btnChoose);
+        config.setGridx(2);
+        config.setGridy(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 0);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, lblFullPath);
+        config.setGridy(2);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, lblAbsolutePath);
+        config.setGridx(1);
+        config.setGridy(2);
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(panelForm, lblName, 0, 0, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
+//        ViewTool.insert(panelForm, this.txtName, 1, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 10);
+//        ViewTool.insert(panelForm, lblPath, 0, 1, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
+//        ViewTool.insert(panelForm, this.txtPath, 1, 1, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 10);
+//        ViewTool.insert(panelForm, this.btnChoose, 2, 1, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 0), 0, 0);
+//        ViewTool.insert(panelForm, lblFullPath, 0, 2, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
+//        ViewTool.insert(panelForm, this.lblAbsolutePath, 1, 2, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
 
         JPanel panelOptions = new JPanel(new GridBagLayout());
 
-        ViewTool.insert(panelOptions, this.btnAceptar, 0, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, new Insets(0, 0, 0, 10), 0, 0);
-        ViewTool.insert(panelOptions, this.btnCancel, 1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, null, 0, 0);
+        config = new ConfGrid(panelOptions, btnAceptar);
+        config.setWeightx(1);
+        config.setAnchor(GridBagConstraints.LAST_LINE_END);
+        config.setInsets(0, 0, 0, 10);
 
-        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
-        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelOptions, btnCancel);
+        config.setGridx(1);
+        config.setAnchor(GridBagConstraints.LAST_LINE_END);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(container, panelForm);
+        config.setWeightx(1);
+        config.setGridwidth(3);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(10, 10, 10, 10);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(container, panelOptions);
+        config.setGridy(1);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setGridwidth(3);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(0, 0, 10, 10);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(panelOptions, this.btnAceptar, 0, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, new Insets(0, 0, 0, 10), 0, 0);
+//        ViewTool.insert(panelOptions, this.btnCancel, 1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, null, 0, 0);
+//        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
+//        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
 
         this.frame.setPreferredSize(new Dimension(500, 200));
         this.frame.pack();

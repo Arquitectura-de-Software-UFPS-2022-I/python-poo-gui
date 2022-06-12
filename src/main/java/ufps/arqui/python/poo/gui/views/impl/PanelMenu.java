@@ -7,6 +7,7 @@ import javax.swing.*;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
@@ -47,9 +48,26 @@ public class PanelMenu implements IPanelMenu {
 
     @Override
     public void inicializarContenido() {
-        ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
-        ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
-        ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+        ConfGrid config = new ConfGrid(panel, btnAbrirProyecto);
+        config.setAnchor(GridBagConstraints.LINE_START);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panel, btnNuevoProyecto);
+        config.setGridx(1);
+        config.setAnchor(GridBagConstraints.LINE_START);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panel, btnAyuda);
+        config.setGridx(2);
+        config.setWeightx(1);
+        config.setAnchor(GridBagConstraints.LINE_START);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
         
         this.panel.setVisible(true);
     }
