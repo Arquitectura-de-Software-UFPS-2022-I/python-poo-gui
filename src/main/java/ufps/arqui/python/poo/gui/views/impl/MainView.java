@@ -1,13 +1,17 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.*;
-import javax.swing.*;
-
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
+import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IMainView;
+import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
-import ufps.arqui.python.poo.gui.views.IPanelMundo;
-import ufps.arqui.python.poo.gui.views.IPanelProyecto;
-import ufps.arqui.python.poo.gui.views.IPanelTerminal;
+import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
 
 /**
  * Vista principal, donde se concentra la inicialización de cada parte
@@ -15,49 +19,59 @@ import ufps.arqui.python.poo.gui.views.IPanelTerminal;
  *
  * @author Omar Ramón Montes
  */
-public class MainView extends JFrame implements IMainView {
-
+public class MainView implements IMainView{
+    
+    private final JFrame frame;
     private final IPanelMenu panelMenu;
-    private final IPanelMundo panelMundo;
-    private final IPanelProyecto panelProyecto;
-    private final IPanelTerminal panelTerminal;
-    private JSplitPane splitPanePro;
-    private JSplitPane splitPaneTer;
+    private final IPanelFicheroProyecto panelFicheroProyecto;
+    private final IPanelMundoTerminal panelMundoTerminal;
 
-    public MainView(String title, IPanelMenu panelMenu, IPanelMundo panelMundo,
-                    IPanelProyecto panelProyecto, IPanelTerminal panelTerminal) throws HeadlessException {
-        super(title);
+    public MainView(String title, IPanelMenu panelMenu, IPanelFicheroProyecto panelFicheroProyecto, 
+            IPanelMundoTerminal panelMundoTerminal) throws Exception {
+        this.frame = new JFrame(title);
 
         this.panelMenu = panelMenu;
-        this.panelMundo = panelMundo;
-        this.panelProyecto = panelProyecto;
-        this.panelTerminal = panelTerminal;
-
+        this.panelFicheroProyecto = panelFicheroProyecto;
+        this.panelMundoTerminal = panelMundoTerminal;
+        
+        this.init();
     }
 
-    @Override
-    public void inicializarContenido() {
-        this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(800, 600));
+    /**
+     * Inicializar la ventana principal del sistema.
+     * @throws java.lang.Exception
+     */
+    public void init() throws Exception {
+        this.frame.setPreferredSize(new Dimension(1100, 700));
+        this.frame.pack();
+        
+        Container container = this.frame.getContentPane();
+        container.setLayout(new GridBagLayout());
+        
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane.add(this.panelFicheroProyecto.getPanel());
+        splitPane.add(this.panelMundoTerminal.getPanel());
+        splitPane.setResizeWeight(0.7);
 
-        this.splitPaneTer = new JSplitPane(SwingConstants.VERTICAL, this.panelMundo.getPanel(), this.panelTerminal.getPanel());
-        this.splitPaneTer.setDividerLocation(400);
-        this.panelMundo.getPanel().setMinimumSize(new Dimension(150, 100));
-        this.panelTerminal.getPanel().setMinimumSize(new Dimension(150, 100));
+        ConfGrid config = new ConfGrid(container, this.panelMenu.getPanel());
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.LINE_START);
+        ViewTool.insert(config);
 
-        this.splitPanePro = new JSplitPane(SwingConstants.HORIZONTAL, this.panelProyecto.getPanel(), this.splitPaneTer);
-        this.splitPanePro.setDividerLocation(300);
-        this.panelProyecto.getPanel().setMinimumSize(new Dimension(800, 100));
-        this.splitPaneTer.setMinimumSize(new Dimension(800, 100));
+        config = new ConfGrid(container, splitPane);
+        config.setGridy(1);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setFill(GridBagConstraints.BOTH);
+        ViewTool.insert(config);
 
-        this.add(this.panelMenu.getPanel(), BorderLayout.NORTH);
-        this.add(this.splitPanePro, BorderLayout.CENTER);
-
-        this.pack();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+//        ViewTool.insert(container, this.panelMenu.getPanel(),   0, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(container, splitPane,                   0, 1, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
+        
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
     }
 
     @Override
@@ -66,18 +80,12 @@ public class MainView extends JFrame implements IMainView {
     }
 
     @Override
-    public IPanelProyecto getPanelProyecto() {
-        return panelProyecto;
+    public IPanelFicheroProyecto getPanelFicheroProyecto() {
+        return panelFicheroProyecto;
     }
 
     @Override
-    public IPanelTerminal getPanelTerminal() {
-        return panelTerminal;
+    public IPanelMundoTerminal getPanelMundoTerminal() {
+        return panelMundoTerminal;
     }
-
-    @Override
-    public IPanelMundo getPanelMundo() {
-        return panelMundo;
-    }
-
 }

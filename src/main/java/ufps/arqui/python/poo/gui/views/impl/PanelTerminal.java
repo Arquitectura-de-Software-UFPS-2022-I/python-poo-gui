@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.Proyecto;

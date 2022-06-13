@@ -10,12 +10,7 @@ public interface IMainView {
     
     IPanelMenu getPanelMenu();
 
-    IPanelProyecto getPanelProyecto();
+    IPanelFicheroProyecto getPanelFicheroProyecto();
 
-    IPanelTerminal getPanelTerminal();
-
-    IPanelMundo getPanelMundo();
-
-    void inicializarContenido();
-    
+    IPanelMundoTerminal getPanelMundoTerminal();
 }
