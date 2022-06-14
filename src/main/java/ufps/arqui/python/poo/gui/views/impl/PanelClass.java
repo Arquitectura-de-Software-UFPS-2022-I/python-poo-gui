@@ -7,9 +7,14 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
@@ -20,7 +25,7 @@ import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
  * 
  * @author Sachikia
  */
-public class PanelClass {
+public class PanelClass implements MouseListener{
     private JPanel parent;
     private JPanel panel;
     private JLabel lblName;
@@ -83,5 +88,50 @@ public class PanelClass {
         int calY = panel.getLocationOnScreen().y - parent.getLocationOnScreen().y;
         
         return new Point(calX, calY);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+       
+//        JOptionPane.showMessageDialog(null, "pene");
+//        System.out.println("hola1");
+//       
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+//       JOptionPane.showMessageDialog(null, "pene gordo");
+        System.out.println("hola2");
+        JFrame r = new JFrame();
+        r.setBounds(100, 100, 180, 180);
+        JPanel b = new JPanel();
+        
+        JButton be = new JButton();
+         JButton beb = new JButton();
+        be.setText("Añadir");
+        beb.setText("Eliminar");
+        r.add(b);
+        b.add(be);
+        b.add(beb);
+        r.setVisible(true);
+      
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+//       JOptionPane.showMessageDialog(null, "pene");
+//        System.out.println("hola3");
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+//       JOptionPane.showMessageDialog(null, "pene");
+//        System.out.println("hola4");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+//        JOptionPane.showMessageDialog(null, "pene");
+//        System.out.println("hola5");
     }
 }

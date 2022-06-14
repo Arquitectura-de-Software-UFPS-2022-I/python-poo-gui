@@ -6,6 +6,9 @@ import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
+
+import javafx.scene.input.MouseEvent;
+
 import java.util.Observable;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
 
@@ -26,12 +29,21 @@ public class PanelProyecto implements IPanelProyecto {
         this.panel = new JPanel(new GridBagLayout());
 
         this.inicializarContenido();
+
     }
+
     
     @Override
     public void inicializarContenido() {
         PanelClass pc1 = new PanelClass("SoloTest 1", this.panel);
         PanelClass pc2 = new PanelClass("SoloTest 2", this.panel);
+
+        
+        pc1.getPanel().addMouseListener(pc1);
+
+        pc2.getPanel().addMouseListener(pc2);
+
+       
 
         ConfGrid config = new ConfGrid(panel, pc1.getPanel());
         config.setWeightx(1);
@@ -49,7 +61,8 @@ public class PanelProyecto implements IPanelProyecto {
         config.setIpady(40);
 
         ViewTool.insert(config);
-
+    
+        
 //        ViewTool.insert(this.panel, pc1.getPanel(), 0, 0, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
 //        ViewTool.insert(this.panel, pc2.getPanel(), 1, 0, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
     }

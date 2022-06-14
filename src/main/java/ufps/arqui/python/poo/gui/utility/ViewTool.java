@@ -54,7 +54,7 @@ public class ViewTool {
         configGrid.getContenedor().add(configGrid.getComponente(), ViewTool.GBC);
     }
     
-    private static void reset(){
+    public static void reset(){
         ViewTool.GBC.anchor = GridBagConstraints.CENTER;
         ViewTool.GBC.fill = GridBagConstraints.NONE;
         ViewTool.GBC.gridheight = 1;
