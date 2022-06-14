@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
+import ufps.arqui.python.poo.gui.models.Mensaje;
 
 /**
  * Panel para visualizar el cuadro de texto para ingresar comandos.
@@ -23,10 +24,9 @@ import java.util.Observable;
  *
  * @author Omar Ramón Montes
  */
-public class PanelTerminal implements IPanelTerminal {
+public class PanelTerminal implements IPanelTerminal  {
 
     private final ITerminalController controller;
-    private TerminalInteractiva interactiveShell;
 
     private final JPanel panel;
     private JTextField txtInput;
@@ -38,7 +38,6 @@ public class PanelTerminal implements IPanelTerminal {
 
     public PanelTerminal(ITerminalController controller) {
         this.controller = controller;
-        this.interactiveShell = new TerminalInteractiva(this);
 
         this.panel = new JPanel(new BorderLayout());
 
@@ -97,7 +96,7 @@ public class PanelTerminal implements IPanelTerminal {
                 super.mousePressed(e);
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     try {
-                        interactiveShell.reiniciarTerminal();
+                        controller.reiniciarTerminal();
                         terminal.removeAll();
                         recalcularScroll();
                     } catch (IOException error) {
@@ -116,21 +115,12 @@ public class PanelTerminal implements IPanelTerminal {
      * Obtener nuevo comando y ejecutarlo.
      */
     private void ingresarComando() {
-        if (this.interactiveShell.terminalActiva()) {
+//        if (this.interactiveShell.terminalActiva()) {
             controller.ejecutarComando(txtInput.getText());
             txtInput.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this.panel, "Seleccione el directorio de trabajo", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Inicializa el shell con un nuevo directorio.
-     *
-     * @param directorio directorio raiz de ejecución de shell.
-     */
-    private void inicializarTerminal(File directorio) throws IOException {
-        this.interactiveShell.inicializarTerminal(directorio);
+//        } else {
+//            JOptionPane.showMessageDialog(this.panel, "Seleccione el directorio de trabajo", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     @Override
@@ -138,41 +128,10 @@ public class PanelTerminal implements IPanelTerminal {
         return this.panel;
     }
 
-    /**
-     *
-     * @param salida
-     * @param error
-     */
-    public void nuevaSalida(String salida, boolean error) {
-        this.controller.nuevaSalida(salida, error);
-    }
-
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Proyecto) {
-            Proyecto p = (Proyecto) o;
-            // Verifica si el cambio fue en el directorio, y si es así, inicializa la terminal.
-            if (p.getDirectorioRaiz() != null && arg.toString().equals("directorio")) {
-                try {
-                    this.inicializarTerminal(p.getDirectorioRaiz());
-                } catch (Exception eror) {
-                    eror.printStackTrace();
-                }
-            }
-        }
         if (o instanceof Mundo) {
             Mundo m = (Mundo) o;
-            // Verifica si el cambio fue de los comandos, y si es así, ejecuta el comando.
-            if (arg.toString().equals("nuevaEntrada")) {
-                String comando = m.getEntrada();
-                if (comando != null) {
-                    try {
-                        this.interactiveShell.ingresarComando(comando);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
             visualizarNuevasSalidas(m.getSalidas());
         }
     }
@@ -182,14 +141,15 @@ public class PanelTerminal implements IPanelTerminal {
      *
      * @param salidas listado de nuevas salidas.
      */
-    private void visualizarNuevasSalidas(List<String> salidas) {
+    private void visualizarNuevasSalidas(List<Mensaje> salidas) {
         JLabel lblSalida;
-        for (String salida : salidas) {
-            if (salida.contains("--comando--")) {
-                salida = ">>>" + salida;
+        for (Mensaje salida : salidas) {
+            String salida_ = salida.getLine();
+            if (salida_.contains("--comando--")) {
+                salida_ = ">>>" + salida_;
             }
-            lblSalida = new JLabel(salida.replaceAll("--error--", "").replaceAll("--comando--", ""));
-            lblSalida.setForeground(salida.contains("--error--") ? Color.RED : salida.contains("--comando--") ? Color.BLACK: Color.GRAY);
+            lblSalida = new JLabel(salida_.replaceAll("--error--", "").replaceAll("--comando--", ""));
+            lblSalida.setForeground(salida_.contains("--error--") ? Color.RED : salida_.contains("--comando--") ? Color.BLACK: Color.GRAY);
             this.terminal.add(lblSalida);
         }
         this.recalcularScroll();
