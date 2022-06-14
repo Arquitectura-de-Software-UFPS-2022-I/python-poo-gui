@@ -1,5 +1,7 @@
 package ufps.arqui.python.poo.gui.controllers;
 
+import java.io.IOException;
+
 /**
  * Controlador del mundo del proyecto.
  *
@@ -7,5 +9,5 @@ package ufps.arqui.python.poo.gui.controllers;
  * @author Omar Ramón Montes
  */
 public interface IProyectoController {
-    
+    public void scanearProyecto() throws IOException;
 }

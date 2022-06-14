@@ -9,7 +9,13 @@ import java.util.List;
  * @author Omar Ramón Montes
  */
 public class ArchivoPython {
-   
+    
+    /**
+     * Representación del archivo python en String.
+     * Es necesario para parsear el json
+     */
+    private String archivoStr;
+    
     /**
      * Representación del archivo python.
      */
@@ -21,6 +27,8 @@ public class ArchivoPython {
     private List<ClasePython> clases;
 
     public File getArchivo() {
+        if(this.archivo == null && this.archivoStr != null)
+            this.archivo = new File(this.archivoStr);
         return archivo;
     }
 

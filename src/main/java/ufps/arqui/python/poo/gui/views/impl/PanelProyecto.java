@@ -1,12 +1,17 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.List;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
 import java.util.Observable;
+import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
 
 /**
@@ -20,6 +25,7 @@ public class PanelProyecto implements IPanelProyecto {
 
     private final IProyectoController controller;
     private final JPanel panel;
+    private final List<PanelClass> classPanels = new ArrayList<>();
 
     public PanelProyecto(IProyectoController controller) {
         this.controller = controller;
@@ -61,5 +67,22 @@ public class PanelProyecto implements IPanelProyecto {
     
     @Override
     public void update(Observable o, Object arg) {
+        if(arg instanceof List){
+            this.classPanels.clear();
+            List<ClasePython> clases = (List<ClasePython>)arg;
+            this.panel.removeAll();
+            int x = 0, y = 0;
+            for(ClasePython clase: clases){
+                PanelClass pc = new PanelClass(clase.getNombre(), this.panel);
+                this.classPanels.add(pc);
+                ViewTool.insert(this.panel, pc.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
+                if(x++ > 3){
+                    x = 0;
+                    y++;
+                }
+            }
+            this.panel.revalidate();
+            this.panel.repaint();
+        }
     }
 }

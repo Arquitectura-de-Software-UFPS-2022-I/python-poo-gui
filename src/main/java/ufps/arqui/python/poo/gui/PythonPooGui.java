@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui;
 
+import java.io.File;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
@@ -48,7 +49,7 @@ public class PythonPooGui {
         IProyectoController proyectoController = new ProyectoController(modelo);
         IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
         
-        IPanelFichero panelFichero = new PanelFichero();
+        IPanelFichero panelFichero = new PanelFichero(proyectoController);
         
         IPanelMundoTerminal panelMundoTerminal = new PanelMundoTerminal(panelMundo, panelTerminal);
         IPanelFicheroProyecto panelFicheroProyecto = new PanelFicheroProyecto(panelFichero, panelProyecto);
@@ -79,6 +80,10 @@ public class PythonPooGui {
         
         // Cerrar splash cuando la interfaz ya es visible.
         window.dispose();
+        
+        
+        //Selecciona el proyecto desde aca para testear
+        //modelo.setDirectorioRaiz(new File("C:\\path\\to\\project"));
     }
     
 }
