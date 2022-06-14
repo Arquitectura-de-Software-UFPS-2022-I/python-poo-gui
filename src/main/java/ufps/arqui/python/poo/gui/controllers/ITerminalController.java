@@ -1,5 +1,7 @@
 package ufps.arqui.python.poo.gui.controllers;
 
+import java.io.IOException;
+
 /**
  * Controlador de la terminal del proyecto.
  *
@@ -15,10 +17,8 @@ public interface ITerminalController {
     void ejecutarComando(String commando);
 
     /**
-     * Añadir nueva salida de la termianl.
-     * @param salida salida recibida por la terminal.
-     * @param error
+     * Metodo para reiniciar la terminal
+     * @throws java.io.IOException
      */
-    void nuevaSalida(String salida, boolean error);
-
+    void reiniciarTerminal() throws IOException;
 }
