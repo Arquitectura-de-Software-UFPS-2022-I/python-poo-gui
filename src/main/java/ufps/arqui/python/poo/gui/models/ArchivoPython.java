@@ -20,19 +20,6 @@ public class ArchivoPython {
      */
     private List<ClasePython> clases;
 
-    /**
-     * Verifica si la clase que se quiere agregar ya existe
-     */
-    public boolean claseExiste(String nombreClase) {
-        boolean respuesta = false;
-        for (int i = 0; i < this.clases.size(); i++) {
-            if (this.clases.get(i).getNombre().equals(nombreClase)) {
-                respuesta = true;
-            }
-        }
-        return respuesta;
-    }
-
     public File getArchivo() {
         return archivo;
     }
