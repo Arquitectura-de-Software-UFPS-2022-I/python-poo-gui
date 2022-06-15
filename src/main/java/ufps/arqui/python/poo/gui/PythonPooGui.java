@@ -83,7 +83,7 @@ public class PythonPooGui {
         
         
 //        Selecciona el proyecto desde aca para testear
-//        modelo.setDirectorioRaiz(new File("C:\\path\\to\\project"));
+//        modelo.setDirectorioRaiz(new File("C:\\Users\\dunke\\Downloads\\workdirectory"));
     }
     
 }

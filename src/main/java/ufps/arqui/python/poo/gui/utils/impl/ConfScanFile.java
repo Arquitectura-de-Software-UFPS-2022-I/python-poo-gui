@@ -1,20 +1,15 @@
 package ufps.arqui.python.poo.gui.utils.impl;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URL;
-import sun.misc.IOUtils;
-
 /**
- *
+ * Clase de utilidad para mover o actualizar el archivo scan.py dentro del directorio
+ * raiz del proyecto
+ * 
  * @author Sachikia
  */
 public class ConfScanFile {
@@ -27,7 +22,7 @@ public class ConfScanFile {
      * @param directorio
      * @throws IOException 
      */
-    public static void putScanFileIn(File directorio) throws IOException{
+    public static void actualizarArchivoScan(File directorio) throws IOException{
         File file = new File(directorio.getAbsolutePath() + File.separator + FILE_SCAN);
         if(file.exists()){
             file.delete();

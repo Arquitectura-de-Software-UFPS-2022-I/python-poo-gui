@@ -1,6 +1,7 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Observable;
 import javax.swing.*;
 
@@ -100,7 +101,7 @@ public class PanelMenu implements IPanelMenu {
     }
 
     @Override
-    public void modalCrearProyectoEvento(String name, String path) {
+    public void modalCrearProyecto(String name, String path) throws IOException{
         this.controller.crearProyecto(name, path);
     }
 }

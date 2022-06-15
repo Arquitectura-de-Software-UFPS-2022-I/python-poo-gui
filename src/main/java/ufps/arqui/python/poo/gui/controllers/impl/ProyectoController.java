@@ -24,8 +24,8 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
-    public void listarClasesPara(String relativePath) {
-        this.proyecto.listarClasesPara(relativePath);
+    public void obtenerClasesDesde(String relativePath) {
+        this.proyecto.obtenerClasesDesde(relativePath);
     }
 
 }

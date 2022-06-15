@@ -20,30 +20,38 @@ import javax.swing.tree.TreeSelectionModel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
 import ufps.arqui.python.poo.gui.models.Directorio;
+import ufps.arqui.python.poo.gui.views.IPanelView;
 
 /**
  * Implementación del componente JTree, vista para visualizar los <br>
  * archivos, directorio y subdirectorios del proyecto
  * @author http://www.java2s.com/Tutorials/Java/Swing/JTree/Add_and_delete_JTree_node_with_button_event_in_Java.htm
  */
-public class DynamicTree{
+public class DynamicTree implements IPanelView{
     private JPanel panel;
     private IProyectoController controller;
 
     protected DefaultMutableTreeNode rootNode;
     protected DefaultTreeModel treeModel;
     protected JTree tree;
+    private boolean load;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     public DynamicTree(IProyectoController controller) {
         this.controller = controller;
         this.panel = new JPanel(new GridLayout(1, 0));
+        this.load = false;
 
-        rootNode = new DefaultMutableTreeNode("src");
-        treeModel = new DefaultTreeModel(rootNode);
+        this.rootNode = new DefaultMutableTreeNode("src");
+        this.treeModel = new DefaultTreeModel(this.rootNode);
 
-        tree = new JTree(treeModel);
-        tree.setEditable(true);
+        this.tree = new JTree(this.treeModel);
+        
+        this.inicializarContenido();
+    }
+    
+    @Override
+    public void inicializarContenido() {
         tree.getSelectionModel().setSelectionMode(
                 TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setShowsRootHandles(true);
@@ -61,8 +69,9 @@ public class DynamicTree{
             if(!currentPath.isEmpty()){
                 currentPath = currentPath.substring(0, currentPath.length()-1);
             }
+            
             if(!currentPath.contains(".py")){
-                this.controller.listarClasesPara(currentPath);
+                if(this.load) this.controller.obtenerClasesDesde(currentPath);
             }
         });
 
@@ -71,7 +80,7 @@ public class DynamicTree{
     }
 
     /**
-     * Remove all nodes except the root node.
+     * Remueve todos los nodos excepto el nodo raiz
      */
     public void clear() {
         rootNode.removeAllChildren();
@@ -79,7 +88,7 @@ public class DynamicTree{
     }
 
     /**
-     * Remove the currently selected node.
+     * Remueve el nodo actualmente seleccionado
      */
     public void removeCurrentNode() {
         TreePath currentSelection = tree.getSelectionPath();
@@ -98,7 +107,8 @@ public class DynamicTree{
     }
 
     /**
-     * Add child to the currently selected node.
+     * Añade un nodo hijo al nodo actualmente seleccionado
+     * @param child Nodo hijo que sera insertado
      */
     public DefaultMutableTreeNode addObject(Object child) {
         DefaultMutableTreeNode parentNode = null;
@@ -136,15 +146,17 @@ public class DynamicTree{
         return childNode;
     }
 
+    @Override
     public JPanel getPanel() {
         return panel;
     }
     
     /**
      * Pobla el JTree dado el directorio de trabajo
-     * @param directorioTrabajo 
+     * @param directorioTrabajo Directorio raiz del proyecto
      */
     public void populate(Directorio directorioTrabajo) {
+        this.load = true;
         for(ArchivoPython file: directorioTrabajo.getArchivos()){
             this.addObject(this.rootNode, file.getArchivo().getName());
         }
@@ -155,8 +167,8 @@ public class DynamicTree{
     
     /**
      * Pobla el JTree dado el directorio de trabajo de forma recursiva
-     * @param directorio
-     * @param parent 
+     * @param directorio Directorio a ser insertado
+     * @param parent Nodo padre sobre el cual sera insertado el directorio
      */
     private void populate(Directorio directorio, DefaultMutableTreeNode parent) {
         DefaultMutableTreeNode node = this.addObject(parent, directorio.getDirectorio().getName());

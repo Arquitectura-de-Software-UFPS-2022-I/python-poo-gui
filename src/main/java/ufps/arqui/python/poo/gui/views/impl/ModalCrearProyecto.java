@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -196,7 +197,11 @@ public class ModalCrearProyecto {
         });
         
         this.btnAceptar.addActionListener(e -> {
-            this.panelMenu.modalCrearProyectoEvento(this.txtName.getText(), this.txtPath.getText());
+            try{
+                this.panelMenu.modalCrearProyecto(this.txtName.getText(), this.txtPath.getText());
+            }catch(IOException err){
+                //error message
+            }
         });
     }
     
