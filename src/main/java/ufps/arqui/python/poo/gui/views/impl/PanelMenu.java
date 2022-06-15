@@ -1,14 +1,13 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.EventListener;
 import java.util.Observable;
 import javax.swing.*;
 
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
+import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
@@ -20,49 +19,71 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
  * @author Omar Ramón Montes
  */
 public class PanelMenu implements IPanelMenu {
-
-    private final IMenuController controller;
-
+    
+    private final IMenuController controller;    
+    
     private final JPanel panel;
-    private JButton btnAbrir;
-    private JTextField txtUrl;
-    private JLabel lblContenido;
-
-    public PanelMenu(IMenuController controller) {
+    
+    // elementos de GUI
+    private final JButton btnAbrirProyecto;
+    private final JButton btnNuevoProyecto;
+    private final JButton btnAyuda;
+    
+    private final ModalCrearProyecto modalCrearProyecto;
+    
+    public PanelMenu(IMenuController controller) throws Exception {
         this.controller = controller;
-
-        this.panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+        
+        this.panel = new JPanel(new GridBagLayout());
+        
+        this.btnAbrirProyecto = new JButton("Abrir proyecto");
+        this.btnNuevoProyecto = new JButton("Nuevo proyecto");
+        this.btnAyuda = new JButton("Ayuda");
+        
+        this.modalCrearProyecto = new ModalCrearProyecto(this);
+        
         this.inicializarContenido();
+        this.addEvents();
     }
 
     @Override
     public void inicializarContenido() {
+        ConfGrid config = new ConfGrid(panel, btnAbrirProyecto);
+        config.setAnchor(GridBagConstraints.LINE_START);
 
-        this.btnAbrir = new JButton("Cargar");
-        this.txtUrl = new JTextField();
-        this.lblContenido = new JLabel("Proyecto: Sin seleccionar");
-        this.txtUrl.setText("");
-        this.txtUrl.setPreferredSize(new Dimension(250, 30));
+        ViewTool.insert(config);
 
-        // Evento del boton para cargar el directorio que está dentro del input.
-        this.btnAbrir.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // TODO: ejecutar código para obtener el nombre y directorio.
-                try {
-                    controller.abrirProyecto("Nombre1", txtUrl.getText());
-                    JOptionPane.showMessageDialog(null, "Directorio seleccionado", "Hecho", JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception error) {
-                    JOptionPane.showMessageDialog(null, "-->"+error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        config = new ConfGrid(panel, btnNuevoProyecto);
+        config.setGridx(1);
+        config.setAnchor(GridBagConstraints.LINE_START);
 
-        this.panel.add(btnAbrir);
-        this.panel.add(txtUrl);
-        this.panel.add(lblContenido);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panel, btnAyuda);
+        config.setGridx(2);
+        config.setWeightx(1);
+        config.setAnchor(GridBagConstraints.LINE_START);
+
+        ViewTool.insert(config);
+//        ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+//        ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
+        
         this.panel.setVisible(true);
+    }
+    
+    private void addEvents(){
+        this.btnAbrirProyecto.addActionListener(e -> {
+            
+        });
+        
+        this.btnNuevoProyecto.addActionListener(e -> {
+            this.modalCrearProyecto.setVisible(true);
+        });
+        
+        this.btnAyuda.addActionListener(e -> {
+            
+        });
     }
 
     @Override
@@ -70,7 +91,6 @@ public class PanelMenu implements IPanelMenu {
         // Validar que el objeto observable sea Proyecto.
         if (o instanceof Proyecto) {
             // Actualizar contenido del label, cuando el modelo cambie.
-            this.lblContenido.setText("Proyecto: "+((Proyecto) o).getNombre());
         }
     }
 
@@ -79,4 +99,8 @@ public class PanelMenu implements IPanelMenu {
         return this.panel;
     }
 
+    @Override
+    public void modalCrearProyectoEvento(String name, String path) {
+        this.controller.crearProyecto(name, path);
+    }
 }

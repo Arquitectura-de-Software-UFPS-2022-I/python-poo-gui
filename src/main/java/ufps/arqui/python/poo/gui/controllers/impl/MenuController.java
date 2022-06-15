@@ -30,6 +30,12 @@ public class MenuController implements IMenuController{
     }
 
     @Override
+    public void crearProyecto(String nombre, String directorio) {
+        this.proyecto.setNombre(nombre);
+        this.proyecto.setDirectorioRaiz(new File(directorio));
+    }
+    
+    @Override
     public void visualizarManualUsuario() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -38,5 +44,4 @@ public class MenuController implements IMenuController{
     public String toString() {
         return proyecto.toString();
     }
-    
 }

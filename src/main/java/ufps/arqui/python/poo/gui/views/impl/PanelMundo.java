@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 
@@ -36,7 +37,7 @@ public class PanelMundo implements IPanelMundo {
 
     @Override
     public JPanel getPanel() {
-        return panel;
+        return this.panel;
     }
 
     @Override
