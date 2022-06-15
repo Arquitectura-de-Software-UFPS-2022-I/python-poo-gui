@@ -3,7 +3,6 @@ package ufps.arqui.python.poo.gui.models;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public class Directorio {
     /**
      * Listado de archivos python dentro del directorio actual.
      */
-    private List<ArchivoPython> archivos = new ArrayList<ArchivoPython>();
+    private List<ArchivoPython> archivos;
 
     /**
      * Método para crear un archivo .py y crear clases en el.
@@ -43,7 +42,7 @@ public class Directorio {
                 addArchivo(ap);
             }
             
-            // Agrega la clase al archivo.
+            // Agrega la clase al archivo .py
             for (int i = 0; i < this.archivos.size(); i++) {
                 if (this.archivos.get(i).getArchivo().getPath().equals(archivo.getPath())) {
                     if (!(this.archivos.get(i).claseExiste(nombreClase))) {

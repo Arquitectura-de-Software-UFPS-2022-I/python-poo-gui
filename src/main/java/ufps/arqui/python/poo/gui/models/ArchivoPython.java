@@ -1,7 +1,6 @@
 package ufps.arqui.python.poo.gui.models;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public class ArchivoPython {
     /**
      * Listado de clases que contiene el archivo.
      */
-    private List<ClasePython> clases = new ArrayList<ClasePython>();
+    private List<ClasePython> clases;
 
     /**
      * Verifica si la clase que se quiere agregar ya existe
