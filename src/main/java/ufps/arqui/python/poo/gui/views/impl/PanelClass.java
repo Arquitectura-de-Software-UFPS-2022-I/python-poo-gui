@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +26,7 @@ public class PanelClass {
     private JPanel parent;
     private JPanel panel;
     private JLabel lblName;
+    private List<PanelClass> herencia = new ArrayList<>();
     private int x, y;
 
     public PanelClass(String name, JPanel parent) {
@@ -53,6 +56,10 @@ public class PanelClass {
 //        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
     }
 
+    public void addHerencia(PanelClass panelClass){
+        this.herencia.add(panelClass);
+    }
+    
     private void draggableMode() {
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
@@ -70,6 +77,7 @@ public class PanelClass {
                 int xt = calX - x;
                 int yt = calY - y;
                 panel.setLocation(xt, yt);
+                parent.repaint();
             }
         });
     }
@@ -77,7 +85,15 @@ public class PanelClass {
     public JPanel getPanel(){
         return this.panel;
     }
+
+    public List<PanelClass> getHerencia() {
+        return herencia;
+    }
     
+    /**
+     * Obtiene la ubicación de este panel relativa al panel padre que lo contiene
+     * @return 
+     */
     public Point getLocation(){
         int calX = panel.getLocationOnScreen().x - parent.getLocationOnScreen().x;
         int calY = panel.getLocationOnScreen().y - parent.getLocationOnScreen().y;
