@@ -53,6 +53,11 @@ public class Proyecto extends Observable implements Observer{
         this.scanearProyecto();
     }
     
+    /**
+     * Scanea el proyecto en busca de clases declaradas en todos los directorios <br>
+     * y subdirectorios
+     * @throws IOException 
+     */
     public void scanearProyecto() throws IOException{
         if(this.directorioRaiz==null)
             throw new IOException("El proyecto no ha sido seleccionado");
@@ -85,14 +90,25 @@ public class Proyecto extends Observable implements Observer{
         this.directorioTrabajo = gson.fromJson(m.getLine(), Directorio.class);
         super.setChanged();
         super.notifyObservers(getClassesFrom(this.directorioTrabajo));
+        this.update("directoriosTrabajo");
     }
     
+    /**
+     * Lista las clases correspondientes a un directorio.
+     * @param directorio
+     * @return 
+     */
     public List<ClasePython> getClassesFrom(Directorio directorio){
         List<ClasePython> clases = new ArrayList<>();
-        this.getClassesFrom(this.directorioTrabajo, clases);
+        this.getClassesFrom(directorio, clases);
         return clases;
     }
     
+    /**
+     * Lista las clases correspondientes a un directorio de forma recursiva.
+     * @param directorio
+     * @param clases 
+     */
     private void getClassesFrom(Directorio directorio, List<ClasePython> clases){
         for(ArchivoPython archivo: directorio.getArchivos()){
             clases.addAll(archivo.getClases());
@@ -112,4 +128,37 @@ public class Proyecto extends Observable implements Observer{
         return "Proyecto{" + "nombre=" + nombre + ", directorioRaiz=" + directorioRaiz + ", directorioTrabajo=" + directorioTrabajo + '}';
     }
 
+    /**
+     * Lista las clases correspondientes a un directorio <br>
+     * Se toma la ruta relativa y se concatena a la ruta del proyecto para <br>
+     * asi obtener la ruta absooluta del directorio en el cual se extraeran las clases
+     * @param relativePath 
+     */
+    public void listarClasesPara(String relativePath) {
+        String absolutePath = this.directorioTrabajo.getDirectorio().getAbsolutePath()+ (!relativePath.isEmpty() ? File.separator : "") + relativePath;
+        List<ClasePython> classes = this.getClassesFrom(
+                this.getDirecttorio(
+                        directorioTrabajo, 
+                        absolutePath
+                ));
+        this.setChanged();
+        this.notifyObservers(classes);
+    }
+    
+    /**
+     * Obtiene un directorio mediante una ruta absoluta de forma recursiva.
+     * @param dir
+     * @param absolutePath
+     * @return 
+     */
+    private Directorio getDirecttorio(Directorio dir, String absolutePath){
+        if(dir.getDirectorio().getAbsolutePath().equals(absolutePath))
+            return dir;
+        Directorio directorio = null;
+        for(Directorio subdir: dir.getDirectorios()){
+            directorio = this.getDirecttorio(subdir, absolutePath);
+            if(directorio != null) break;
+        }
+        return directorio;
+    }
 }

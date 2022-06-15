@@ -35,7 +35,7 @@ public class PanelFicheroProyecto implements IPanelFicheroProyecto{
         
         splitPane.add(this.panelFichero.getPanel());
         splitPane.add(this.panelProyecto.getPanel());
-        splitPane.setResizeWeight(0.08);
+        splitPane.setResizeWeight(0.15);
 
         ConfGrid config = new ConfGrid(panel, splitPane);
         config.setWeightx(1);

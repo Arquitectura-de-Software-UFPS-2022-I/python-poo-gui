@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
 import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
@@ -24,6 +25,7 @@ public class PanelFichero implements IPanelFichero{
     // elementos de GUI
     private JButton btnNewFile;
     private JButton btnCheckout;
+    private DynamicTree tree;
     
     public PanelFichero(IProyectoController controller) throws Exception {
         this.controller = controller;
@@ -31,6 +33,7 @@ public class PanelFichero implements IPanelFichero{
         
         this.btnNewFile = new JButton("Nuevo archivo");
         this.btnCheckout = new JButton("Checkout");
+        this.tree = new DynamicTree(controller);
         
         this.inicializarContenido();
     }
@@ -51,11 +54,19 @@ public class PanelFichero implements IPanelFichero{
         config.setInsets(10, 0, 0, 0);
 
         ViewTool.insert(config);
-        ViewTool.insert(this.panel, this.btnCheckout, 0, 1, 0, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
+        ViewTool.insert(this.panel, this.btnCheckout, 0, 1, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
+        ViewTool.insert(this.panel, this.tree.getPanel(), 0, 2, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.PAGE_END, new Insets(10, 0, 0, 0), 0, 0);
     }
     
     @Override
     public void update(Observable o, Object arg) {
+        if(arg instanceof String){
+            String update = arg.toString();
+            if(update.equals("directoriosTrabajo")){
+                Proyecto proyecto = (Proyecto)o;
+                this.tree.populate(proyecto.getDirectorioTrabajo());
+            }
+        }
     }
     
     @Override

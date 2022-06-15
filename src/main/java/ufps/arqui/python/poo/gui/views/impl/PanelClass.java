@@ -27,10 +27,12 @@ public class PanelClass {
     private JPanel panel;
     private JLabel lblName;
     private List<PanelClass> herencia = new ArrayList<>();
+    private Boolean isDraw;
     private int x, y;
 
     public PanelClass(String name, JPanel parent) {
         this.panel = new JPanel(new GridBagLayout());
+        this.isDraw = false;
         this.parent = parent;
         this.lblName = new JLabel(name);
 
@@ -99,5 +101,13 @@ public class PanelClass {
         int calY = panel.getLocationOnScreen().y - parent.getLocationOnScreen().y;
         
         return new Point(calX, calY);
+    }
+
+    public Boolean getIsDraw() {
+        return isDraw;
+    }
+
+    public void setIsDraw(Boolean isDraw) {
+        this.isDraw = isDraw;
     }
 }

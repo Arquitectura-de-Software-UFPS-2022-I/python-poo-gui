@@ -23,4 +23,9 @@ public class ProyectoController implements IProyectoController {
         this.proyecto.scanearProyecto();
     }
 
+    @Override
+    public void listarClasesPara(String relativePath) {
+        this.proyecto.listarClasesPara(relativePath);
+    }
+
 }

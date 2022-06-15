@@ -1,11 +1,13 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
@@ -14,6 +16,7 @@ import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
 import java.util.Observable;
+import java.util.Set;
 import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utility.ViewTool;
 
@@ -30,7 +33,7 @@ public class PanelProyecto implements IPanelProyecto {
 
     private final IProyectoController controller;
     private final JPanel panel;
-    private final List<PanelClass> classPanels = new ArrayList<>();
+    private final Set<PanelClass> classPanels = new HashSet<>();
 
     public PanelProyecto(IProyectoController controller) {
         this.controller = controller;
@@ -90,8 +93,10 @@ public class PanelProyecto implements IPanelProyecto {
      */
     private void paintPanelClasses(List<ClasePython> classes) {
         Map<String, PanelClass> panels = new HashMap<>();
+        
         this.classPanels.clear();
         this.panel.removeAll();
+        
         int x = 0, y = 0;
         for (ClasePython clase : classes) {
             PanelClass pcBase = panels.getOrDefault(clase.getNombre(), new PanelClass(clase.getNombre(), this.panel));
@@ -101,17 +106,30 @@ public class PanelProyecto implements IPanelProyecto {
 
             for (ClasePython herencia : clase.getHerencia()) {
                 PanelClass pcHerencia = panels.getOrDefault(herencia.getNombre(), new PanelClass(herencia.getNombre(), this.panel));
+                this.classPanels.add(pcHerencia);
                 panels.put(herencia.getNombre(), pcHerencia);
                 pcBase.addHerencia(pcHerencia);
             }
 
             ViewTool.insert(this.panel, pcBase.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
+            pcBase.setIsDraw(Boolean.TRUE);
             if (x++ > 3) {
                 x = 0;
                 y++;
             }
         }
-        this.panel.revalidate();
+        for(PanelClass pc: classPanels){
+            if(!pc.getIsDraw()){
+                ViewTool.insert(this.panel, pc.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
+                pc.setIsDraw(Boolean.TRUE);
+                if (x++ > 3) {
+                    x = 0;
+                    y++;
+                }
+            }
+        }
+        
+        this.panel.validate();
         this.panel.repaint();
     }
 
@@ -124,12 +142,11 @@ public class PanelProyecto implements IPanelProyecto {
             Point p1 = pc.getLocation();
             for (PanelClass pc1 : pc.getHerencia()) {
                 Point p2 = pc1.getLocation();
-                g.drawLine(
-                        p1.x + (pc.getPanel().getWidth() / 2),
-                        p1.y + (pc.getPanel().getHeight() / 2),
-                        p2.x + (pc1.getPanel().getWidth() / 2),
-                        p2.y + (pc.getPanel().getHeight() / 2)
-                );
+                int xC1 = p1.x + (pc.getPanel().getWidth() / 2);
+                int yC1 = p1.y + (pc.getPanel().getHeight() / 2);
+                int xC2 = p2.x + (pc1.getPanel().getWidth() / 2);
+                int yC2 = p2.y + (pc.getPanel().getHeight() / 2);
+                g.drawLine(xC1, yC1, xC2, yC2);
             }
         }
     }

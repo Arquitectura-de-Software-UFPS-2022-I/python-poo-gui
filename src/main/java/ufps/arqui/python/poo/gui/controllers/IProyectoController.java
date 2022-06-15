@@ -10,4 +10,6 @@ import java.io.IOException;
  */
 public interface IProyectoController {
     public void scanearProyecto() throws IOException;
+    
+    public void listarClasesPara(String relativePath);
 }
