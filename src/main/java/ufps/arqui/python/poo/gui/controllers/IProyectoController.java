@@ -10,11 +10,10 @@ import java.io.IOException;
  */
 public interface IProyectoController {
     /**
-     * Scanea el proyecto en busca de clases declaradas en todos los directorios <br>
-     * y subdirectorios
-     * @throws IOException 
+     * Escanea el proyecto en busca de clases declaradas en todos los directorios y subdirectorios
+     * @throws IOException Excepción en caso del
      */
-    public void scanearProyecto() throws IOException;
+    void escanearProyecto() throws IOException;
     
     /**
      * Lista las clases correspondientes a un directorio <br>
@@ -22,5 +21,5 @@ public interface IProyectoController {
      * asi obtener la ruta absooluta del directorio en el cual se extraeran las clases
      * @param relativePath Ruta relativa del directorio sobre el cual se desean listar clases
      */
-    public void obtenerClasesDesde(String relativePath);
+    void obtenerClasesDesde(String relativePath);
 }

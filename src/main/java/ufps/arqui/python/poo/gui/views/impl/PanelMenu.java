@@ -7,8 +7,8 @@ import javax.swing.*;
 
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
@@ -21,8 +21,7 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
  */
 public class PanelMenu implements IPanelMenu {
     
-    private final IMenuController controller;    
-    
+    private final IMenuController controller;
     private final JPanel panel;
     
     // elementos de GUI
@@ -44,7 +43,6 @@ public class PanelMenu implements IPanelMenu {
         this.modalCrearProyecto = new ModalCrearProyecto(this);
         
         this.inicializarContenido();
-        this.addEvents();
     }
 
     @Override
@@ -69,30 +67,16 @@ public class PanelMenu implements IPanelMenu {
 //        ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
 //        ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
 //        ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
-        
-        this.panel.setVisible(true);
-    }
-    
-    private void addEvents(){
-        this.btnAbrirProyecto.addActionListener(e -> {
-            
-        });
-        
+
         this.btnNuevoProyecto.addActionListener(e -> {
             this.modalCrearProyecto.setVisible(true);
         });
-        
-        this.btnAyuda.addActionListener(e -> {
-            
-        });
+
+        this.panel.setVisible(true);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        // Validar que el objeto observable sea Proyecto.
-        if (o instanceof Proyecto) {
-            // Actualizar contenido del label, cuando el modelo cambie.
-        }
     }
 
     @Override

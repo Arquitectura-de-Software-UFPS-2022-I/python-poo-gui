@@ -5,21 +5,24 @@ import java.awt.GridBagLayout;
 import java.util.Observable;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 /**
+ * Implementación de interfaz que contiene los elementos del proyecto.
  *
+ * Los elementos del proyecto está comformado por la barra lateral y el contenedor de clases.
  * @author Sachikia
  */
 public class PanelFicheroProyecto implements IPanelFicheroProyecto{
-    private final IPanelFichero panelFichero;
-    private final IPanelProyecto panelProyecto;
     
     private final JPanel panel;
+
+    private final IPanelFichero panelFichero;
+    private final IPanelProyecto panelProyecto;
 
     public PanelFicheroProyecto(IPanelFichero panelFichero, IPanelProyecto panelProyecto) throws Exception {
         this.panelFichero = panelFichero;

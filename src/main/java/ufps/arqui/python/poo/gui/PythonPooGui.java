@@ -69,18 +69,17 @@ public class PythonPooGui {
         window.setLocationRelativeTo(null);
         window.getContentPane().add(new JLabel("", new ImageIcon(new URL("https://c.tenor.com/fdNuq0ikCLwAAAAC/blue-octopus.gif")), SwingConstants.CENTER));
         window.setVisible(true);
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Cerrar splash cuando la interfaz ya es visible.
+        window.dispose();
 
         // Iniciar de ventana principal.
         IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
-        
-        // Cerrar splash cuando la interfaz ya es visible.
-        window.dispose();
-        
+
         
 //        Selecciona el proyecto desde aca para testear
 //        modelo.setDirectorioRaiz(new File("C:\\Users\\dunke\\Downloads\\workdirectory"));

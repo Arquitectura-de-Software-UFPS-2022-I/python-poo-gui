@@ -10,11 +10,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
 /**
+ * Implementación de Interfaz lateral del proyecto, donde el usuario puede gestionar sus archivos.
  *
  * @author Sachikia
  */
@@ -23,39 +24,57 @@ public class PanelFichero implements IPanelFichero{
     private final JPanel panel;
     
     // elementos de GUI
-    private JButton btnNewFile;
-    private JButton btnCheckout;
-    private DynamicTree tree;
+    private JButton btnNuevoArchivo;
+    private JButton btnVerificar;
+    private ArbolDinamico arbol;
     
     public PanelFichero(IProyectoController controller) throws Exception {
         this.controller = controller;
         this.panel = new JPanel(new GridBagLayout());
         
-        this.btnNewFile = new JButton("Nuevo archivo");
-        this.btnCheckout = new JButton("Checkout");
-        this.tree = new DynamicTree(controller);
+        this.btnNuevoArchivo = new JButton("Nuevo archivo");
+        this.btnVerificar = new JButton("Verificar");
+        this.arbol = new ArbolDinamico(controller);
         
         this.inicializarContenido();
     }
     
     @Override
     public void inicializarContenido() {
-        this.btnCheckout.addActionListener(e -> {
+        this.btnVerificar.addActionListener(e -> {
             try{
-                this.controller.scanearProyecto();
+                this.controller.escanearProyecto();
             }catch(IOException err){
                 JOptionPane.showMessageDialog(null, err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         
-        ConfGrid config = new ConfGrid(panel, btnNewFile);
+        ConfGrid config = new ConfGrid(panel, btnNuevoArchivo);
         config.setWeighty(0);
         config.setAnchor(GridBagConstraints.PAGE_START);
         config.setInsets(10, 0, 0, 0);
 
         ViewTool.insert(config);
-        ViewTool.insert(this.panel, this.btnCheckout, 0, 1, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
-        ViewTool.insert(this.panel, this.tree.getPanel(), 0, 2, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.PAGE_END, new Insets(10, 0, 0, 0), 0, 0);
+
+        config = new ConfGrid(panel, btnVerificar);
+        config.setGridy(1);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(10, 0, 0, 0);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panel, this.arbol.getPanel());
+        config.setGridy(2);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setFill(GridBagConstraints.BOTH);
+        config.setAnchor(GridBagConstraints.PAGE_END);
+        config.setInsets(10, 0, 0, 0);
+
+        ViewTool.insert(config);
+
+//        ViewTool.insert(this.panel, this.btnVerificar, 0, 1, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
+//        ViewTool.insert(this.panel, this.arbol.getPanel(), 0, 2, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.PAGE_END, new Insets(10, 0, 0, 0), 0, 0);
     }
     
     @Override
@@ -64,7 +83,7 @@ public class PanelFichero implements IPanelFichero{
             String update = arg.toString();
             if(update.equals("directoriosTrabajo")){
                 Proyecto proyecto = (Proyecto)o;
-                this.tree.populate(proyecto.getDirectorioTrabajo());
+                this.arbol.populate(proyecto.getDirectorioTrabajo());
             }
         }
     }

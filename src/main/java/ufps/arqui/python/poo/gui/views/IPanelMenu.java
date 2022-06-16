@@ -13,10 +13,11 @@ import java.util.Observer;
 public interface IPanelMenu extends Observer, IPanelView {
     
     /**
-     * El modal para crear proyecto llama a este metodo del PanelMenu cuando
-     * el usuario termino de diligienciar los campos para crear un proyecto
-     * @param name
-     * @param path 
+     * El modal para crear proyecto llama a este metodo del PanelMenu cuando el usuario termino de
+     * diligienciar los campos para crear un proyecto.
+     *
+     * @param nombre nombre del proyecto.
+     * @param directorio directorio del proyecto.
      */
-    public void modalCrearProyecto(String name, String path)  throws IOException;
+    void modalCrearProyecto(String nombre, String directorio)  throws IOException;
 }

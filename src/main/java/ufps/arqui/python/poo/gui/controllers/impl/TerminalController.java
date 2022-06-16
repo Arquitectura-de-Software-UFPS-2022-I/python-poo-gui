@@ -22,12 +22,8 @@ public class TerminalController implements ITerminalController {
     }
 
     @Override
-    public void ejecutarComando(String commando) {
-        try{
-            this.mundo.nuevaEntrada(commando);
-        }catch(IOException err){
-            System.out.println(err.getMessage());
-        }
+    public void ejecutarComando(String commando) throws IOException {
+        this.mundo.nuevaEntrada(commando);
     }
 
     @Override

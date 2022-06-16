@@ -1,22 +1,15 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
@@ -44,10 +37,10 @@ public class ModalCrearProyecto {
         this.txtName = new JTextField();
         this.txtPath = new JTextField();
         this.lblAbsolutePath = new JLabel();
-        this.btnChoose = new JButton("Choose");
+        this.btnChoose = new JButton("Cambiar");
 
         this.btnAceptar = new JButton("Aceptar");
-        this.btnCancel = new JButton("Cancel");
+        this.btnCancel = new JButton("Cancelar");
 
         this.init();
         this.addEvents();
@@ -73,7 +66,7 @@ public class ModalCrearProyecto {
         config.setWeightx(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 5);
-        config.setGridy(10);
+        config.setIpady(10);
         ViewTool.insert(config);
 
         config = new ConfGrid(panelForm, lblPath);
@@ -185,7 +178,7 @@ public class ModalCrearProyecto {
             }
 
             public void eventChange() {
-                lblAbsolutePath.setText(txtPath.getText() + txtName.getText());
+                lblAbsolutePath.setText(txtPath.getText() +"/"+ txtName.getText());
             }
         };
 
@@ -195,14 +188,31 @@ public class ModalCrearProyecto {
         this.btnChoose.addActionListener(e -> {
             this.askForDirectory();
         });
+
+        // Evento del menú para cerrar la modal al darle click primario.
+        this.btnCancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    cerrarModal();
+                }
+            }
+        });
         
         this.btnAceptar.addActionListener(e -> {
             try{
                 this.panelMenu.modalCrearProyecto(this.txtName.getText(), this.txtPath.getText());
+                this.cerrarModal();
             }catch(IOException err){
-                //error message
+                JOptionPane.showMessageDialog(this.panelMenu.getPanel(), "Error al crear el proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+
+    private void cerrarModal() {
+        this.frame.setVisible(false);
+        this.frame.dispose();
     }
     
     private void askForDirectory(){

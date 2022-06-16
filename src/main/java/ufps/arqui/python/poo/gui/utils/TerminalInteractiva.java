@@ -1,15 +1,10 @@
-package ufps.arqui.python.poo.gui.utils.impl;
+package ufps.arqui.python.poo.gui.utils;
 
-import com.google.gson.Gson;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 import java.io.*;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ufps.arqui.python.poo.gui.models.ArchivoPython;
-import ufps.arqui.python.poo.gui.models.ClasePython;
-import ufps.arqui.python.poo.gui.models.Directorio;
 
 /**
  * Terminal interactiva que interactura con python.
@@ -65,7 +60,7 @@ public class TerminalInteractiva extends Observable{
      * Ingresar comando para ejecutar.
      *
      * @param command comando de python, debe ser una sola linea, sin salto de linea.
-     * @throws IOException
+     * @throws IOException en caso de que los buffer no están abiertos.
      */
     public void ingresarComando(String command) throws IOException {
         if (terminalActiva()) {
@@ -73,7 +68,7 @@ public class TerminalInteractiva extends Observable{
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } else {
-            new IOException("Terminal inactiva");
+            throw new IOException("Terminal inactiva");
         }
     }
 

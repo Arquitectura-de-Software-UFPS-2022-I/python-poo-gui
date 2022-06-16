@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import ufps.arqui.python.poo.gui.utils.impl.ConfScanFile;
-import ufps.arqui.python.poo.gui.utils.impl.TerminalInteractiva;
+import ufps.arqui.python.poo.gui.utils.ConfScanFile;
+import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
@@ -41,11 +41,11 @@ public class Proyecto extends Observable implements Observer{
     private Directorio directorioTrabajo;
     
     /**
-     * Scanea el proyecto en busca de clases declaradas en todos los directorios <br>
+     * Escanea el proyecto en busca de clases declaradas en todos los directorios <br>
      * y subdirectorios
      * @throws IOException 
      */
-    public void scanearProyecto() throws IOException{
+    public void escanearProyecto() throws IOException{
         if(this.directorioRaiz==null)
             throw new IOException("El proyecto no ha sido seleccionado");
         //Si el archivo scan no esta en la raiz del proyecto, lo crea
@@ -133,7 +133,7 @@ public class Proyecto extends Observable implements Observer{
         // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
         // Validar si existe, y realizar la lectura de los archivos, sino, registrarlo.
         this.update("directorio");
-        this.scanearProyecto();
+        this.escanearProyecto();
     }
 
     public Directorio getDirectorioTrabajo() {

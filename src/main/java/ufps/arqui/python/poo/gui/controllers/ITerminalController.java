@@ -14,7 +14,7 @@ public interface ITerminalController {
      * Metodo para ejecutar comando en python.     *
      * @param commando comando de python para ejecutar.
      */
-    void ejecutarComando(String commando);
+    void ejecutarComando(String commando) throws IOException;
 
     /**
      * Metodo para reiniciar la terminal

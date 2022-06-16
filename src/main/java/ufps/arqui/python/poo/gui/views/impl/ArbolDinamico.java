@@ -23,11 +23,12 @@ import ufps.arqui.python.poo.gui.models.Directorio;
 import ufps.arqui.python.poo.gui.views.IPanelView;
 
 /**
- * Implementación del componente JTree, vista para visualizar los <br>
- * archivos, directorio y subdirectorios del proyecto
+ * Implementación del componente JTree, vista para visualizar los archivos, directorio y subdirectorios del proyecto.
+ *
  * @author http://www.java2s.com/Tutorials/Java/Swing/JTree/Add_and_delete_JTree_node_with_button_event_in_Java.htm
  */
-public class DynamicTree implements IPanelView{
+public class ArbolDinamico implements IPanelView{
+
     private JPanel panel;
     private IProyectoController controller;
 
@@ -37,7 +38,7 @@ public class DynamicTree implements IPanelView{
     private boolean load;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-    public DynamicTree(IProyectoController controller) {
+    public ArbolDinamico(IProyectoController controller) {
         this.controller = controller;
         this.panel = new JPanel(new GridLayout(1, 0));
         this.load = false;

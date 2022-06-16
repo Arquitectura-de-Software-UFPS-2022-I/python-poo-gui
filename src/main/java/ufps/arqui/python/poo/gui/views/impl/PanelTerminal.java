@@ -1,16 +1,12 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.models.Mundo;
-import ufps.arqui.python.poo.gui.models.Proyecto;
-import ufps.arqui.python.poo.gui.utils.impl.TerminalInteractiva;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
@@ -115,12 +111,12 @@ public class PanelTerminal implements IPanelTerminal  {
      * Obtener nuevo comando y ejecutarlo.
      */
     private void ingresarComando() {
-//        if (this.interactiveShell.terminalActiva()) {
+        try {
             controller.ejecutarComando(txtInput.getText());
             txtInput.setText("");
-//        } else {
-//            JOptionPane.showMessageDialog(this.panel, "Seleccione el directorio de trabajo", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(panel, "Al ejecutar el comando: "+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override

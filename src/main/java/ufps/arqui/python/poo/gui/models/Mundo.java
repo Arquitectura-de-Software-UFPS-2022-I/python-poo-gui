@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import ufps.arqui.python.poo.gui.utils.impl.TerminalInteractiva;
+import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 /**
  * Clase modelo donde se guardarán los datos de las instancias y comandos del entorno del usuario.

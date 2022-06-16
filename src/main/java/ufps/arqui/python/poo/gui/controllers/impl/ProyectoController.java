@@ -19,8 +19,8 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
-    public void scanearProyecto() throws IOException {
-        this.proyecto.scanearProyecto();
+    public void escanearProyecto() throws IOException {
+        this.proyecto.escanearProyecto();
     }
 
     @Override

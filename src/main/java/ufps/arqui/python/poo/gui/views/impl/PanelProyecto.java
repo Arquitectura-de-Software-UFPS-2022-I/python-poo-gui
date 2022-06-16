@@ -1,27 +1,27 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
 import java.util.Observable;
 import java.util.Set;
 import ufps.arqui.python.poo.gui.models.ClasePython;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 
 /**
- * PAnel del proyecto para visualizar las clases del proyecto, así como sus
+ * Panel del proyecto para visualizar las clases del proyecto, así como sus
  * relaciones.
  *
  * En la interfaz tambien tendrán los botones para crear una nueva clase y crear
@@ -34,6 +34,8 @@ public class PanelProyecto implements IPanelProyecto {
     private final IProyectoController controller;
     private final JPanel panel;
     private final Set<PanelClass> classPanels = new HashSet<>();
+
+    int x = 0, y = 0;
 
     public PanelProyecto(IProyectoController controller) {
         this.controller = controller;
@@ -91,10 +93,9 @@ public class PanelProyecto implements IPanelProyecto {
     }
 
     /**
-     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se
-     * relacionan los paneles que dispongan de herencia
+     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se relacionan los paneles que dispongan de herencia.
      *
-     * @param classes
+     * @param classes listado de clases del archivo.
      */
     private void paintPanelClasses(List<ClasePython> classes) {
         Map<String, PanelClass> panels = new HashMap<>();
@@ -102,7 +103,8 @@ public class PanelProyecto implements IPanelProyecto {
         this.classPanels.clear();
         this.panel.removeAll();
 
-        int x = 0, y = 0;
+        this.x = 0;
+        this.y = 0;
         for (ClasePython clase : classes) {
             PanelClass pcBase = panels.getOrDefault(clase.getNombre(), new PanelClass(clase.getNombre(), this.panel));
 
@@ -116,26 +118,35 @@ public class PanelProyecto implements IPanelProyecto {
                 pcBase.añadirHerencia(pcHerencia);
             }
 
-            ViewTool.insert(this.panel, pcBase.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
-            pcBase.setEstaDibujado(Boolean.TRUE);
-            if (x++ > 3) {
-                x = 0;
-                y++;
-            }
+            this.inicializarConfig(pcBase);
         }
         for (PanelClass pc : classPanels) {
             if (!pc.estaDibujado()) {
-                ViewTool.insert(this.panel, pc.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
-                pc.setEstaDibujado(Boolean.TRUE);
-                if (x++ > 3) {
-                    x = 0;
-                    y++;
-                }
+                inicializarConfig(pc);
             }
         }
 
         this.panel.validate();
         this.panel.repaint();
+    }
+
+    private void inicializarConfig(PanelClass pc) {
+        ConfGrid config = new ConfGrid(this.panel, pc.getPanel());
+        config.setGridx(x);
+        config.setGridy(y);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setIpadx(100);
+        config.setIpady(40);
+
+        ViewTool.insert(config);
+
+//        ViewTool.insert(this.panel, pc.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
+        pc.setEstaDibujado(Boolean.TRUE);
+        if (this.x++ > 3) {
+            this.x = 0;
+            this.y++;
+        }
     }
 
     /**
