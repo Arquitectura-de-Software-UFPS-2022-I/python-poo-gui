@@ -8,7 +8,9 @@ import java.util.List;
  * @author Omar Ramón Montes
  */
 public class ClasePython {
-
+    
+    private String pathModule;
+    
     /**
      * Nombre de la clase Python.
      */
@@ -50,6 +52,14 @@ public class ClasePython {
 
     public void setPosicion(Posicion posicion) {
         this.posicion = posicion;
+    }
+
+    public String getPathModule() {
+        return pathModule;
+    }
+
+    public void setPathModule(String pathModule) {
+        this.pathModule = pathModule;
     }
 
     @Override

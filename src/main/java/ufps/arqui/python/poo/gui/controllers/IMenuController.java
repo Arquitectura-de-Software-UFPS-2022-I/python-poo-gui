@@ -1,5 +1,7 @@
 package ufps.arqui.python.poo.gui.controllers;
 
+import java.io.IOException;
+
 /**
  * Controlador del menú superior del proyecto.
  *
@@ -15,7 +17,7 @@ public interface IMenuController {
      * @param nombre representa el nombre del proyecto.
      * @param directorio representa el directorio raiz donde se guardo.
      */
-    void crearProyecto(String nombre, String directorio);
+    void crearProyecto(String nombre, String directorio)  throws IOException;
     
     /**
      * Debe permitir abrir un nuevo proyecto previamente guardado.

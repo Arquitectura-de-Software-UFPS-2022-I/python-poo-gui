@@ -1,11 +1,15 @@
 package ufps.arqui.python.poo.gui.utils.impl;
 
+import com.google.gson.Gson;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 import java.io.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ufps.arqui.python.poo.gui.models.ArchivoPython;
+import ufps.arqui.python.poo.gui.models.ClasePython;
+import ufps.arqui.python.poo.gui.models.Directorio;
 
 /**
  * Terminal interactiva que interactura con python.

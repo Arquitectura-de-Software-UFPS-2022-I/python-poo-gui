@@ -51,7 +51,7 @@ public class MainView implements IMainView{
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.add(this.panelFicheroProyecto.getPanel());
         splitPane.add(this.panelMundoTerminal.getPanel());
-        splitPane.setResizeWeight(0.7);
+        splitPane.setResizeWeight(0.08);
 
         ConfGrid config = new ConfGrid(container, this.panelMenu.getPanel());
         config.setWeightx(1);

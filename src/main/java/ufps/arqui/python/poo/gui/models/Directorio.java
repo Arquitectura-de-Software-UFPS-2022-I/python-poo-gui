@@ -11,6 +11,12 @@ import java.util.List;
 public class Directorio {
 
     /**
+     * Representación de un directorio en String.
+     * Es necesario para parsear el json
+     */
+    private String directorioStr;
+    
+    /**
      * Representación de un directorio.
      */
     private File directorio;
@@ -26,6 +32,8 @@ public class Directorio {
     private List<ArchivoPython> archivos;
     
     public File getDirectorio() {
+        if(this.directorio == null && this.directorioStr != null)
+            this.directorio = new File(this.directorioStr);
         return directorio;
     }
     

@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,15 +23,49 @@ import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
  * @author Sachikia
  */
 public class PanelClass {
+    /**
+     * JPanel en el cual sera dibujado y arratrado este PanelClass
+     */
     private JPanel parent;
+    
+    /**
+     * JPanel representación visual de una clase de python
+     */
     private JPanel panel;
+    
+    /**
+     * JLabel representación visual del nombre de una clase de python
+     */
     private JLabel lblName;
-    private int x, y;
+    
+    /**
+     * Listado de paneles de herencia, se usa para posteriormente saber hacia que
+     * panel dibujar la flecha
+     */
+    private List<PanelClass> herencia = new ArrayList<>();
+    
+    /**
+     * Indica si este panel ya ha sido dibujado
+     */
+    private Boolean estaDibujado;
+    
+    /**
+     * Ubicación actual de este PanelClass en el JPanel parent donde esta siendo dibujado
+     */
+    private Point location;
+    
+    /**
+     * Ultima ubicación registrada del PanelClass luego de haber sido arrastrado
+     */
+    private Point lastLocation;
 
     public PanelClass(String name, JPanel parent) {
         this.panel = new JPanel(new GridBagLayout());
+        this.estaDibujado = false;
         this.parent = parent;
         this.lblName = new JLabel(name);
+        this.location = new Point();
+        this.lastLocation = new Point();
 
         this.init();
         this.draggableMode();
@@ -53,11 +89,22 @@ public class PanelClass {
 //        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
     }
 
+    /**
+     * Añade un panel que representa una clase de la cual this heredo
+     * Recordar que esta clase(PanelClass) es la forma visual de una clase de python
+     * @param panelClass PanelClass relacionado a this por herencia en clases de python
+     */
+    public void añadirHerencia(PanelClass panelClass){
+        this.herencia.add(panelClass);
+    }
+    
+    /**
+     * Añade los eventos para arrastrar la clase(PanelClass)
+     */
     private void draggableMode() {
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
-                x = ev.getX();
-                y = ev.getY();
+                location.move(ev.getX(), ev.getY());
             }
         });
 
@@ -67,9 +114,12 @@ public class PanelClass {
                 int calX = evt.getXOnScreen() - parent.getLocationOnScreen().x;
                 int calY = evt.getYOnScreen() - parent.getLocationOnScreen().y;
                 
-                int xt = calX - x;
-                int yt = calY - y;
-                panel.setLocation(xt, yt);
+                int xt = calX - location.x;
+                int yt = calY - location.y;
+                
+                lastLocation.move(xt, yt);
+                panel.setLocation(lastLocation);
+                parent.repaint();
             }
         });
     }
@@ -77,11 +127,39 @@ public class PanelClass {
     public JPanel getPanel(){
         return this.panel;
     }
+
+    public List<PanelClass> getHerencia() {
+        return herencia;
+    }
     
+    /**
+     * Obtiene la ubicación de este panel relativa al panel padre que lo contiene
+     * @return 
+     */
     public Point getLocation(){
         int calX = panel.getLocationOnScreen().x - parent.getLocationOnScreen().x;
         int calY = panel.getLocationOnScreen().y - parent.getLocationOnScreen().y;
         
         return new Point(calX, calY);
+    }
+    
+    /**
+     * Cambia la posición de este panel a la ultima ubicación en la que estuvo
+     */
+    public void cambiaAUltimaUbicacion(){
+        if(this.lastLocation.x != 0)
+            this.panel.setLocation(this.lastLocation);
+    }
+    
+    public Point getLastLocation(){
+        return this.lastLocation;
+    }
+
+    public Boolean estaDibujado() {
+        return estaDibujado;
+    }
+
+    public void setEstaDibujado(Boolean isDraw) {
+        this.estaDibujado = isDraw;
     }
 }

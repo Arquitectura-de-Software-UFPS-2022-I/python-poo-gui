@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.views;
 
+import java.io.IOException;
 import java.util.Observer;
 
 /**
@@ -17,5 +18,5 @@ public interface IPanelMenu extends Observer, IPanelView {
      * @param name
      * @param path 
      */
-    public void modalCrearProyectoEvento(String name, String path);
+    public void modalCrearProyecto(String name, String path)  throws IOException;
 }
