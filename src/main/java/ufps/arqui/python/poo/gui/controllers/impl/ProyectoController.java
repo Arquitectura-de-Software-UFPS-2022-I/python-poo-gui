@@ -1,19 +1,24 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import java.io.IOException;
 
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
-import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
- * Implementación dl Controlador del mundo del proyecto.
+ * Controlador del proyecto.
  *
+
  * Donde se administra las clases creadas por el usuario.
  * 
+
+ * Implementación del controlador proyecto.
+
  * @author Omar Ramón Montes
  */
 public class ProyectoController implements IProyectoController {
@@ -54,6 +59,19 @@ public class ProyectoController implements IProyectoController {
 			return false;
 		}
 
+
 	}
   
+
+    @Override
+    public void escanearProyecto() throws IOException {
+        this.proyecto.escanearProyecto();
+    }
+
+    @Override
+    public void obtenerClasesDesde(String relativePath) {
+        this.proyecto.obtenerClasesDesde(relativePath);
+    }
+
+
 }

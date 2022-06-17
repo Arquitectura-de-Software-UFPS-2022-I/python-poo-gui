@@ -1,11 +1,11 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
-import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
-import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 
 /**
@@ -18,18 +18,29 @@ import java.util.Observable;
 public class PanelMundo implements IPanelMundo {
 
     private final IMundoController controller;
+    private final JPanel panel;
+    private JButton btnAbrir;
 
     public PanelMundo(IMundoController controller) {
         this.controller = controller;
+        this.panel = new JPanel();
+
+        this.inicializarContenido();
+    }
+
+    @Override
+    public void inicializarContenido() {
+        this.btnAbrir = new JButton("Mundo");
+        this.panel.add(btnAbrir);
+        this.panel.setVisible(true);
     }
 
     @Override
     public JPanel getPanel() {
-        return null;
+        return this.panel;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-
     }
 }

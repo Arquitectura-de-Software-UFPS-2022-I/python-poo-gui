@@ -8,11 +8,9 @@ package ufps.arqui.python.poo.gui.views;
  */
 public interface IMainView {
     
-    IPanelMenu getPanelMenu();    
-    IPanelProyecto getPanelProyecto();  
-    IPanelTerminal getPanelTerminal();  
-    IPanelMundo getPanelMundo();
+    IPanelMenu getPanelMenu();
 
-    void init();
-    
+    IPanelFicheroProyecto getPanelFicheroProyecto();
+
+    IPanelMundoTerminal getPanelMundoTerminal();
 }

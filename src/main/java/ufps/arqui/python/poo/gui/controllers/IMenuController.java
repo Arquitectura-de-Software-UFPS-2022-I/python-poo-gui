@@ -1,16 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ufps.arqui.python.poo.gui.controllers;
 
+import java.io.IOException;
+
 /**
+ * Controlador del menú superior del proyecto.
  *
+ * Donde el usuario puede manipular el proyecto y ver la ayuda.
  * @author Omar Ramón Montes
  */
 public interface IMenuController {
 
+    /**
+     * Debe permitir crear un nuevo proyecto.
+     * 
+     * Se debe de pedir el directorio y el nombre
+     * @param nombre representa el nombre del proyecto.
+     * @param directorio representa el directorio raiz donde se guardo.
+     */
+    void crearProyecto(String nombre, String directorio)  throws IOException;
+    
     /**
      * Debe permitir abrir un nuevo proyecto previamente guardado.
      * 
@@ -18,7 +26,7 @@ public interface IMenuController {
      * @param nombre representa el nombre del proyecto.
      * @param directorio representa el directorio raiz donde se guardo.
      */
-    void abrirProyecto(String nombre, String directorio);
+    void abrirProyecto(String nombre, String directorio) throws Exception;
     
     /**
      * Debe permitir visualiza el manual de usuario del sistema.

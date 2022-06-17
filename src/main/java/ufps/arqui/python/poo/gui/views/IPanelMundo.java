@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui.views;
 
-import javax.swing.*;
 import java.util.Observer;
 
 /**
@@ -10,7 +9,5 @@ import java.util.Observer;
  * con sus respectivos nombres y datos adicionales
  * @author Omar Ramón Montes
  */
-public interface IPanelMundo extends Observer {
-
-    JPanel getPanel();
+public interface IPanelMundo extends Observer, IPanelView {
 }
