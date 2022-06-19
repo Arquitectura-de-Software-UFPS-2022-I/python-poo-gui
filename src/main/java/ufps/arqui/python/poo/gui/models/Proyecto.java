@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.ConfScanFile;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
@@ -45,11 +46,15 @@ public class Proyecto extends Observable implements Observer{
      * y subdirectorios
      * @throws IOException 
      */
-    public void escanearProyecto() throws IOException{
+    public void escanearProyecto() throws Exceptions{
         if(this.directorioRaiz==null)
-            throw new IOException("El proyecto no ha sido seleccionado");
+            throw new Exceptions("El proyecto no ha sido seleccionado");
         //Si el archivo scan no esta en la raiz del proyecto, lo crea
+        try{
         ConfScanFile.actualizarArchivoScan(this.directorioRaiz);
+        }catch(IOException e){
+           throw new Exceptions("No se ha podido actualizar el archivo scan");
+        }
         
         TerminalInteractiva terminal = new TerminalInteractiva();
         terminal.addObserver(this);
@@ -128,7 +133,7 @@ public class Proyecto extends Observable implements Observer{
         return directorioRaiz;
     }
     
-    public void setDirectorioRaiz(File directorioRaiz) throws IOException {
+    public void setDirectorioRaiz(File directorioRaiz) throws Exceptions{
         this.directorioRaiz = directorioRaiz;
         // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
         // Validar si existe, y realizar la lectura de los archivos, sino, registrarlo.

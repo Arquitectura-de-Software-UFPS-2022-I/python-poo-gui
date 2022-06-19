@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 
 /**
  * Terminal interactiva que interactura con python.
@@ -23,7 +24,7 @@ public class TerminalInteractiva extends Observable{
     public TerminalInteractiva() {
     }
 
-    public void inicializarTerminal(File directorio, String parameters[]) throws IOException {
+    public void inicializarTerminal(File directorio, String parameters[]) throws Exceptions {
         this.parameters = parameters;
         // Validar que no se quiera reiniciar la terminal si el directorio es el mismo
         if (this.directorio == null || !directorio.getAbsolutePath().equals(this.directorio)) {
@@ -39,7 +40,9 @@ public class TerminalInteractiva extends Observable{
     /**
      * Reinicia el proceso siempre y cuando el proceso este activo.
      */
-    public void reiniciarTerminal() throws IOException {
+    public void reiniciarTerminal() throws Exceptions {
+        
+        try{
         if (terminalActiva()) {
             this.process.destroyForcibly();
             this.bufferedReader.close();
@@ -55,6 +58,12 @@ public class TerminalInteractiva extends Observable{
         this.leerSalida(this.bufferedReader, false);
         this.leerSalida(this.bufferedReaderError, true);
     }
+    catch(IOException e){
+         throw new Exceptions("La terminal ha fallado");
+    }
+       
+    }
+    
 
     /**
      * Ingresar comando para ejecutar.
@@ -62,14 +71,18 @@ public class TerminalInteractiva extends Observable{
      * @param command comando de python, debe ser una sola linea, sin salto de linea.
      * @throws IOException en caso de que los buffer no están abiertos.
      */
-    public void ingresarComando(String command) throws IOException {
+    public void ingresarComando(String command) throws Exceptions {
+      try{
         if (terminalActiva()) {
             bufferedWriter.write(command);
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } else {
-            throw new IOException("Terminal inactiva");
+            throw new Exceptions("Terminal inactiva");
         }
+      }catch(IOException e){
+       throw new Exceptions("La terminal ha fallado");
+      }
     }
 
     /**

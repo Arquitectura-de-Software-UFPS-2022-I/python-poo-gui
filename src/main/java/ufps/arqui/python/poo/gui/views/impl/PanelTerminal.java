@@ -10,6 +10,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 
 /**
@@ -95,8 +98,8 @@ public class PanelTerminal implements IPanelTerminal  {
                         controller.reiniciarTerminal();
                         terminal.removeAll();
                         recalcularScroll();
-                    } catch (IOException error) {
-                        JOptionPane.showMessageDialog(panel, "Al resetear el proceso: "+ error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exceptions ex) {
+                        mostrarError(ex);
                     }
                 }
             }
@@ -113,10 +116,10 @@ public class PanelTerminal implements IPanelTerminal  {
     private void ingresarComando() {
         try {
             controller.ejecutarComando(txtInput.getText());
-            txtInput.setText("");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(panel, "Al ejecutar el comando: "+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exceptions ex) {
+            mostrarError(ex);
         }
+        txtInput.setText("");
     }
 
     @Override
