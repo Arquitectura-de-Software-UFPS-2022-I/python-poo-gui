@@ -1,11 +1,8 @@
-package ufps.arqui.python.poo.gui.utility;
-
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+package ufps.arqui.python.poo.gui.utils;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 /**
@@ -18,6 +15,7 @@ public class ViewTool {
         Documentación para aprender GridBagLayout: 
         https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
      */
+    @Deprecated
     public static void insert(Container contenedor, Component componente, int gridx, int gridy, double weightx, double weighty, int gridwidth, int gridheight, int fill, int anchor, Insets insets, int ipadx, int ipady) {
         if(insets == null){
             insets = new Insets(0, 0, 0, 0);
@@ -50,7 +48,6 @@ public class ViewTool {
         ViewTool.GBC.insets = configGrid.getInsets();
         ViewTool.GBC.ipadx = configGrid.getIpadx();
         ViewTool.GBC.ipady = configGrid.getIpady();
-
         configGrid.getContenedor().add(configGrid.getComponente(), ViewTool.GBC);
     }
     

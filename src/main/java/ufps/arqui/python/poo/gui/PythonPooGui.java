@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui;
 
+import java.io.File;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
@@ -48,7 +49,7 @@ public class PythonPooGui {
         IProyectoController proyectoController = new ProyectoController(modelo);
         IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
         
-        IPanelFichero panelFichero = new PanelFichero();
+        IPanelFichero panelFichero = new PanelFichero(proyectoController);
         
         IPanelMundoTerminal panelMundoTerminal = new PanelMundoTerminal(panelMundo, panelTerminal);
         IPanelFicheroProyecto panelFicheroProyecto = new PanelFicheroProyecto(panelFichero, panelProyecto);
@@ -66,19 +67,23 @@ public class PythonPooGui {
         JWindow window = new JWindow();
         window.setSize(460, 344);
         window.setLocationRelativeTo(null);
-        window.getContentPane().add(new JLabel("", new ImageIcon(new URL("https://c.tenor.com/fdNuq0ikCLwAAAAC/blue-octopus.gif")), SwingConstants.CENTER));
+//        window.getContentPane().add(new JLabel("", new ImageIcon(new URL("https://c.tenor.com/fdNuq0ikCLwAAAAC/blue-octopus.gif")), SwingConstants.CENTER));
+        window.getContentPane().add(new JLabel("", new ImageIcon(PythonPooGui.class.getClassLoader().getResource("logo.gif").getFile()), SwingConstants.CENTER));
         window.setVisible(true);
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Cerrar splash cuando la interfaz ya es visible.
+        window.dispose();
 
         // Iniciar de ventana principal.
         IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
+
         
-        // Cerrar splash cuando la interfaz ya es visible.
-        window.dispose();
+//        Selecciona el proyecto desde aca para testear
+//        modelo.setDirectorioRaiz(new File("C:\\Users\\dunke\\Downloads\\workdirectory"));
     }
     
 }

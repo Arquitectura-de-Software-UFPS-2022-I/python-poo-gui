@@ -1,6 +1,4 @@
-package ufps.arqui.python.poo.gui.utils.impl;
-
-import ufps.arqui.python.poo.gui.utility.ViewTool;
+package ufps.arqui.python.poo.gui.utils;
 
 import java.awt.*;
 
@@ -130,5 +128,22 @@ public class ConfGrid {
 
     public void setIpady(int ipady) {
         this.ipady = ipady;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("{");
+        sb.append(", gridx=").append(gridx);
+        sb.append(", gridy=").append(gridy);
+        sb.append(", weightx=").append(weightx);
+        sb.append(", weighty=").append(weighty);
+        sb.append(", gridwidth=").append(gridwidth);
+        sb.append(", gridheight=").append(gridheight);
+        sb.append(", fill=").append(fill);
+        sb.append(", anchor=").append(anchor);
+        sb.append(", ipadx=").append(ipadx);
+        sb.append(", ipady=").append(ipady);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -6,24 +6,23 @@ import java.util.Observable;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
-import ufps.arqui.python.poo.gui.controllers.ITerminalController;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
 /**
+ * Implementación de Panel que contiene el Mundo y la Terminal del sistema.
  *
  * @author Sachikia
  */
 public class PanelMundoTerminal implements IPanelMundoTerminal{
+    private final JPanel panel;
+
+    // elementos de GUI
     private final IPanelMundo panelMundo;
     private final IPanelTerminal panelTerminal;
-    private final JPanel panel;
-    
-    // elementos de GUI
 
     public PanelMundoTerminal(IPanelMundo panelMundo, IPanelTerminal panelTerminal) {
         this.panel = new JPanel(new GridBagLayout());

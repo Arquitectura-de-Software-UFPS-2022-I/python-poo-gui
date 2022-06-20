@@ -1,35 +1,30 @@
-package ufps.arqui.python.poo.gui.utils.impl;
+package ufps.arqui.python.poo.gui.utils;
 
-import ufps.arqui.python.poo.gui.controllers.ITerminalController;
-import ufps.arqui.python.poo.gui.views.IPanelTerminal;
-import ufps.arqui.python.poo.gui.views.IPanelView;
-
-import javax.swing.*;
+import ufps.arqui.python.poo.gui.models.Mensaje;
 import java.io.*;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Terminal interactiva que interactura con python.
  */
-public class TerminalInteractiva {
+public class TerminalInteractiva extends Observable{
 
     private final Logger logger = Logger.getLogger(TerminalInteractiva.class.getName());
-
+    
     private String directorio;
     private Process process;
+    private String parameters[];
     private BufferedWriter bufferedWriter;
     private BufferedReader bufferedReader;
     private BufferedReader bufferedReaderError;
 
-    private final IPanelTerminal panelView;
-
-    public TerminalInteractiva(IPanelTerminal panelView) {
-        this.panelView = panelView;
+    public TerminalInteractiva() {
     }
 
-    public void inicializarTerminal(File directorio) throws IOException {
-
+    public void inicializarTerminal(File directorio, String parameters[]) throws IOException {
+        this.parameters = parameters;
         // Validar que no se quiera reiniciar la terminal si el directorio es el mismo
         if (this.directorio == null || !directorio.getAbsolutePath().equals(this.directorio)) {
             this.directorio = directorio.getAbsolutePath();
@@ -52,7 +47,7 @@ public class TerminalInteractiva {
             this.bufferedWriter.close();
         }
 
-        this.process = new ProcessBuilder("python", "-i", "-q").directory(new File(this.directorio)).start();
+        this.process = new ProcessBuilder(this.parameters).directory(new File(this.directorio)).start();
         this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
         this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
         this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
@@ -65,7 +60,7 @@ public class TerminalInteractiva {
      * Ingresar comando para ejecutar.
      *
      * @param command comando de python, debe ser una sola linea, sin salto de linea.
-     * @throws IOException
+     * @throws IOException en caso de que los buffer no están abiertos.
      */
     public void ingresarComando(String command) throws IOException {
         if (terminalActiva()) {
@@ -73,7 +68,7 @@ public class TerminalInteractiva {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } else {
-            new IOException("Terminal inactiva");
+            throw new IOException("Terminal inactiva");
         }
     }
 
@@ -87,12 +82,13 @@ public class TerminalInteractiva {
             try {
                 String linea = "";
                 while ((linea = buffered.readLine()) != null) {
-                    this.panelView.nuevaSalida(linea, error);
+                    this.setChanged();
+                    this.notifyObservers(new Mensaje(linea, error));
                 }
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error al leer el archivo: " + e.getMessage() + ": " + e.getLocalizedMessage());
             }
         }).start();
     }
-
+    
 }

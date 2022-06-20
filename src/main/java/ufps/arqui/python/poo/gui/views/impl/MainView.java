@@ -6,8 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IMainView;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
@@ -51,7 +51,7 @@ public class MainView implements IMainView{
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.add(this.panelFicheroProyecto.getPanel());
         splitPane.add(this.panelMundoTerminal.getPanel());
-        splitPane.setResizeWeight(0.7);
+        splitPane.setResizeWeight(0.08);
 
         ConfGrid config = new ConfGrid(container, this.panelMenu.getPanel());
         config.setWeightx(1);

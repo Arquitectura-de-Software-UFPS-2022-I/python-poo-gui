@@ -7,34 +7,65 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import ufps.arqui.python.poo.gui.utility.ViewTool;
-import ufps.arqui.python.poo.gui.utils.impl.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase
  * 
  * @author Sachikia
  */
-public class PanelClass implements MouseListener{
+public class PanelClass {
+    /**
+     * JPanel en el cual sera dibujado y arratrado este PanelClass
+     */
     private JPanel parent;
+    
+    /**
+     * JPanel representación visual de una clase de python
+     */
     private JPanel panel;
+    
+    /**
+     * JLabel representación visual del nombre de una clase de python
+     */
     private JLabel lblName;
-    private int x, y;
+    
+    /**
+     * Listado de paneles de herencia, se usa para posteriormente saber hacia que
+     * panel dibujar la flecha
+     */
+    private List<PanelClass> herencia = new ArrayList<>();
+    
+    /**
+     * Indica si este panel ya ha sido dibujado
+     */
+    private Boolean estaDibujado;
+    
+    /**
+     * Ubicación actual de este PanelClass en el JPanel parent donde esta siendo dibujado
+     */
+    private Point location;
+    
+    /**
+     * Ultima ubicación registrada del PanelClass luego de haber sido arrastrado
+     */
+    private Point lastLocation;
 
     public PanelClass(String name, JPanel parent) {
         this.panel = new JPanel(new GridBagLayout());
+        this.estaDibujado = false;
         this.parent = parent;
         this.lblName = new JLabel(name);
+        this.location = new Point();
+        this.lastLocation = new Point();
 
         this.init();
         this.draggableMode();
@@ -58,11 +89,22 @@ public class PanelClass implements MouseListener{
 //        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
     }
 
+    /**
+     * Añade un panel que representa una clase de la cual this heredo
+     * Recordar que esta clase(PanelClass) es la forma visual de una clase de python
+     * @param panelClass PanelClass relacionado a this por herencia en clases de python
+     */
+    public void añadirHerencia(PanelClass panelClass){
+        this.herencia.add(panelClass);
+    }
+    
+    /**
+     * Añade los eventos para arrastrar la clase(PanelClass)
+     */
     private void draggableMode() {
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
-                x = ev.getX();
-                y = ev.getY();
+                location.move(ev.getX(), ev.getY());
             }
         });
 
@@ -72,9 +114,12 @@ public class PanelClass implements MouseListener{
                 int calX = evt.getXOnScreen() - parent.getLocationOnScreen().x;
                 int calY = evt.getYOnScreen() - parent.getLocationOnScreen().y;
                 
-                int xt = calX - x;
-                int yt = calY - y;
-                panel.setLocation(xt, yt);
+                int xt = calX - location.x;
+                int yt = calY - location.y;
+                
+                lastLocation.move(xt, yt);
+                panel.setLocation(lastLocation);
+                parent.repaint();
             }
         });
     }
@@ -82,56 +127,39 @@ public class PanelClass implements MouseListener{
     public JPanel getPanel(){
         return this.panel;
     }
+
+    public List<PanelClass> getHerencia() {
+        return herencia;
+    }
     
+    /**
+     * Obtiene la ubicación de este panel relativa al panel padre que lo contiene
+     * @return 
+     */
     public Point getLocation(){
         int calX = panel.getLocationOnScreen().x - parent.getLocationOnScreen().x;
         int calY = panel.getLocationOnScreen().y - parent.getLocationOnScreen().y;
         
         return new Point(calX, calY);
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-       
-//        JOptionPane.showMessageDialog(null, "pene");
-//        System.out.println("hola1");
-//       
+    
+    /**
+     * Cambia la posición de este panel a la ultima ubicación en la que estuvo
+     */
+    public void cambiaAUltimaUbicacion(){
+        if(this.lastLocation.x != 0)
+            this.panel.setLocation(this.lastLocation);
+    }
+    
+    public Point getLastLocation(){
+        return this.lastLocation;
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-//       JOptionPane.showMessageDialog(null, "pene gordo");
-        System.out.println("hola2");
-        JFrame r = new JFrame();
-        r.setBounds(100, 100, 180, 180);
-        JPanel b = new JPanel();
-        
-        JButton be = new JButton();
-         JButton beb = new JButton();
-        be.setText("Añadir");
-        beb.setText("Eliminar");
-        r.add(b);
-        b.add(be);
-        b.add(beb);
-        r.setVisible(true);
-      
+    public Boolean estaDibujado() {
+        return estaDibujado;
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-//       JOptionPane.showMessageDialog(null, "pene");
-//        System.out.println("hola3");
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-//       JOptionPane.showMessageDialog(null, "pene");
-//        System.out.println("hola4");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-//        JOptionPane.showMessageDialog(null, "pene");
-//        System.out.println("hola5");
+    public void setEstaDibujado(Boolean isDraw) {
+        this.estaDibujado = isDraw;
     }
 }
