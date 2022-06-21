@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import javax.swing.*;
+import java.awt.*;
+
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase
@@ -59,6 +62,11 @@ public class PanelClass {
      */
     private Point lastLocation;
 
+
+    private JPopupMenu menuProyecto;
+    private JMenuItem Eliminar;
+    
+
     public PanelClass(String name, JPanel parent) {
         this.panel = new JPanel(new GridBagLayout());
         this.estaDibujado = false;
@@ -66,6 +74,11 @@ public class PanelClass {
         this.lblName = new JLabel(name);
         this.location = new Point();
         this.lastLocation = new Point();
+
+        this.menuProyecto= new JPopupMenu();
+        this.Eliminar= new JMenuItem("eliminar");
+        
+        this.menuProyecto.add(this.Eliminar);
 
         this.init();
         this.draggableMode();
@@ -122,6 +135,36 @@ public class PanelClass {
                 parent.repaint();
             }
         });
+       
+        
+        this.Eliminar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    Object[] textoOpciones={"Cancelar","Aceptar"};
+                    int opcion = JOptionPane.showOptionDialog(null,
+                    "Borrando este paquete eliminara de forma definitiva los archivos. \n¿Desea continuar?", "BluePy:Pregunta",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.WARNING_MESSAGE, null, textoOpciones,
+                    textoOpciones[0]);
+                   
+                }
+            }
+        });
+        this.panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    menuProyecto.show(e.getComponent(), e.getX(), e.getY());
+                   
+                }
+            }
+        });
+       
+
+        
     }
     
     public JPanel getPanel(){
