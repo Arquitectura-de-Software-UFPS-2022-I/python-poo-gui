@@ -2,6 +2,7 @@ package ufps.arqui.python.poo.gui.controllers.impl;
 
 import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
@@ -19,7 +20,7 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
-    public void escanearProyecto() throws IOException {
+    public void escanearProyecto() throws Exceptions {
         this.proyecto.escanearProyecto();
     }
 

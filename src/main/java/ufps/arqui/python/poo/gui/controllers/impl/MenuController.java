@@ -3,6 +3,7 @@ package ufps.arqui.python.poo.gui.controllers.impl;
 import java.io.File;
 import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
@@ -20,18 +21,18 @@ public class MenuController implements IMenuController{
     }   
 
     @Override
-    public void abrirProyecto(String nombre, String directorio) throws Exception {
+    public void abrirProyecto(String nombre, String directorio) throws Exceptions {
         File dir = new File(directorio);
         if (dir.exists() && dir.isDirectory()) {
             this.proyecto.setNombre(nombre);
             this.proyecto.setDirectorioRaiz(dir);
         } else {
-            throw new Exception("El directorio no existe");
+            throw new Exceptions("El directorio no existe");
         }
     }
 
     @Override
-    public void crearProyecto(String nombre, String directorio) throws IOException{
+    public void crearProyecto(String nombre, String directorio) throws Exceptions{
         this.proyecto.setNombre(nombre);
         this.proyecto.setDirectorioRaiz(new File(directorio));
     }
