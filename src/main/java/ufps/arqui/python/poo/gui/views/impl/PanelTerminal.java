@@ -2,14 +2,15 @@ package ufps.arqui.python.poo.gui.views.impl;
 
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.models.Mundo;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 
 /**
@@ -53,7 +54,9 @@ public class PanelTerminal implements IPanelTerminal  {
 
         this.scroll = new JScrollPane(this.terminal);
 
+        // Valor por default para ingresar en la terminal
         this.txtInput = new JTextField("print(1+2)");
+
         // Evento de input para ejecutar comando al momento de presionar enter
         this.txtInput.addKeyListener(new KeyAdapter() {
             @Override
@@ -95,8 +98,8 @@ public class PanelTerminal implements IPanelTerminal  {
                         controller.reiniciarTerminal();
                         terminal.removeAll();
                         recalcularScroll();
-                    } catch (IOException error) {
-                        JOptionPane.showMessageDialog(panel, "Al resetear el proceso: "+ error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exceptions ex) {
+                        mostrarError(ex);
                     }
                 }
             }
@@ -113,10 +116,10 @@ public class PanelTerminal implements IPanelTerminal  {
     private void ingresarComando() {
         try {
             controller.ejecutarComando(txtInput.getText());
-            txtInput.setText("");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(panel, "Al ejecutar el comando: "+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exceptions ex) {
+            mostrarError(ex);
         }
+        txtInput.setText("");
     }
 
     @Override
@@ -140,12 +143,15 @@ public class PanelTerminal implements IPanelTerminal  {
     private void visualizarNuevasSalidas(List<Mensaje> salidas) {
         JLabel lblSalida;
         for (Mensaje salida : salidas) {
-            String salida_ = salida.getLine();
-            if (salida_.contains("--comando--")) {
-                salida_ = ">>>" + salida_;
+            lblSalida = new JLabel(salida.getLinea());
+            lblSalida.setForeground(Color.GRAY);
+            if (salida.getTipo().equals(TipoMensaje.COMANDO)) {
+                lblSalida.setText(">>>"+salida.getLinea());
+                lblSalida.setForeground(Color.BLACK);
             }
-            lblSalida = new JLabel(salida_.replaceAll("--error--", "").replaceAll("--comando--", ""));
-            lblSalida.setForeground(salida_.contains("--error--") ? Color.RED : salida_.contains("--comando--") ? Color.BLACK: Color.GRAY);
+            if (salida.getTipo().equals(TipoMensaje.ERROR)) {
+                lblSalida.setForeground(Color.RED);
+            }
             this.terminal.add(lblSalida);
         }
         this.recalcularScroll();

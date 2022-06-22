@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 /**
@@ -28,7 +29,7 @@ public class Mundo extends Observable implements Observer{
      */
     private TerminalInteractiva interactiveShell;
 
-    public Mundo() throws IOException {
+    public Mundo() throws Exceptions {
         this.interactiveShell = new TerminalInteractiva();
         
         // Solo para testear
@@ -51,11 +52,11 @@ public class Mundo extends Observable implements Observer{
         salidas.clear();
     }
 
-    public void nuevaEntrada(String entrada) throws IOException {
-        this.entradas.add(new Mensaje(entrada, false));
+    public void nuevaEntrada(String entrada) throws Exceptions {
+        this.entradas.add(new Mensaje(entrada, TipoMensaje.ERROR));
         this.interactiveShell.ingresarComando(entrada);
         
-        this.nuevaSalida(new Mensaje("--comando--"+entrada, false));
+        this.nuevaSalida(new Mensaje(entrada, TipoMensaje.COMANDO));
     }
 
     public void nuevaSalida(Mensaje mensaje) {
@@ -63,7 +64,7 @@ public class Mundo extends Observable implements Observer{
         this.update("nuevaSalida");
     }
     
-    public void reiniciarTerminal() throws IOException{
+    public void reiniciarTerminal() throws Exceptions{
         this.interactiveShell.reiniciarTerminal();
         this.entradas.clear();
         this.salidas.clear();

@@ -3,9 +3,12 @@ package ufps.arqui.python.poo.gui.views.impl;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
@@ -85,7 +88,11 @@ public class PanelMenu implements IPanelMenu {
     }
 
     @Override
-    public void modalCrearProyecto(String name, String path) throws IOException{
-        this.controller.crearProyecto(name, path);
+    public void modalCrearProyecto(String name, String path){
+        try {
+            this.controller.crearProyecto(name, path);
+        } catch (Exceptions ex) {
+            mostrarError(ex);
+        }
     }
 }
