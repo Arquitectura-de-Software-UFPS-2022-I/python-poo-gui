@@ -1,5 +1,8 @@
-import os, json
-import importlib, inspect
+import importlib
+import inspect
+import json
+import os
+
 
 class ClasePython:
     def __init__(self, nombre, path_module):
@@ -25,8 +28,9 @@ class ClasePython:
 
 
 class ArchivoPython:
-    def __init__(self, file):
+    def __init__(self, file, name):
         self.file = file
+        self.name = name
         self.clases = []
 
     def __get_list_classes_json(self):
@@ -38,6 +42,7 @@ class ArchivoPython:
     def to_json(self):
         return {
             "archivoStr": self.file,
+            "module": self.name,
             "clases": self.__get_list_classes_json()
         }
     
@@ -58,6 +63,15 @@ class Directorio:
 
         for folder in self.directorios:
             folder.set_absolute_path(absolute_path)
+
+    def get_names_modules(self):
+        list_mudules = []
+        for file in self.archivos:
+            list_mudules.append(file.name)
+
+        for folder in self.directorios:
+            list_mudules += folder.get_names_modules()
+        return list_mudules
 
     def push_folder(self, folder, folder_level):
         if len(folder_level) == 1:
@@ -144,7 +158,7 @@ def list_all_python_class_with_hierarchy(list_of_files):
             if module not in dict_modules:
                 archivo = directorio.get_file(module)
                 if archivo is None:
-                    archivo = ArchivoPython(module)
+                    archivo = ArchivoPython(module, path_module)
                     directorio.archivos.append(archivo)
 
             if module not in dict_folders[folder]:
@@ -167,11 +181,15 @@ def list_all_python_class_with_hierarchy(list_of_files):
     return dict_folders_class
 
 dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
-src = dict_folders_class["src"]
+dir_main = dict_folders_class["src"]
 del dict_folders_class["src"]
 for val in dict_folders_class.values():
-    src.push_folder(val, val.directorio.split("\\")[1:])
-src.set_absolute_path(os.getcwd())
+    dir_main.push_folder(val, val.directorio.split("\\")[1:])
+dir_main.set_absolute_path(os.getcwd())
 
+module_names = dir_main.get_names_modules()
+for module in module_names:
+    import_str = "from {} import *".format(module)
+    exec(import_str)
 #print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
-print(json.dumps(json.loads(str(src).replace("'", '"'))))
+print(json.dumps(json.loads(str(dir_main).replace("'", '"'))))

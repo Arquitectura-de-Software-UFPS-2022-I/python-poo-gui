@@ -5,26 +5,16 @@
  */
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
 import ufps.arqui.python.poo.gui.models.Directorio;
 import ufps.arqui.python.poo.gui.views.IPanelView;
+
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.*;
+import java.awt.*;
 
 /**
  * Implementación del componente JTree, vista para visualizar los archivos,
@@ -49,7 +39,7 @@ public class ArbolDinamico implements IPanelView {
         this.panel = new JPanel(new GridLayout(1, 0));
         this.load = false;
 
-        this.rootNode = new DefaultMutableTreeNode("src");
+        this.rootNode = new DefaultMutableTreeNode("dir_main");
         this.treeModel = new DefaultTreeModel(this.rootNode);
 
         this.tree = new JTree(this.treeModel);

@@ -1,18 +1,16 @@
 package ufps.arqui.python.poo.gui.models;
 
 import com.google.gson.Gson;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.ConfScanFile;
+import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.utils.ConfScanFile;
-import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
@@ -46,10 +44,8 @@ public class Proyecto extends Observable implements Observer {
 
     private TerminalInteractiva terminalInteractiva;
 
-    public Proyecto() {
-        terminalInteractiva = new TerminalInteractiva();
-
-        terminalInteractiva.addObserver(this);
+    public Proyecto(TerminalInteractiva terminalInteractiva) {
+        this.terminalInteractiva = terminalInteractiva;
     }
 
     /**
@@ -59,7 +55,7 @@ public class Proyecto extends Observable implements Observer {
      */
     public void escanearProyecto() throws Exceptions {
         if (this.directorioRaiz == null) {
-            throw new Exceptions("El proyecto no ha sido seleccionado");
+            throw new Exceptions("El proyecto no ha sido seleccionado", null);
         }
         // Crear directorio src
         File file = new File(this.directorioRaiz + "/src");
@@ -71,7 +67,7 @@ public class Proyecto extends Observable implements Observer {
         try {
             ConfScanFile.actualizarArchivoScan(this.directorioRaiz);
         } catch (IOException e) {
-            throw new Exceptions("No se ha podido actualizar el archivo scan");
+            throw new Exceptions("No se ha podido actualizar el archivo scan", e);
         }
         this.directorioTrabajo = new Directorio(file);
         this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
@@ -199,14 +195,12 @@ public class Proyecto extends Observable implements Observer {
         if (arg instanceof Mensaje) {
             Mensaje m = (Mensaje) arg;
             Gson gson = new Gson();
-            System.out.println(m.getLinea());
             try {
                 this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
                 super.setChanged();
                 super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
                 this.update("directoriosTrabajo");
             } catch (Exception e) {
-                System.out.println("error; "+ "->"+m.getLinea()+"<-");
             }
         }
     }

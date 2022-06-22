@@ -1,16 +1,14 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Observable;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Observable;
 
 /**
  * Implementación de Panel que contiene el Mundo y la Terminal del sistema.

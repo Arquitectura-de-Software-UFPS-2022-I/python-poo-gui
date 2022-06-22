@@ -1,17 +1,21 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.Mensaje;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.TipoMensaje;
+import ufps.arqui.python.poo.gui.utils.Portapapeles;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Observable;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.Mensaje;
 
 /**
  * Panel para visualizar el cuadro de texto para ingresar comandos.
@@ -24,6 +28,7 @@ import ufps.arqui.python.poo.gui.models.Mensaje;
 public class PanelTerminal implements IPanelTerminal  {
 
     private final ITerminalController controller;
+    private int posComando = 0;
 
     private final JPanel panel;
     private JTextField txtInput;
@@ -64,6 +69,10 @@ public class PanelTerminal implements IPanelTerminal  {
                 super.keyPressed(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ingresarComando();
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    getComandoIngresado(false);
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    getComandoIngresado(true);
                 }
             }
         });
@@ -122,6 +131,24 @@ public class PanelTerminal implements IPanelTerminal  {
         txtInput.setText("");
     }
 
+    /**
+     * Obtener comando.
+     */
+    private void getComandoIngresado(boolean abajo) {
+        String comando = controller.getComando(posComando);
+        if (comando != null) {
+            if (abajo) {
+                posComando -= 1;
+            } else {
+                posComando += 1;
+            }
+        } else {
+            comando = "";
+            posComando = 0;
+        }
+        txtInput.setText(comando);
+    }
+
     @Override
     public JPanel getPanel() {
         return this.panel;
@@ -152,6 +179,16 @@ public class PanelTerminal implements IPanelTerminal  {
             if (salida.getTipo().equals(TipoMensaje.ERROR)) {
                 lblSalida.setForeground(Color.RED);
             }
+            lblSalida.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        String texto = ((JLabel) e.getComponent()).getText();
+                        Portapapeles.pegar(texto.replaceAll(">>>",""));
+                    }
+                }
+            });
             this.terminal.add(lblSalida);
         }
         this.recalcularScroll();

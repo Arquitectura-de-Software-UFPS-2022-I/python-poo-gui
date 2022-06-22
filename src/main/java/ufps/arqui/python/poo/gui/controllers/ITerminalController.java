@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui.controllers;
 
-import java.io.IOException;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 
 /**
@@ -16,6 +15,12 @@ public interface ITerminalController {
      * @param commando comando de python para ejecutar.
      */
     void ejecutarComando(String commando) throws Exceptions;
+
+    /**
+     * Obtener comando en orden inverso según la posición
+     * @param indice
+     */
+    String getComando(int indice);
 
     /**
      * Metodo para reiniciar la terminal

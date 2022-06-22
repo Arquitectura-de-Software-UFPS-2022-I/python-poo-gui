@@ -1,24 +1,15 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
-import java.util.Observable;
-import java.util.Set;
-import ufps.arqui.python.poo.gui.models.ClasePython;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
 
 /**
  * Panel del proyecto para visualizar las clases del proyecto, así como sus

@@ -1,9 +1,6 @@
 package ufps.arqui.python.poo.gui.utils;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 
 /**
  * Herramienta para configurar la vista con grillas.

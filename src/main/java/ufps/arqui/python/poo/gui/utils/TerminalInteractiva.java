@@ -1,17 +1,15 @@
 package ufps.arqui.python.poo.gui.utils;
 
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Mensaje;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.TipoMensaje;
 
 /**
  * Terminal interactiva que interactura con python.
@@ -58,6 +56,8 @@ public class TerminalInteractiva extends Observable {
             }
             List<String> lineas = new ArrayList();
             lineas.add("python");
+            lineas.add("-i");
+            lineas.add("-q");
             for (String p : this.parameters) {
                 lineas.add(p);
             }
@@ -69,7 +69,7 @@ public class TerminalInteractiva extends Observable {
             this.leerSalida(this.bufferedReader, false);
             this.leerSalida(this.bufferedReaderError, true);
         } catch (IOException e) {
-            throw new Exceptions("La terminal ha fallado");
+            throw new Exceptions("La terminal ha fallado", e);
         }
     }
 
@@ -87,10 +87,10 @@ public class TerminalInteractiva extends Observable {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } else {
-                throw new Exceptions("Terminal inactiva");
+                throw new Exceptions("Terminal inactiva", null);
             }
         } catch (IOException e) {
-            throw new Exceptions("La terminal ha fallado");
+            throw new Exceptions("La terminal ha fallado", e);
         }
     }
 

@@ -1,11 +1,9 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagLayout;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Observable;
 
 /**
