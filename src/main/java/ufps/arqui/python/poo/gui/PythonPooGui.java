@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui;
 
-import java.io.File;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
@@ -18,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JWindow;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import java.net.URL;
 
 /**
  * Clase Main para la inicialización del proyecto.
@@ -67,7 +65,6 @@ public class PythonPooGui {
         JWindow window = new JWindow();
         window.setSize(460, 344);
         window.setLocationRelativeTo(null);
-//        window.getContentPane().add(new JLabel("", new ImageIcon(new URL("https://c.tenor.com/fdNuq0ikCLwAAAAC/blue-octopus.gif")), SwingConstants.CENTER));
         window.getContentPane().add(new JLabel("", new ImageIcon(PythonPooGui.class.getClassLoader().getResource("logo.gif").getFile()), SwingConstants.CENTER));
         window.setVisible(true);
         try {

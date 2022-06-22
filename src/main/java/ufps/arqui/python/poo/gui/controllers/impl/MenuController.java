@@ -1,7 +1,6 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
 import java.io.File;
-import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;

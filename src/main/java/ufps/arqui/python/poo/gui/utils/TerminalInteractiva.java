@@ -1,20 +1,27 @@
 package ufps.arqui.python.poo.gui.utils;
 
 import ufps.arqui.python.poo.gui.models.Mensaje;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.TipoMensaje;
 
 /**
  * Terminal interactiva que interactura con python.
+ *
+ * @author Omar Ramón Montes
  */
-public class TerminalInteractiva extends Observable{
+public class TerminalInteractiva extends Observable {
 
     private final Logger logger = Logger.getLogger(TerminalInteractiva.class.getName());
-    
+
     private String directorio;
     private Process process;
     private String parameters[];
@@ -42,48 +49,49 @@ public class TerminalInteractiva extends Observable{
      * Reinicia el proceso siempre y cuando el proceso este activo.
      */
     public void reiniciarTerminal() throws Exceptions {
-        
-        try{
-        if (terminalActiva()) {
-            this.process.destroyForcibly();
-            this.bufferedReader.close();
-            this.bufferedWriter.close();
-            this.bufferedWriter.close();
+        try {
+            if (terminalActiva()) {
+                this.process.destroyForcibly();
+                this.bufferedReader.close();
+                this.bufferedWriter.close();
+                this.bufferedWriter.close();
+            }
+            List<String> lineas = new ArrayList();
+            lineas.add("python");
+            for (String p : this.parameters) {
+                lineas.add(p);
+            }
+            this.process = new ProcessBuilder(lineas).directory(new File(this.directorio)).start();
+            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
+            this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
+            this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
+
+            this.leerSalida(this.bufferedReader, false);
+            this.leerSalida(this.bufferedReaderError, true);
+        } catch (IOException e) {
+            throw new Exceptions("La terminal ha fallado");
         }
+    }
 
-        this.process = new ProcessBuilder(this.parameters).directory(new File(this.directorio)).start();
-        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
-        this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
-        this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
-
-        this.leerSalida(this.bufferedReader, false);
-        this.leerSalida(this.bufferedReaderError, true);
-    }
-    catch(IOException e){
-         throw new Exceptions("La terminal ha fallado");
-    }
-       
-    }
-    
 
     /**
      * Ingresar comando para ejecutar.
      *
      * @param command comando de python, debe ser una sola linea, sin salto de linea.
-     * @throws IOException en caso de que los buffer no están abiertos.
+     * @throws IOException en caso de que los buffers no están abiertos.
      */
     public void ingresarComando(String command) throws Exceptions {
-      try{
-        if (terminalActiva()) {
-            bufferedWriter.write(command);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-        } else {
-            throw new Exceptions("Terminal inactiva");
+        try {
+            if (terminalActiva()) {
+                bufferedWriter.write(command);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            } else {
+                throw new Exceptions("Terminal inactiva");
+            }
+        } catch (IOException e) {
+            throw new Exceptions("La terminal ha fallado");
         }
-      }catch(IOException e){
-       throw new Exceptions("La terminal ha fallado");
-      }
     }
 
     /**

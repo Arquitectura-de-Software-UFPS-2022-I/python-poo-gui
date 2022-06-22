@@ -44,10 +44,16 @@ public class Proyecto extends Observable implements Observer {
      */
     private Directorio directorioTrabajo;
 
+    private TerminalInteractiva terminalInteractiva;
+
+    public Proyecto() {
+        terminalInteractiva = new TerminalInteractiva();
+
+        terminalInteractiva.addObserver(this);
+    }
+
     /**
-     * Escanea el proyecto en busca de clases declaradas en todos los
-     * directorios <br>
-     * y subdirectorios
+     * Escanea el proyecto en busca de clases declaradas en todos los directorios y subdirectorios
      *
      * @throws IOException
      */
@@ -55,21 +61,26 @@ public class Proyecto extends Observable implements Observer {
         if (this.directorioRaiz == null) {
             throw new Exceptions("El proyecto no ha sido seleccionado");
         }
+        // Crear directorio src
+        File file = new File(this.directorioRaiz + "/src");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
         //Si el archivo scan no esta en la raiz del proyecto, lo crea
         try {
             ConfScanFile.actualizarArchivoScan(this.directorioRaiz);
         } catch (IOException e) {
             throw new Exceptions("No se ha podido actualizar el archivo scan");
         }
-
-        TerminalInteractiva terminal = new TerminalInteractiva();
-        terminal.addObserver(this);
-        terminal.inicializarTerminal(this.directorioRaiz, new String[]{"python", "scan.py"});
+        this.directorioTrabajo = new Directorio(file);
+        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
     }
 
     /**
-     * Lista las clases correspondientes a un directorio <br>
-     * Se toma la ruta relativa y se concatena a la ruta del proyecto para <br>
+     * Lista las clases correspondientes a un directorio.
+     *
+     * Se toma la ruta relativa y se concatena a la ruta del proyecto para
      * asi obtener la ruta absooluta del directorio en el cual se extraeran las
      * clases
      *
@@ -90,7 +101,7 @@ public class Proyecto extends Observable implements Observer {
      * Lista las clases correspondientes a un directorio.
      *
      * @param directorio
-     * @return
+     * @return listado de clases de python de un directivo dado.
      */
     private List<ClasePython> obtenerClasesDesde(Directorio directorio) {
         List<ClasePython> clases = new ArrayList<>();
@@ -164,8 +175,6 @@ public class Proyecto extends Observable implements Observer {
 
     public void setDirectorioRaiz(File directorioRaiz) throws Exceptions {
         this.directorioRaiz = directorioRaiz;
-        // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
-        // Validar si existe, y realizar la lectura de los archivos, sino, registrarlo.
         this.update("directorio");
         this.escanearProyecto();
     }
@@ -190,10 +199,15 @@ public class Proyecto extends Observable implements Observer {
         if (arg instanceof Mensaje) {
             Mensaje m = (Mensaje) arg;
             Gson gson = new Gson();
-            this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
-            super.setChanged();
-            super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
-            this.update("directoriosTrabajo");
+            System.out.println(m.getLinea());
+            try {
+                this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
+                super.setChanged();
+                super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
+                this.update("directoriosTrabajo");
+            } catch (Exception e) {
+                System.out.println("error; "+ "->"+m.getLinea()+"<-");
+            }
         }
     }
 }

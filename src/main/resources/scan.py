@@ -111,6 +111,14 @@ def list_all_python_class_with_hierarchy(list_of_files):
     dict_folders = {}
     dict_modules = []
     dict_class = []
+
+    # src por default, cuando el directorio está vacio, o no hay archivos.
+    folder = 'src'
+    dict_folders[folder] = {}
+    directorio = Directorio(folder)
+    dict_folders_class[folder] = directorio
+    dict_folders_list.append(directorio)
+
     for file in list_of_files:
         #name -> nombre de clase
         #cls -> tipo de clase	
