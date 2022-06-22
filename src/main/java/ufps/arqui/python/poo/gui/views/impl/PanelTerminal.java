@@ -1,7 +1,9 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import com.google.gson.Gson;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.Directorio;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.TipoMensaje;
@@ -170,6 +172,14 @@ public class PanelTerminal implements IPanelTerminal  {
     private void visualizarNuevasSalidas(List<Mensaje> salidas) {
         JLabel lblSalida;
         for (Mensaje salida : salidas) {
+
+            Gson gson = new Gson();
+            try {
+                gson.fromJson(salida.getLinea(), Directorio.class);
+                continue;
+            } catch (Exception e) {
+            }
+
             lblSalida = new JLabel(salida.getLinea());
             lblSalida.setForeground(Color.GRAY);
             if (salida.getTipo().equals(TipoMensaje.COMANDO)) {
