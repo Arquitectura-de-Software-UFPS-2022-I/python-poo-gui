@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
 
 /**
  * Terminal interactiva que interactura con python.
@@ -96,7 +97,7 @@ public class TerminalInteractiva extends Observable{
                 String linea = "";
                 while ((linea = buffered.readLine()) != null) {
                     this.setChanged();
-                    this.notifyObservers(new Mensaje(linea, error));
+                    this.notifyObservers(new Mensaje(linea, error ? TipoMensaje.ERROR : TipoMensaje.SALIDA));
                 }
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error al leer el archivo: " + e.getMessage() + ": " + e.getLocalizedMessage());

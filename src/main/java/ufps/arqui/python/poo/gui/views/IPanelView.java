@@ -16,7 +16,8 @@ public interface IPanelView {
      * Debe inicializar los componentes que tendrá en panel.
      */
     void inicializarContenido();
+
     default void mostrarError(Exceptions e){
-           JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
     };
 }

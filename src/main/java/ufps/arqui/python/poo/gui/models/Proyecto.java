@@ -186,13 +186,14 @@ public class Proyecto extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //Proyecto solo esta pendiente de la terminal, por lo tanto solo va ser notificado por
-        //esta misma
-        Mensaje m = (Mensaje) arg;
-        Gson gson = new Gson();
-        this.directorioTrabajo = gson.fromJson(m.getLine(), Directorio.class);
-        super.setChanged();
-        super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
-        this.update("directoriosTrabajo");
+        //Proyecto solo esta pendiente de la terminal, por lo tanto solo va ser notificado por esta misma
+        if (arg instanceof Mensaje) {
+            Mensaje m = (Mensaje) arg;
+            Gson gson = new Gson();
+            this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
+            super.setChanged();
+            super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
+            this.update("directoriosTrabajo");
+        }
     }
 }

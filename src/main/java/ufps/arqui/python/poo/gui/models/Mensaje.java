@@ -1,34 +1,41 @@
 package ufps.arqui.python.poo.gui.models;
 
 /**
+ * Modelo para representación de los mensajes de entrada y salida de la terminal interactiva.
  *
+ * Cada mensaje representa una linea.
  * @author Sachikia
  */
 public class Mensaje {
-    private String line;
-    private Boolean error;
 
-    public Mensaje() {
+    /**
+     * Tipo de mensaje, ya que según el tipo se cambia la configuración de entilos.
+     */
+    private TipoMensaje tipo;
+
+    /**
+     * Mensaje ya sea de entrada o salida de la terminal
+     */
+    private String linea;
+
+    public Mensaje(String linea, TipoMensaje tipo) {
+        this.linea = linea.replaceAll(">>>","");
+        this.tipo = tipo;
     }
 
-    public Mensaje(String line, Boolean error) {
-        this.line = (error?"--error--":"")+line.replaceAll(">>>","");
-        this.error = error;
+    public TipoMensaje getTipo() {
+        return tipo;
     }
 
-    public String getLine() {
-        return line;
+    public void setTipo(TipoMensaje tipo) {
+        this.tipo = tipo;
     }
 
-    public void setLine(String line) {
-        this.line = line;
+    public String getLinea() {
+        return linea;
     }
 
-    public Boolean getError() {
-        return error;
-    }
-
-    public void setError(Boolean error) {
-        this.error = error;
+    public void setLinea(String linea) {
+        this.linea = linea;
     }
 }

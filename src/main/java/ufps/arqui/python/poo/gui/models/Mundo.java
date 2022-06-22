@@ -53,10 +53,10 @@ public class Mundo extends Observable implements Observer{
     }
 
     public void nuevaEntrada(String entrada) throws Exceptions {
-        this.entradas.add(new Mensaje(entrada, false));
+        this.entradas.add(new Mensaje(entrada, TipoMensaje.ERROR));
         this.interactiveShell.ingresarComando(entrada);
         
-        this.nuevaSalida(new Mensaje("--comando--"+entrada, false));
+        this.nuevaSalida(new Mensaje(entrada, TipoMensaje.COMANDO));
     }
 
     public void nuevaSalida(Mensaje mensaje) {
