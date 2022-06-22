@@ -20,4 +20,6 @@ public interface IPanelMenu extends Observer, IPanelView {
      * @param directorio directorio del proyecto.
      */
     void modalCrearProyecto(String nombre, String directorio)  throws IOException;
+
+    void modalAbrirProyecto(String nombre, String directorio) throws  IOException;
 }
