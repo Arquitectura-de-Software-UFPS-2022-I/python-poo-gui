@@ -31,7 +31,11 @@ public class Directorio {
      * Listado de archivos python dentro del directorio actual.
      */
     private List<ArchivoPython> archivos = new ArrayList<>();
-    
+
+    public Directorio(File directorio) {
+        this.directorio = directorio;
+    }
+
     /**
      * Crea un archivo .py tomando como ruta el directorio en el que se encuentra.
      * 

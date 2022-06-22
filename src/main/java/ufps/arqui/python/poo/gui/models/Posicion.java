@@ -1,7 +1,7 @@
 package ufps.arqui.python.poo.gui.models;
 
 /**
- *
+ * Representa los puntos cardinales de un panel.
  * @author Sachikia
  */
 public class Posicion {

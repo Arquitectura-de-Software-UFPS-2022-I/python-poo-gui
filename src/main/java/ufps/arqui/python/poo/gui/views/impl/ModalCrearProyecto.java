@@ -50,8 +50,8 @@ public class ModalCrearProyecto {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
         JLabel lblName = new JLabel("Nombre");
-        JLabel lblPath = new JLabel("Localización");
-        JLabel lblFullPath = new JLabel("Path");
+        JLabel lblPath = new JLabel("Ubicación");
+        JLabel lblFullPath = new JLabel("Proyecto");
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());

@@ -1,7 +1,6 @@
 package ufps.arqui.python.poo.gui.models;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -27,19 +26,15 @@ public class Mundo extends Observable implements Observer{
     /**
      * Terminal interactiva
      */
-    private TerminalInteractiva interactiveShell;
+    private TerminalInteractiva terminalInteractiva;
 
     public Mundo() throws Exceptions {
-        this.interactiveShell = new TerminalInteractiva();
+        this.terminalInteractiva = new TerminalInteractiva();
         
         // Solo para testear
-        this.interactiveShell.inicializarTerminal(new File("."), new String[]{"python", "-i", "-q"});
-        
-        this.interactiveShell.addObserver(this);
-    }
+        this.terminalInteractiva.inicializarTerminal(new File("."), new String[]{"-i", "-q"});
 
-    public List<Mensaje> getEntradas() {
-        return entradas;
+        this.terminalInteractiva.addObserver(this);
     }
 
     public List<Mensaje> getSalidas() {
@@ -48,15 +43,11 @@ public class Mundo extends Observable implements Observer{
         return salidas_;
     }
 
-    public void limpiarSalidas() {
-        salidas.clear();
-    }
-
     public void nuevaEntrada(String entrada) throws Exceptions {
-        this.entradas.add(new Mensaje(entrada, TipoMensaje.ERROR));
-        this.interactiveShell.ingresarComando(entrada);
-        
-        this.nuevaSalida(new Mensaje(entrada, TipoMensaje.COMANDO));
+        Mensaje mensaje = new Mensaje(entrada, TipoMensaje.COMANDO);
+        this.entradas.add(mensaje);
+        this.terminalInteractiva.ingresarComando(entrada);
+        this.nuevaSalida(mensaje);
     }
 
     public void nuevaSalida(Mensaje mensaje) {
@@ -65,7 +56,7 @@ public class Mundo extends Observable implements Observer{
     }
     
     public void reiniciarTerminal() throws Exceptions{
-        this.interactiveShell.reiniciarTerminal();
+        this.terminalInteractiva.reiniciarTerminal();
         this.entradas.clear();
         this.salidas.clear();
     }
