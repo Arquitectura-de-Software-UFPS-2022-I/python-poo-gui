@@ -39,7 +39,7 @@ public class ArbolDinamico implements IPanelView {
         this.panel = new JPanel(new GridLayout(1, 0));
         this.load = false;
 
-        this.rootNode = new DefaultMutableTreeNode("dir_main");
+        this.rootNode = new DefaultMutableTreeNode("src");
         this.treeModel = new DefaultTreeModel(this.rootNode);
 
         this.tree = new JTree(this.treeModel);

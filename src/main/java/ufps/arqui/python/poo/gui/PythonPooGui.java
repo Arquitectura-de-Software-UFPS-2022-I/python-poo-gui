@@ -62,6 +62,7 @@ public class PythonPooGui {
         proyecto.addObserver(panelProyecto);
         proyecto.addObserver(panelTerminal);
         mundo.addObserver(panelTerminal);
+        mundo.addObserver(panelMundo);
 
         terminalInteractiva.addObserver(mundo);
         terminalInteractiva.addObserver(proyecto);

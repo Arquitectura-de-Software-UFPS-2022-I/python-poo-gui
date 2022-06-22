@@ -2,6 +2,7 @@ import importlib
 import inspect
 import json
 import os
+import sys
 
 
 class ClasePython:
@@ -118,6 +119,36 @@ def list_files(path):
                 files.append(os.path.join(root, filename))
     return files
 
+def list_all_instancias(local_val: dict):
+    classes = [cls for cls in inspect.getmembers(sys.modules[__name__], inspect.isclass) if cls[1].__module__ != '__main__']
+    classes_values = []
+    for key, value in local_val.items():
+        for cls in classes:
+            if isinstance(value, cls[1]):
+                attr_value = {'attrs': [], 'methods': [], 'name_class': cls[0], 'name': key}
+                # attribute is a string representing the attribute name
+                for attribute in dir(local_val[key]):
+                    # Get the attribute value
+                    attribute_value = getattr(local_val[key], attribute)
+                    # Check that it is callable
+                    if callable(attribute_value):
+                        # Filter all dunder (__ prefix) methods
+                        if attribute.startswith('__') == False:
+                            attr_value['methods'].append({
+                                'name': attribute,
+                                'args': inspect.getfullargspec(attribute_value).args
+                            })
+                for atkey in local_val[key].__dict__.keys():
+                    attr_value['attrs'].append({
+                        'key': atkey,
+                        'value': str(local_val[key].__dict__[atkey]),
+                        'type': str(type(local_val[key].__dict__[atkey])).replace("'", "")
+                    })
+                classes_values.append(attr_value)
+                break
+
+    print("list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
+
 def list_all_python_class_with_hierarchy(list_of_files):
     dict_folders_class = {}
     dict_folders_list = []
@@ -181,15 +212,15 @@ def list_all_python_class_with_hierarchy(list_of_files):
     return dict_folders_class
 
 dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
-dir_main = dict_folders_class["src"]
+src = dict_folders_class["src"]
 del dict_folders_class["src"]
 for val in dict_folders_class.values():
-    dir_main.push_folder(val, val.directorio.split("\\")[1:])
-dir_main.set_absolute_path(os.getcwd())
+    src.push_folder(val, val.directorio.split("\\")[1:])
+src.set_absolute_path(os.getcwd())
 
-module_names = dir_main.get_names_modules()
+module_names = src.get_names_modules()
 for module in module_names:
     import_str = "from {} import *".format(module)
     exec(import_str)
 #print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
-print(json.dumps(json.loads(str(dir_main).replace("'", '"'))))
+print(json.dumps(json.loads(str(src).replace("'", '"'))))

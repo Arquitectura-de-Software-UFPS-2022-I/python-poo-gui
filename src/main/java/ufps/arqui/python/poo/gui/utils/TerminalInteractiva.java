@@ -86,6 +86,10 @@ public class TerminalInteractiva extends Observable {
                 bufferedWriter.write(command);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
+
+                bufferedWriter.write("list_all_instancias(locals())");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
             } else {
                 throw new Exceptions("Terminal inactiva", null);
             }

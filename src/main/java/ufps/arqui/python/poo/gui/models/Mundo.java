@@ -23,6 +23,8 @@ public class Mundo extends Observable implements Observer{
      */
     private List<Mensaje> salidas = new ArrayList<>();
 
+    private List<Mensaje> salidas2 = new ArrayList<>();
+
     private TerminalInteractiva terminalInteractiva;
 
     public Mundo(TerminalInteractiva terminalInteractiva) {
@@ -37,6 +39,17 @@ public class Mundo extends Observable implements Observer{
     public List<Mensaje> getSalidas() {
         List<Mensaje> salidas_ = new ArrayList<>(salidas);
         this.salidas.clear();
+        return salidas_;
+    }
+
+    /**
+     * Obtiene la lista de mensajes que se han ingresados nuevos y limpia la lista para posteriores mensajes.
+     *
+     * @return Listado de mensajes retornados por la terminal.
+     */
+    public List<Mensaje> getSalidas2() {
+        List<Mensaje> salidas_ = new ArrayList<>(salidas2);
+        this.salidas2.clear();
         return salidas_;
     }
 
@@ -58,6 +71,7 @@ public class Mundo extends Observable implements Observer{
      */
     public void nuevaSalida(Mensaje mensaje) {
         this.salidas.add(mensaje);
+        this.salidas2.add(mensaje);
         this.update("nuevaSalida");
     }
 
