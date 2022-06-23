@@ -58,8 +58,7 @@ public class PanelMundo implements IPanelMundo {
                     PanelObjeto obj;
                     this.contenedor.removeAll();
                     for (MundoInstancia item : list) {
-                        obj = new PanelObjeto(item);
-
+                        obj = new PanelObjeto(item, controller);
                         this.contenedor.add(obj.getPanel());
                     }
                     this.contenedor.revalidate();

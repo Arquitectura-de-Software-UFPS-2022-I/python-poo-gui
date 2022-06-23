@@ -42,7 +42,7 @@ public class PythonPooGui {
         IPanelTerminal panelTerminal = new PanelTerminal(terminalController);
 
         // Inicializar el mundo.
-        IMundoController mundoController = new MundoController(proyecto);
+        IMundoController mundoController = new MundoController(proyecto, mundo);
         IPanelMundo panelMundo = new PanelMundo(mundoController);
 
         // Inicializar el proyecto.

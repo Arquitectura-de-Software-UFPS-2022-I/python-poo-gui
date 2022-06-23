@@ -1,10 +1,12 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.*;
+import ufps.arqui.python.poo.gui.models.Directorio;
+import ufps.arqui.python.poo.gui.models.Mensaje;
+import ufps.arqui.python.poo.gui.models.Mundo;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
 import ufps.arqui.python.poo.gui.utils.Portapapeles;
 import ufps.arqui.python.poo.gui.views.IPanelTerminal;
 
@@ -14,7 +16,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
