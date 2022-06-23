@@ -1,7 +1,5 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import ufps.arqui.python.poo.gui.models.AttrInstancia;
-import ufps.arqui.python.poo.gui.models.MethodInstancia;
 import ufps.arqui.python.poo.gui.models.MundoInstancia;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
@@ -9,9 +7,6 @@ import ufps.arqui.python.poo.gui.utils.ViewTool;
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Arrays;
 
 /**
  * Clase para visualizar la modal con el detalle de una instancia.

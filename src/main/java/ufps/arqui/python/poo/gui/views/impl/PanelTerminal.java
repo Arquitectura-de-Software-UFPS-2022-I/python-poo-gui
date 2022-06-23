@@ -62,7 +62,7 @@ public class PanelTerminal implements IPanelTerminal  {
         this.scroll = new JScrollPane(this.terminal);
 
         // Valor por default para ingresar en la terminal
-        this.txtInput = new JTextField("m=Mundo7()");
+        this.txtInput = new JTextField("");
 
         // Evento de input para ejecutar comando al momento de presionar enter
         this.txtInput.addKeyListener(new KeyAdapter() {

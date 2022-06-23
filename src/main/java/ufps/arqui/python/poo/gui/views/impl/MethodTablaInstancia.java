@@ -3,7 +3,6 @@ package ufps.arqui.python.poo.gui.views.impl;
 import ufps.arqui.python.poo.gui.models.MethodInstancia;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.Arrays;
 
 /**
  * Tabla para la visualización de la tabla de las metodos de una instancia.
