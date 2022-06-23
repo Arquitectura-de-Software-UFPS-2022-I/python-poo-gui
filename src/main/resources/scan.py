@@ -136,7 +136,7 @@ def list_all_instancias(local_val: dict):
                         if attribute.startswith('__') == False:
                             attr_value['methods'].append({
                                 'name': attribute,
-                                'args': inspect.getfullargspec(attribute_value).args
+                                'args': [arg for arg in inspect.getfullargspec(attribute_value).args if arg != 'self']
                             })
                 for atkey in local_val[key].__dict__.keys():
                     attr_value['attrs'].append({

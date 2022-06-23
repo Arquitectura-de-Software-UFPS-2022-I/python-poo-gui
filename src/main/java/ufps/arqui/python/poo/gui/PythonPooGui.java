@@ -1,5 +1,8 @@
 package ufps.arqui.python.poo.gui;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
@@ -26,6 +29,10 @@ import java.io.File;
 public class PythonPooGui {
     
     public static void main(String[] args) throws Exception {
+
+        // Diseño de la aplicación
+        FlatLightLaf.setup();
+
         // Modelo
         TerminalInteractiva terminalInteractiva = new TerminalInteractiva();
         terminalInteractiva.inicializarTerminal(new File("."), new String[]{});
