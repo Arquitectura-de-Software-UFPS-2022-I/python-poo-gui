@@ -41,7 +41,7 @@ public class ModalAyuda {
 
     public ModalAyuda(IPanelMenu panelMenu) throws Exception {
         this.panelMenu = panelMenu;
-        this.frame = new JFrame("Informacion");
+        this.frame = new JFrame("Ayuda");
 
         //this.txtName = new JTextField();
         this.txtPath = new JTextField();
