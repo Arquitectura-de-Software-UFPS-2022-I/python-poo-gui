@@ -1,6 +1,7 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,9 +36,7 @@ public class ModalAyuda {
     //private JTextField txtName;
     private JTextField txtPath;
     private JLabel lblAbsolutePath;
-    private JButton btnChoose;
     private JButton btnAceptar;
-    private JButton btnCancel;
 
     public ModalAyuda(IPanelMenu panelMenu) throws Exception {
         this.panelMenu = panelMenu;
@@ -46,10 +45,8 @@ public class ModalAyuda {
         //this.txtName = new JTextField();
         this.txtPath = new JTextField();
         this.lblAbsolutePath = new JLabel();
-        this.btnChoose = new JButton("Buscar");
 
         this.btnAceptar = new JButton("Manual de User");
-        this.btnCancel = new JButton("Cerrar");
 
         this.init();
         this.addEvents();
@@ -59,58 +56,55 @@ public class ModalAyuda {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
         JLabel lblInfo = new JLabel("Información Basica");
-        JLabel lblPath = new JLabel("Nombre");
-        JLabel lblVer = new JLabel("Versión");
-        JLabel lblAu = new JLabel("Autores");
-        JLabel lblUltimaModificacion = new JLabel("Ultima Modificación");
-        JLabel lblFullPath = new JLabel("Path");
+        JLabel lblPath = new JLabel("Nombre:           BluePy");
+        JLabel lblVer = new JLabel("Versión:           Test");
+        JLabel lblAu = new JLabel("Autores:           Grupo de Arqui de Soft");
+        JLabel lblUltimaModificacion = new JLabel("Ultima Modificación: ");
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
 
         ConfGrid config = new ConfGrid(panelForm, lblInfo);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
+        config.setInsets(5, 1, 0, 3);
         ViewTool.insert(config);
 
        // config = new ConfGrid(panelForm, this.txtName);
-        config.setGridx(1);
-        config.setWeightx(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        config.setIpady(10);
-        ViewTool.insert(config);
+        
 
         config = new ConfGrid(panelForm, lblPath);
         config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
+        config.setInsets(40, 1, 20, 3);
         ViewTool.insert(config);
 
-        config = new ConfGrid(panelForm, txtPath);
-        config.setGridx(1);
-        config.setGridy(1);
-        config.setWeightx(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        config.setIpady(10);
-
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, btnChoose);
-        config.setGridx(2);
+        
+        //
+        
+        config = new ConfGrid(panelForm, lblVer);
         config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 0);
-
+        config.setInsets(80, 1, 20, 5);
         ViewTool.insert(config);
 
-        config = new ConfGrid(panelForm, lblFullPath);
-        config.setGridy(2);
+        
+        //
+        
+        config = new ConfGrid(panelForm, lblAu);
+        config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-
+        config.setInsets(120, 1, 20, 5);
         ViewTool.insert(config);
+
+        
+         //
+        
+        config = new ConfGrid(panelForm, lblUltimaModificacion);
+        config.setGridy(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(160, 1, 20, 5);
+        ViewTool.insert(config);
+
 
         config = new ConfGrid(panelForm, lblAbsolutePath);
         config.setGridx(1);
@@ -137,11 +131,6 @@ public class ModalAyuda {
 
         ViewTool.insert(config);
 
-        config = new ConfGrid(panelOptions, btnCancel);
-        config.setGridx(1);
-        config.setAnchor(GridBagConstraints.LAST_LINE_END);
-
-        ViewTool.insert(config);
 
         config = new ConfGrid(container, panelForm);
         config.setWeightx(1);
@@ -167,7 +156,7 @@ public class ModalAyuda {
 //        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
 //        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
 
-        this.frame.setPreferredSize(new Dimension(500, 200));
+        this.frame.setPreferredSize(new Dimension(300, 325));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }
@@ -197,30 +186,28 @@ public class ModalAyuda {
         //this.txtName.getDocument().addDocumentListener(docEvent);
         this.txtPath.getDocument().addDocumentListener(docEvent);
 
-        this.btnChoose.addActionListener(e -> {
-            this.askForDirectory();
-        });
+
 
         // Evento del menú para cerrar la modal al darle click primario.
-        this.btnCancel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    cerrarModal();
-                }
-            }
-        });
+        
         
         this.btnAceptar.addActionListener(e -> {
             try{
                 //this.panelMenu.mo
-                this.panelMenu.modalAbrirProyecto("",this.txtPath.getText());
-                this.cerrarModal();
-            }catch(IOException err){
-                JOptionPane.showMessageDialog(this.panelMenu.getPanel(), "Error al abrirel proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarPDF();
+            }catch(Exception err){
+                JOptionPane.showMessageDialog(null, "Error al abrirel proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+        //this.btnAyuda.addActionListener(e -> {
+        //            this.modalAyuda.setVisible(true);
+        //        });
+        //    try {
+        //         File path = new File ("carpeta/tuArchivo.pdf");
+        //         Desktop.getDesktop().open(path);
+        //    }catch (IOException ex) {
+        //         ex.printStackTrace();
+        //}
     }
 
     private void cerrarModal() {
@@ -241,5 +228,13 @@ public class ModalAyuda {
 
     public void setVisible(boolean visible) {
         this.frame.setVisible(visible);
+    }
+    public void mostrarPDF(){
+        try {
+                 File path = new File ("./src/main/java/ufps/arqui/python/poo/gui/views/impl/Manual_test.pdf");
+                 Desktop.getDesktop().open(path);
+           }catch (IOException ex) {
+                ex.printStackTrace();
+        }
     }
 }
