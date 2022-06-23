@@ -8,6 +8,7 @@ import ufps.arqui.python.poo.gui.models.Proyecto;
  * Controlador del proyecto.
  *
  * Implementación del controlador proyecto.
+ *
  * @author Omar Ramón Montes
  */
 public class ProyectoController implements IProyectoController {
@@ -26,6 +27,11 @@ public class ProyectoController implements IProyectoController {
     @Override
     public void obtenerClasesDesde(String relativePath) {
         this.proyecto.obtenerClasesDesde(relativePath);
+    }
+
+    @Override
+    public void eliminarArchivo(String relativePath) throws Exceptions {
+        this.proyecto.eliminarArchivo(relativePath);
     }
 
 }

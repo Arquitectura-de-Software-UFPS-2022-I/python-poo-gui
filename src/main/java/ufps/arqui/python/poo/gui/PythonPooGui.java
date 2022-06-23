@@ -20,12 +20,13 @@ import java.io.File;
 
 /**
  * Clase Main para la inicialización del proyecto.
- * 
+ *
  * Clase iniciadora del sistema.
+ *
  * @author Omar Ramón Montes
  */
 public class PythonPooGui {
-    
+
     public static void main(String[] args) throws Exception {
 
         // Diseño de la aplicación
@@ -53,12 +54,12 @@ public class PythonPooGui {
         // Inicializar el proyecto.
         IProyectoController proyectoController = new ProyectoController(proyecto);
         IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
-        
+
         IPanelFichero panelFichero = new PanelFichero(proyectoController);
-        
+
         IPanelMundoTerminal panelMundoTerminal = new PanelMundoTerminal(panelMundo, panelTerminal);
         IPanelFicheroProyecto panelFicheroProyecto = new PanelFicheroProyecto(panelFichero, panelProyecto);
-        
+
         // Agregar Observadores del proyecto
         proyecto.addObserver(panelMenu);
         proyecto.addObserver(panelFichero);
@@ -89,9 +90,8 @@ public class PythonPooGui {
         // Iniciar de ventana principal.
         IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
 
-        
-//        Selecciona el proyecto desde aca para testear
-// proyecto.setDirectorioRaiz(new File("C:\\Ussers\\Manuel\\Desktop\\workdirectory\\workdirectory"));
+        //Selecciona el proyecto desde aca para testear
+        //proyecto.setDirectorioRaiz(new File("C:\\Ussers\\Manuel\\Desktop\\workdirectory\\workdirectory"));
     }
-    
+
 }

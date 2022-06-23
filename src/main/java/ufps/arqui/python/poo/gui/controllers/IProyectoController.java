@@ -24,4 +24,13 @@ public interface IProyectoController {
      * @param relativePath Ruta relativa del directorio sobre el cual se desean listar clases
      */
     void obtenerClasesDesde(String relativePath) throws Exceptions;
+
+    /**
+     * Elimina Archivos y directorios de un directorio dado.
+     * Se toma la ruta relativa y se concatena a la ruta del proyecto para asi
+     * obtener la ruta absooluta del directorio en el cual se desean eliminar los archivos
+     * @param relativePath Ruta relativa del directorio sobre el cual se desea eliminar archivos
+     * @throws Exceptions
+     */
+    void eliminarArchivo(String relativePath) throws Exceptions;
 }

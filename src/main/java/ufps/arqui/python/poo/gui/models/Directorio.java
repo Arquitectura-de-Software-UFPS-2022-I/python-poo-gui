@@ -25,7 +25,7 @@ public class Directorio {
     /**
      * Listado de directorios dentro del directorio actual.
      */
-    private List<Directorio> directorios;
+    private List<Directorio> directorios = new ArrayList<>();
 
     /**
      * Listado de archivos python dentro del directorio actual.
@@ -37,9 +37,10 @@ public class Directorio {
     }
 
     /**
-     * Crea un archivo .py tomando como ruta el directorio en el que se encuentra.
-     * 
-     * @param nombreArchivo 
+     * Crea un archivo .py tomando como ruta el directorio en el que se
+     * encuentra.
+     *
+     * @param nombreArchivo
      */
     public void crearArchivo(String nombreArchivo) {
         File file = new File(directorio.getAbsolutePath() + "/" + nombreArchivo + ".py");
