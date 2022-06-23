@@ -10,6 +10,8 @@ import java.util.Observer;
 
 /**
  * Clase modelo donde se guardarán los datos de las instancias y comandos del entorno del usuario.
+ *
+ * @author Omar Ramón Montes
  */
 public class Mundo extends Observable implements Observer{
 
@@ -23,9 +25,15 @@ public class Mundo extends Observable implements Observer{
      */
     private List<Mensaje> salidas = new ArrayList<>();
 
+    /**
+     * Resultado de la terminal, es una copia de la variable <code>salidas</code>.
+     */
     private List<Mensaje> salidas2 = new ArrayList<>();
 
-    private TerminalInteractiva terminalInteractiva;
+    /**
+     * Instancia de la terminal interactiva.
+     */
+    private final TerminalInteractiva terminalInteractiva;
 
     public Mundo(TerminalInteractiva terminalInteractiva) {
         this.terminalInteractiva = terminalInteractiva;
@@ -82,8 +90,16 @@ public class Mundo extends Observable implements Observer{
     public void reiniciarTerminal() throws Exceptions{
         this.terminalInteractiva.reiniciarTerminal();
         this.salidas.clear();
+        this.salidas2.clear();
     }
 
+    /**
+     * Obtiene el comando ingresado por el usuario.
+     *
+     * Se obtiene de manera inversa donde el indice 0 representa el ultimo ingresado.
+     * @param indice indice inverso de la lista de comando ingresados por el usuario.
+     * @return
+     */
     public String getComando(int indice) {
         int i = this.entradas.size()-indice-1;
         if (i >= 0 && i < this.entradas.size()) {

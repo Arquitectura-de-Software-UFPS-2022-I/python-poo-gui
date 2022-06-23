@@ -1,9 +1,30 @@
 package ufps.arqui.python.poo.gui.models;
 
+/**
+ * Clase que encapsula una instancia de una clase creada por el usuario.
+ *
+ * @author Omar Ramón Montes
+ */
 public class MundoInstancia {
+
+    /**
+     * Nombre de la instancia.
+     */
     private String name;
+
+    /**
+     * Nombre de la clase a la que pertenece la instalcia.
+     */
     private String name_class;
+
+    /**
+     * Listado de atributos que contiene la instancia.
+     */
     private AttrInstancia[] attrs;
+
+    /**
+     * Listado de metodos que contiene la instancia.
+     */
     private MethodInstancia[] methods;
 
     public String getName() {

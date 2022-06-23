@@ -14,6 +14,8 @@ import java.awt.event.MouseEvent;
 
 /**
  * Implementación interface Panel Objeto para visualizar las instancias de clases.
+ *
+ * @author Omar Ramón Montes
  */
 public class PanelObjeto implements IPanelObjeto {
 

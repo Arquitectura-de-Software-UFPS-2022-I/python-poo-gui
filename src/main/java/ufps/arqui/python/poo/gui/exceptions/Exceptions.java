@@ -1,6 +1,7 @@
 package ufps.arqui.python.poo.gui.exceptions;
 
 /**
+ * Clase para el manejo de errores.
  *
  * @author Manuel
  */

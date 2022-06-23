@@ -13,6 +13,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
+/**
+ * Clase para visualizar la modal con el detalle de una instancia.
+ *
+ * @author Omar Ramón Montes
+ */
 public class ModalDetalleInstancia {
 
     private JFrame frame;
@@ -24,7 +29,7 @@ public class ModalDetalleInstancia {
         this.frame = new JFrame("Detalle de Instancia");
         this.instancia = instancia;
 
-        this.btnCancel = new JButton("Cancelar");
+        this.btnCancel = new JButton("Cerrar");
         this.init();
     }
 
@@ -89,7 +94,7 @@ public class ModalDetalleInstancia {
         JPanel panelAttr = new JPanel(new GridBagLayout());
         JPanel panelInfo = new JPanel(new GridLayout(1, 3));
 
-        JLabel lblKey = new JLabel("Nombre");
+        JLabel lblKey = new JLabel("Variable");
         JLabel lblVal = new JLabel("Valor");
         JLabel lblType = new JLabel("Tipo");
 
@@ -145,7 +150,7 @@ public class ModalDetalleInstancia {
         panelAttr = new JPanel(new GridBagLayout());
         panelInfo = new JPanel(new GridLayout(1, 2));
 
-        lblKey = new JLabel("Nombre");
+        lblKey = new JLabel("Metodo");
         lblVal = new JLabel("Parametros");
 
         this.customLabel(lblKey, Color.BLACK, Color.LIGHT_GRAY, 14, true);
@@ -219,15 +224,30 @@ public class ModalDetalleInstancia {
         this.frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * Cerrar la modal.
+     */
     private void cerrarModal() {
         this.frame.setVisible(false);
         this.frame.dispose();
     }
 
+    /**
+     * Hacer o no visible la modal.
+     * @param visible verdadero si quiere visualizar o falso en caso contrario.
+     */
     public void setVisible(boolean visible) {
         this.frame.setVisible(visible);
     }
 
+    /**
+     * Customizar el diseño de un label para visualizar la tabla de los datos de la instancia.
+     * @param lbl label a configurar
+     * @param foreground color de la letra.
+     * @param background Color del fondo.
+     * @param fontSize Tamaño de fuente.
+     * @param border Si lo desea con border o no.
+     */
     private void customLabel(JLabel lbl, Color foreground, Color background, int fontSize, boolean border) {
         lbl.setOpaque(true);
         lbl.setForeground(foreground);

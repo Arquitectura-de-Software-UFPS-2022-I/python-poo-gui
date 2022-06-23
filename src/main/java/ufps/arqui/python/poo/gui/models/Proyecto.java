@@ -42,7 +42,10 @@ public class Proyecto extends Observable implements Observer {
      */
     private Directorio directorioTrabajo;
 
-    private TerminalInteractiva terminalInteractiva;
+    /**
+     * Instancia de la terminal interactiva.
+     */
+    private final TerminalInteractiva terminalInteractiva;
 
     public Proyecto(TerminalInteractiva terminalInteractiva) {
         this.terminalInteractiva = terminalInteractiva;
@@ -179,6 +182,10 @@ public class Proyecto extends Observable implements Observer {
         return directorioTrabajo;
     }
 
+    /**
+     * Actualiza el modelo y notifica a los observaciones del Mundo a que se a realizado un cambio
+     * @param type representa el tipo de cambio realizado.
+     */
     private void update(String type) {
         super.setChanged();
         super.notifyObservers(type);

@@ -39,6 +39,10 @@ public class TerminalInteractiva extends Observable {
         }
     }
 
+    /**
+     * Verifica si la terminal interactiva cuenta con el proceso activo.
+     * @return
+     */
     public boolean terminalActiva() {
         return this.process != null;
     }
@@ -55,8 +59,11 @@ public class TerminalInteractiva extends Observable {
                 this.bufferedWriter.close();
             }
             List<String> lineas = new ArrayList();
+            // Inicializar proceso de python, el usuario debe contar con la variable de entorno en sus systema operativo.
             lineas.add("python");
+            // Terminal de python interactiva, donde espera la interacción del usuario.
             lineas.add("-i");
+            // No imprimir la versión de python.
             lineas.add("-q");
             for (String p : this.parameters) {
                 lineas.add(p);
@@ -87,6 +94,7 @@ public class TerminalInteractiva extends Observable {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
 
+                // En caso de que se modifique las instancias, volver a consultar las instancias.
                 bufferedWriter.write("list_all_instancias(locals())");
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
