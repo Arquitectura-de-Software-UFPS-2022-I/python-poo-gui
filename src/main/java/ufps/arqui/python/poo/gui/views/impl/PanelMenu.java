@@ -8,7 +8,9 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.io.IOException;
+
 import java.util.Observable;
 
 /**

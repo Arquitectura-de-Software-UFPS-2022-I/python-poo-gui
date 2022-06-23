@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
-import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.ITerminalController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Mundo;
@@ -25,6 +24,11 @@ public class TerminalController implements ITerminalController {
     @Override
     public void ejecutarComando(String commando) throws Exceptions {
         this.mundo.nuevaEntrada(commando);
+    }
+
+    @Override
+    public String getComando(int indice) {
+        return this.mundo.getComando(indice);
     }
 
     @Override
