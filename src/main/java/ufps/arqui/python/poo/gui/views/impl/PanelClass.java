@@ -66,8 +66,8 @@ public class PanelClass {
     }
 
     private void init() {
-        this.panel.setBackground(Color.CYAN);
-        this.panel.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        this.panel.setBackground(new Color(243, 215, 174));
+        this.panel.setBorder(BorderFactory.createLineBorder(Color.black));
         this.panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         this.lblName.setHorizontalAlignment(SwingConstants.CENTER);

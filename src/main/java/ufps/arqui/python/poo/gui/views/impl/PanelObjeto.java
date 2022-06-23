@@ -52,7 +52,7 @@ public class PanelObjeto implements IPanelObjeto {
         this.eliminarInstancia = new JMenuItem("Eliminar");
         this.menuInstancia.add(this.eliminarInstancia);
 
-        this.panel.setBackground(new Color(94, 186, 125));
+        this.panel.setBackground(new Color(227, 71, 71));
         this.panel.setBorder(BorderFactory.createLineBorder(Color.black));
         this.panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
