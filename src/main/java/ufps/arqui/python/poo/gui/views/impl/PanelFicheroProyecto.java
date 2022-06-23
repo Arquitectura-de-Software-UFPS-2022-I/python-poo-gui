@@ -1,15 +1,14 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Observable;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Observable;
 
 /**
  * Implementación de interfaz que contiene los elementos del proyecto.

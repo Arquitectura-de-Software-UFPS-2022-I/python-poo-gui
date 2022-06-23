@@ -2,10 +2,19 @@ package ufps.arqui.python.poo.gui.models;
 
 /**
  * Representa los puntos cardinales de un panel.
+ *
  * @author Sachikia
  */
 public class Posicion {
+
+    /**
+     * Posición en el plano horizontal.
+     */
     private int x;
+
+    /**
+     * Posición en el plano vertical.
+     */
     private int y;
 
     public Posicion() {

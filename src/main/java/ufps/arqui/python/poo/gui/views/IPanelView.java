@@ -1,8 +1,8 @@
 package ufps.arqui.python.poo.gui.views;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+
+import javax.swing.*;
 
 /**
  * Interfaz todos los paneles del proyecto.

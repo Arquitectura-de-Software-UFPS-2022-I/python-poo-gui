@@ -1,5 +1,9 @@
-import os, json
-import importlib, inspect
+import importlib
+import inspect
+import json
+import os
+import sys
+
 
 class ClasePython:
     def __init__(self, nombre, path_module):
@@ -25,8 +29,9 @@ class ClasePython:
 
 
 class ArchivoPython:
-    def __init__(self, file):
+    def __init__(self, file, name):
         self.file = file
+        self.name = name
         self.clases = []
 
     def __get_list_classes_json(self):
@@ -38,6 +43,7 @@ class ArchivoPython:
     def to_json(self):
         return {
             "archivoStr": self.file,
+            "module": self.name,
             "clases": self.__get_list_classes_json()
         }
     
@@ -58,6 +64,15 @@ class Directorio:
 
         for folder in self.directorios:
             folder.set_absolute_path(absolute_path)
+
+    def get_names_modules(self):
+        list_mudules = []
+        for file in self.archivos:
+            list_mudules.append(file.name)
+
+        for folder in self.directorios:
+            list_mudules += folder.get_names_modules()
+        return list_mudules
 
     def push_folder(self, folder, folder_level):
         if len(folder_level) == 1:
@@ -104,6 +119,36 @@ def list_files(path):
                 files.append(os.path.join(root, filename))
     return files
 
+def list_all_instancias(local_val: dict):
+    classes = [cls for cls in inspect.getmembers(sys.modules[__name__], inspect.isclass) if cls[1].__module__ != '__main__']
+    classes_values = []
+    for key, value in local_val.items():
+        for cls in classes:
+            if isinstance(value, cls[1]):
+                attr_value = {'attrs': [], 'methods': [], 'name_class': cls[0], 'name': key}
+                # attribute is a string representing the attribute name
+                for attribute in dir(local_val[key]):
+                    # Get the attribute value
+                    attribute_value = getattr(local_val[key], attribute)
+                    # Check that it is callable
+                    if callable(attribute_value):
+                        # Filter all dunder (__ prefix) methods
+                        if attribute.startswith('__') == False:
+                            attr_value['methods'].append({
+                                'name': attribute,
+                                'args': inspect.getfullargspec(attribute_value).args
+                            })
+                for atkey in local_val[key].__dict__.keys():
+                    attr_value['attrs'].append({
+                        'key': atkey,
+                        'value': str(local_val[key].__dict__[atkey]),
+                        'type': str(type(local_val[key].__dict__[atkey])).replace("'", "")
+                    })
+                classes_values.append(attr_value)
+                break
+
+    print("list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
+
 def list_all_python_class_with_hierarchy(list_of_files):
     dict_folders_class = {}
     dict_folders_list = []
@@ -144,7 +189,7 @@ def list_all_python_class_with_hierarchy(list_of_files):
             if module not in dict_modules:
                 archivo = directorio.get_file(module)
                 if archivo is None:
-                    archivo = ArchivoPython(module)
+                    archivo = ArchivoPython(module, path_module)
                     directorio.archivos.append(archivo)
 
             if module not in dict_folders[folder]:
@@ -173,5 +218,9 @@ for val in dict_folders_class.values():
     src.push_folder(val, val.directorio.split("\\")[1:])
 src.set_absolute_path(os.getcwd())
 
+module_names = src.get_names_modules()
+for module in module_names:
+    import_str = "from {} import *".format(module)
+    exec(import_str)
 #print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
 print(json.dumps(json.loads(str(src).replace("'", '"'))))

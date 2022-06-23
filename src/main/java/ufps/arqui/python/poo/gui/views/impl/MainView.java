@@ -1,17 +1,14 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.JFrame;
-import javax.swing.JSplitPane;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IMainView;
 import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Vista principal, donde se concentra la inicialización de cada parte

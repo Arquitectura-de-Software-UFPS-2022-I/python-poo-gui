@@ -1,11 +1,6 @@
 package ufps.arqui.python.poo.gui.utils;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * Clase de utilidad para mover o actualizar el archivo scan.py dentro del directorio
