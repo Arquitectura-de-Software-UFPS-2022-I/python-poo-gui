@@ -52,8 +52,8 @@ public class PanelMundo implements IPanelMundo {
             Mundo m = (Mundo) o;
             Gson gson = new Gson();
             for (Mensaje salida : m.getSalidas2()) {
-                if (salida.getLinea().startsWith("list_all_instancias:")) {
-                    MundoInstancia[] list = gson.fromJson(salida.getLinea().replaceAll("list_all_instancias:", ""),
+                if (salida.getLinea().startsWith("scan_list_all_instancias:")) {
+                    MundoInstancia[] list = gson.fromJson(salida.getLinea().replaceAll("scan_list_all_instancias:", ""),
                             MundoInstancia[].class);
                     PanelObjeto obj;
                     this.contenedor.removeAll();
