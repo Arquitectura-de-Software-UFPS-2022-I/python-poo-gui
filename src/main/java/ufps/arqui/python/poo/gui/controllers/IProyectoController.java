@@ -3,6 +3,7 @@ package ufps.arqui.python.poo.gui.controllers;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 
 import java.io.IOException;
+import ufps.arqui.python.poo.gui.models.ArchivoPython;
 
 /**
  * Controlador del mundo del proyecto.
@@ -24,4 +25,8 @@ public interface IProyectoController {
      * @param relativePath Ruta relativa del directorio sobre el cual se desean listar clases
      */
     void obtenerClasesDesde(String relativePath) throws Exceptions;
+    
+    ArchivoPython obtenerArchivo(String nombre) throws Exceptions;
+    
+    void crearClase(String nombre, ArchivoPython  archivo) throws Exceptions;
 }

@@ -10,6 +10,8 @@ import ufps.arqui.python.poo.gui.views.IPanelFichero;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
+import javax.swing.tree.DefaultMutableTreeNode;
+import ufps.arqui.python.poo.gui.models.ArchivoPython;
 
 /**
  * Implementación de Interfaz lateral del proyecto, donde el usuario puede gestionar sus archivos.
@@ -22,6 +24,7 @@ public class PanelFichero implements IPanelFichero{
     
     // elementos de GUI
     private JButton btnNuevoArchivo;
+    private JButton btnNuevaClase;
     private JButton btnVerificar;
     private ArbolDinamico arbol;
     
@@ -30,6 +33,7 @@ public class PanelFichero implements IPanelFichero{
         this.panel = new JPanel(new GridBagLayout());
         
         this.btnNuevoArchivo = new JButton("Nuevo archivo");
+        this.btnNuevaClase = new JButton("Nueva clase");
         this.btnVerificar = new JButton("Verificar");
         this.arbol = new ArbolDinamico(controller);
         
@@ -41,6 +45,15 @@ public class PanelFichero implements IPanelFichero{
         this.btnVerificar.addActionListener(e -> {
             try {
                 this.controller.escanearProyecto();
+            } catch (Exceptions ex) {
+                mostrarError(ex);
+            }
+        });
+        
+        this.btnNuevaClase.addActionListener(e -> {
+            try {
+                ArchivoPython archivo = this.controller.obtenerArchivo("vehiculos");
+                this.controller.crearClase("example", archivo);
             } catch (Exceptions ex) {
                 mostrarError(ex);
             }
@@ -59,9 +72,16 @@ public class PanelFichero implements IPanelFichero{
         config.setInsets(10, 0, 0, 0);
 
         ViewTool.insert(config);
+        
+        config = new ConfGrid(panel, btnNuevaClase);
+        config.setGridy(2);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(10, 0, 0, 0);
+
+        ViewTool.insert(config);
 
         config = new ConfGrid(panel, this.arbol.getPanel());
-        config.setGridy(2);
+        config.setGridy(3);
         config.setWeightx(1);
         config.setWeighty(1);
         config.setFill(GridBagConstraints.BOTH);
