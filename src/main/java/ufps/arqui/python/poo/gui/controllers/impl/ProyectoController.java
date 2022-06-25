@@ -1,7 +1,5 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
-import java.nio.file.Files;
-import java.util.Arrays;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
@@ -38,9 +36,6 @@ public class ProyectoController implements IProyectoController {
 
     @Override
     public ArchivoPython obtenerArchivo(String nombre) throws Exceptions {
-        return this.proyecto.getDirectorioTrabajo().getArchivos().stream()
-                .filter(archivo -> nombre.equals(archivo.getArchivo().getName().split("\\.")[0].split("\\(")[0]))
-                .findAny()
-                .orElse(null);
+        return this.proyecto.getDirectorioTrabajo().getArchivoPorNombre(nombre);
     }
 }

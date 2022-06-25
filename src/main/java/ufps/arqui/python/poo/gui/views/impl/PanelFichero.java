@@ -10,7 +10,6 @@ import ufps.arqui.python.poo.gui.views.IPanelFichero;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
-import javax.swing.tree.DefaultMutableTreeNode;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
 
 /**

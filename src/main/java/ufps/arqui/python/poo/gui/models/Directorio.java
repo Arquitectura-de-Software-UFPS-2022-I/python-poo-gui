@@ -79,6 +79,13 @@ public class Directorio {
     public void addDirectorio(Directorio directorio) {
         this.directorios.add(directorio);
     }
+    
+    public ArchivoPython getArchivoPorNombre(String nombre){
+        return this.getArchivos().stream()
+                .filter(archivo -> nombre.equals(archivo.getArchivo().getName().split("\\.")[0].split("\\(")[0]))
+                .findAny()
+                .orElse(null);
+    }
 
     public List<ArchivoPython> getArchivos() {
         return archivos;
