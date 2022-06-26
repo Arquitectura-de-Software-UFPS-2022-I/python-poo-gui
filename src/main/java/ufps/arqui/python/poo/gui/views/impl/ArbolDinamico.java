@@ -5,29 +5,25 @@
  */
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
 import ufps.arqui.python.poo.gui.models.Directorio;
 import ufps.arqui.python.poo.gui.views.IPanelView;
 
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.*;
+import java.awt.*;
+
 /**
- * Implementación del componente JTree, vista para visualizar los archivos, directorio y subdirectorios del proyecto.
+ * Implementación del componente JTree, vista para visualizar los archivos,
+ * directorio y subdirectorios del proyecto.
  *
- * @author http://www.java2s.com/Tutorials/Java/Swing/JTree/Add_and_delete_JTree_node_with_button_event_in_Java.htm
+ * @author
+ * http://www.java2s.com/Tutorials/Java/Swing/JTree/Add_and_delete_JTree_node_with_button_event_in_Java.htm
  */
-public class ArbolDinamico implements IPanelView{
+public class ArbolDinamico implements IPanelView {
 
     private JPanel panel;
     private IProyectoController controller;
@@ -47,45 +43,42 @@ public class ArbolDinamico implements IPanelView{
         this.treeModel = new DefaultTreeModel(this.rootNode);
 
         this.tree = new JTree(this.treeModel);
-        
+
         this.inicializarContenido();
     }
-    
+
     @Override
     public void inicializarContenido() {
         tree.getSelectionModel().setSelectionMode(
                 TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setShowsRootHandles(true);
-        
+
         tree.addTreeSelectionListener((TreeSelectionEvent e) -> {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                    tree.getLastSelectedPathComponent();
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             String currentPath = "";
             int i = 0;
-            for(TreeNode tn: node.getPath()){
-                if(i++>0){
+            for (TreeNode tn : node.getPath()) {
+                if (i++ > 0) {
                     currentPath += tn + "\\";
                 }
             }
-            if(!currentPath.isEmpty()){
-                currentPath = currentPath.substring(0, currentPath.length()-1);
+            if (!currentPath.isEmpty()) {
+                currentPath = currentPath.substring(0, currentPath.length() - 1);
             }
-            
-            if(!currentPath.contains(".py")){
-                if(this.load) this.controller.obtenerClasesDesde(currentPath);
+
+            if (!currentPath.contains(".py")) {
+                if (this.load) {
+                    try {
+                        this.controller.obtenerClasesDesde(currentPath);
+                    } catch (Exceptions ex) {
+                        mostrarError(ex);
+                    }
+                }
             }
         });
 
         JScrollPane scrollPane = new JScrollPane(tree);
         this.panel.add(scrollPane);
-    }
-
-    /**
-     * Remueve todos los nodos excepto el nodo raiz
-     */
-    public void clear() {
-        rootNode.removeAllChildren();
-        treeModel.reload();
     }
 
     /**
@@ -95,20 +88,39 @@ public class ArbolDinamico implements IPanelView{
         TreePath currentSelection = tree.getSelectionPath();
         if (currentSelection != null) {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection
-                    .getLastPathComponent());
-            MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
-            if (parent != null) {
-                treeModel.removeNodeFromParent(currentNode);
-                return;
-            }
+                            .getLastPathComponent());
+            this.removeNode(currentNode);
         }
-
+        
         // Either there was no selection, or the root was selected.
         toolkit.beep();
     }
 
     /**
+     * Remueve un nodo del <code>JTree</code>
+     * @param node Nodo a remover
+     */
+    private void removeNode(MutableTreeNode node) {
+        MutableTreeNode parent = (MutableTreeNode) (node.getParent());
+        if (parent != null) {
+            treeModel.removeNodeFromParent(node);
+        }
+    }
+    
+    /**
+     * Resetea el <code>JTree</code>, este metodo toma el nodo raiz y borra <br>
+     * todos los nodos hijos que este tenga, en consecuencia queda solo el nodo "src"
+     */
+    private void resetTree(){
+        int currentChildCount = this.rootNode.getChildCount();
+        for(int i = 0; i < currentChildCount; i++){
+            this.removeNode((DefaultMutableTreeNode)this.rootNode.getChildAt(0));
+        }
+    }
+
+    /**
      * Añade un nodo hijo al nodo actualmente seleccionado
+     *
      * @param child Nodo hijo que sera insertado
      */
     public DefaultMutableTreeNode addObject(Object child) {
@@ -151,33 +163,40 @@ public class ArbolDinamico implements IPanelView{
     public JPanel getPanel() {
         return panel;
     }
-    
+
     /**
      * Pobla el JTree dado el directorio de trabajo
+     *
      * @param directorioTrabajo Directorio raiz del proyecto
      */
     public void populate(Directorio directorioTrabajo) {
+        this.resetTree();
         this.load = true;
-        for(ArchivoPython file: directorioTrabajo.getArchivos()){
+        for (ArchivoPython file : directorioTrabajo.getArchivos()) {
             this.addObject(this.rootNode, file.getArchivo().getName());
         }
-        for(Directorio subdir: directorioTrabajo.getDirectorios()){
+        for (Directorio subdir : directorioTrabajo.getDirectorios()) {
             this.populate(subdir, this.rootNode);
         }
+
     }
-    
+
     /**
      * Pobla el JTree dado el directorio de trabajo de forma recursiva
+     *
      * @param directorio Directorio a ser insertado
      * @param parent Nodo padre sobre el cual sera insertado el directorio
      */
     private void populate(Directorio directorio, DefaultMutableTreeNode parent) {
+
         DefaultMutableTreeNode node = this.addObject(parent, directorio.getDirectorio().getName());
-        for(ArchivoPython file: directorio.getArchivos()){
+        for (ArchivoPython file : directorio.getArchivos()) {
             this.addObject(node, file.getArchivo().getName());
         }
-        for(Directorio subdir: directorio.getDirectorios()){
+        for (Directorio subdir : directorio.getDirectorios()) {
             this.populate(subdir, node);
         }
+
     }
+
 }

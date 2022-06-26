@@ -1,6 +1,8 @@
 package ufps.arqui.python.poo.gui.views;
 
-import javax.swing.JPanel;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+
+import javax.swing.*;
 
 /**
  * Interfaz todos los paneles del proyecto.
@@ -15,4 +17,7 @@ public interface IPanelView {
      */
     void inicializarContenido();
 
+    default void mostrarError(Exceptions e){
+        JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
+    };
 }

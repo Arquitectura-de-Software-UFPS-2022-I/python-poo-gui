@@ -1,16 +1,17 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.views.IPanelMenu;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 /**
  *
@@ -50,8 +51,8 @@ public class ModalCrearProyecto {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
         JLabel lblName = new JLabel("Nombre");
-        JLabel lblPath = new JLabel("Localización");
-        JLabel lblFullPath = new JLabel("Path");
+        JLabel lblPath = new JLabel("Ubicación");
+        JLabel lblFullPath = new JLabel("Proyecto");
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
