@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,8 +55,18 @@ public class PanelProyecto implements IPanelProyecto {
 
     @Override
     public void inicializarContenido() {
-        PanelClass pc1 = new PanelClass("SoloTest 1", this.panel);
+        PanelClass pc1 = new PanelClass("scan.py", this.panel);
         PanelClass pc2 = new PanelClass("SoloTest 2", this.panel);
+        pc1.getPanel().addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                System.out.println(pc1.getPanel().getName());
+               EditorTexto editor = new EditorTexto( "rc\\main\\resources\\scan.py");
+            }
+
+        });
+
         pc1.añadirHerencia(pc2);
         this.classPanels.add(pc1);
         this.classPanels.add(pc2);
@@ -93,7 +105,8 @@ public class PanelProyecto implements IPanelProyecto {
     }
 
     /**
-     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se relacionan los paneles que dispongan de herencia.
+     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se
+     * relacionan los paneles que dispongan de herencia.
      *
      * @param classes listado de clases del archivo.
      */
@@ -164,10 +177,10 @@ public class PanelProyecto implements IPanelProyecto {
                 int xC2 = p2.x + (pc1.getPanel().getWidth() / 2);
                 int yC2 = p2.y + (pc.getPanel().getHeight() / 2);
                 g.drawLine(xC1, yC1, xC2, yC2);
-                
+
                 int x = (xC1 + xC2) / 2;
                 int y = (yC1 + yC2) / 2;
-                
+
                 this.dibujarLineaConFlecha(g, xC1, yC1, x, y, 20, 20);
             }
         }
@@ -203,12 +216,12 @@ public class PanelProyecto implements IPanelProyecto {
 
         g.drawPolygon(xpoints, ypoints, 3);
     }
-    
+
     /**
      * Cambia la posición de los paneles a su ultima ubicación
      */
-    private void cambiaAUltimaUbicacion(){
-        for(PanelClass pc: this.classPanels){
+    private void cambiaAUltimaUbicacion() {
+        for (PanelClass pc : this.classPanels) {
             pc.cambiaAUltimaUbicacion();
         }
     }
