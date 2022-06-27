@@ -73,7 +73,8 @@ public class Proyecto extends Observable implements Observer {
             throw new Exceptions("No se ha podido actualizar el archivo scan", e);
         }
         this.directorioTrabajo = new Directorio(file);
-        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
+        this.terminalInteractiva.ingresarComando("scanner_project()");
+//        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
     }
 
     /**
@@ -174,6 +175,8 @@ public class Proyecto extends Observable implements Observer {
 
     public void setDirectorioRaiz(File directorioRaiz) throws Exceptions {
         this.directorioRaiz = directorioRaiz;
+        this.directorioTrabajo = new Directorio(new File(this.directorioRaiz.getAbsolutePath() + File.separator + "src"));
+        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
         this.update("directorio");
         this.escanearProyecto();
     }
@@ -202,12 +205,23 @@ public class Proyecto extends Observable implements Observer {
         if (arg instanceof Mensaje) {
             Mensaje m = (Mensaje) arg;
             Gson gson = new Gson();
-            try {
-                this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
-                super.setChanged();
-                super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
-                this.update("directoriosTrabajo");
-            } catch (Exception e) {
+            if (m.getLinea().startsWith("scan_get_directorio_trabajo:")) {
+                try {
+                    this.directorioTrabajo = gson.fromJson(m.getLinea().replaceAll("scan_get_directorio_trabajo:", ""), Directorio.class);
+                    super.setChanged();
+                    super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
+                    this.update("directoriosTrabajo");
+                } catch (Exception e) {
+                }
+            }
+            if (m.getLinea().startsWith("scan_import_modules:")) {
+                try {
+                    String[] importaciones = gson.fromJson(m.getLinea().replaceAll("scan_import_modules:", ""), String[].class);
+                    for (String impor: importaciones) {
+                        this.terminalInteractiva.ingresarComando(impor);
+                    }
+                } catch (Exception e) {
+                }
             }
         }
     }

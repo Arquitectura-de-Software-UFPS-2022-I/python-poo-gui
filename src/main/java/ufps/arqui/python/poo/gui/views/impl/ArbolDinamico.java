@@ -82,30 +82,40 @@ public class ArbolDinamico implements IPanelView {
     }
 
     /**
-     * Remueve todos los nodos excepto el nodo raiz
-     */
-    public void clear() {
-        rootNode.removeAllChildren();
-        treeModel.reload();
-    }
-
-    /**
      * Remueve el nodo actualmente seleccionado
      */
     public void removeCurrentNode() {
         TreePath currentSelection = tree.getSelectionPath();
         if (currentSelection != null) {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection
-                    .getLastPathComponent());
-            MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
-            if (parent != null) {
-                treeModel.removeNodeFromParent(currentNode);
-                return;
-            }
+                            .getLastPathComponent());
+            this.removeNode(currentNode);
         }
-
+        
         // Either there was no selection, or the root was selected.
         toolkit.beep();
+    }
+
+    /**
+     * Remueve un nodo del <code>JTree</code>
+     * @param node Nodo a remover
+     */
+    private void removeNode(MutableTreeNode node) {
+        MutableTreeNode parent = (MutableTreeNode) (node.getParent());
+        if (parent != null) {
+            treeModel.removeNodeFromParent(node);
+        }
+    }
+    
+    /**
+     * Resetea el <code>JTree</code>, este metodo toma el nodo raiz y borra <br>
+     * todos los nodos hijos que este tenga, en consecuencia queda solo el nodo "src"
+     */
+    private void resetTree(){
+        int currentChildCount = this.rootNode.getChildCount();
+        for(int i = 0; i < currentChildCount; i++){
+            this.removeNode((DefaultMutableTreeNode)this.rootNode.getChildAt(0));
+        }
     }
 
     /**
@@ -160,16 +170,15 @@ public class ArbolDinamico implements IPanelView {
      * @param directorioTrabajo Directorio raiz del proyecto
      */
     public void populate(Directorio directorioTrabajo) {
+        this.resetTree();
+        this.load = true;
+        for (ArchivoPython file : directorioTrabajo.getArchivos()) {
+            this.addObject(this.rootNode, file.getArchivo().getName());
+        }
+        for (Directorio subdir : directorioTrabajo.getDirectorios()) {
+            this.populate(subdir, this.rootNode);
+        }
 
- 
-            this.load = true;
-            for (ArchivoPython file : directorioTrabajo.getArchivos()) {
-                this.addObject(this.rootNode, file.getArchivo().getName());
-            }
-            for (Directorio subdir : directorioTrabajo.getDirectorios()) {
-                this.populate(subdir, this.rootNode);
-            }
-        
     }
 
     /**
@@ -179,17 +188,15 @@ public class ArbolDinamico implements IPanelView {
      * @param parent Nodo padre sobre el cual sera insertado el directorio
      */
     private void populate(Directorio directorio, DefaultMutableTreeNode parent) {
-    
-            DefaultMutableTreeNode node = this.addObject(parent, directorio.getDirectorio().getName());
-            for (ArchivoPython file : directorio.getArchivos()) {
-                this.addObject(node, file.getArchivo().getName());
-            }
-            for (Directorio subdir : directorio.getDirectorios()) {
-                this.populate(subdir, node);
-            }
-        
+
+        DefaultMutableTreeNode node = this.addObject(parent, directorio.getDirectorio().getName());
+        for (ArchivoPython file : directorio.getArchivos()) {
+            this.addObject(node, file.getArchivo().getName());
+        }
+        for (Directorio subdir : directorio.getDirectorios()) {
+            this.populate(subdir, node);
+        }
 
     }
-
 
 }

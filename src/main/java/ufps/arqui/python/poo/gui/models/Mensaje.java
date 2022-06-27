@@ -38,4 +38,13 @@ public class Mensaje {
     public void setLinea(String linea) {
         this.linea = linea;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Mensaje{");
+        sb.append("tipo=").append(tipo);
+        sb.append(", linea='").append(linea).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
