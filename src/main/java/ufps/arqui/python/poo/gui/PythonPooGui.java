@@ -18,6 +18,7 @@ import ufps.arqui.python.poo.gui.views.impl.*;
 import javax.swing.*;
 import java.io.File;
 
+
 /**
  * Clase Main para la inicialización del proyecto.
  *
