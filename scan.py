@@ -1,5 +1,8 @@
-import os, json
-import importlib, inspect
+import importlib
+import inspect
+import json
+import os
+
 
 class ClasePython:
     def __init__(self, nombre, path_module):
@@ -99,6 +102,7 @@ class Directorio:
 def list_files(path):
     files = []
     for root, dirs, filenames in os.walk(path):
+        print('list_files', root, dirs, filenames)
         for filename in filenames:
             if filename.endswith(".py") and filename != "__init__.py" and filename != "scan.py":
                 files.append(os.path.join(root, filename))
@@ -159,11 +163,12 @@ def list_all_python_class_with_hierarchy(list_of_files):
     return dict_folders_class
 
 dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
-src = dict_folders_class["src"]
-del dict_folders_class["src"]
-for val in dict_folders_class.values():
-    src.push_folder(val, val.directorio.split("\\")[1:])
-src.set_absolute_path(os.getcwd())
+src = dict_folders_class.get("src")
+if src:
+    del dict_folders_class["src"]
+    for val in dict_folders_class.values():
+        src.push_folder(val, val.directorio.split("\\")[1:])
+    src.set_absolute_path(os.getcwd())
 
-#print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
-print(json.dumps(json.loads(str(src).replace("'", '"'))))
+    #print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
+    print(json.dumps(json.loads(str(src).replace("'", '"'))))

@@ -1,10 +1,10 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
-import java.io.File;
-import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;
+
+import java.io.File;
 
 /**
  * Controlador del menú superior del proyecto.
@@ -27,7 +27,7 @@ public class MenuController implements IMenuController{
             this.proyecto.setNombre(nombre);
             this.proyecto.setDirectorioRaiz(dir);
         } else {
-            throw new Exceptions("El directorio no existe");
+            throw new Exceptions("El directorio no existe", null);
         }
     }
 

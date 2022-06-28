@@ -1,20 +1,25 @@
 package ufps.arqui.python.poo.gui.utils;
 
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Mensaje;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.TipoMensaje;
 
 /**
  * Terminal interactiva que interactura con python.
+ *
+ * @author Omar Ramón Montes
  */
-public class TerminalInteractiva extends Observable{
+public class TerminalInteractiva extends Observable {
 
     private final Logger logger = Logger.getLogger(TerminalInteractiva.class.getName());
-    
+
     private String directorio;
     private Process process;
     private String parameters[];
@@ -34,6 +39,10 @@ public class TerminalInteractiva extends Observable{
         }
     }
 
+    /**
+     * Verifica si la terminal interactiva cuenta con el proceso activo.
+     * @return
+     */
     public boolean terminalActiva() {
         return this.process != null;
     }
@@ -42,47 +51,59 @@ public class TerminalInteractiva extends Observable{
      * Reinicia el proceso siempre y cuando el proceso este activo.
      */
     public void reiniciarTerminal() throws Exceptions {
-        
-        try{
+        try {
             if (terminalActiva()) {
                 this.process.destroyForcibly();
                 this.bufferedReader.close();
                 this.bufferedWriter.close();
                 this.bufferedWriter.close();
             }
-
-            this.process = new ProcessBuilder(this.parameters).directory(new File(this.directorio)).start();
+            List<String> lineas = new ArrayList();
+            // Inicializar proceso de python, el usuario debe contar con la variable de entorno en sus systema operativo.
+            lineas.add("python");
+            // Terminal de python interactiva, donde espera la interacción del usuario.
+            lineas.add("-i");
+            // No imprimir la versión de python.
+            lineas.add("-q");
+            for (String p : this.parameters) {
+                lineas.add(p);
+            }
+            this.process = new ProcessBuilder(lineas).directory(new File(this.directorio)).start();
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
             this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
 
             this.leerSalida(this.bufferedReader, false);
             this.leerSalida(this.bufferedReaderError, true);
+        } catch (IOException e) {
+            throw new Exceptions("La terminal ha fallado", e);
         }
-        catch(IOException e){
-            throw new Exceptions("La terminal ha fallado");
-        }
-       
     }
+
 
     /**
      * Ingresar comando para ejecutar.
      *
      * @param command comando de python, debe ser una sola linea, sin salto de linea.
-     * @throws IOException en caso de que los buffer no están abiertos.
+     * @throws IOException en caso de que los buffers no están abiertos.
      */
     public void ingresarComando(String command) throws Exceptions {
-      try{
-        if (terminalActiva()) {
-            bufferedWriter.write(command);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-        } else {
-            throw new Exceptions("Terminal inactiva");
+        try {
+            if (terminalActiva()) {
+                bufferedWriter.write(command);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+
+                // En caso de que se modifique las instancias, volver a consultar las instancias.
+                bufferedWriter.write("list_all_instancias(locals())");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            } else {
+                throw new Exceptions("Terminal inactiva", null);
+            }
+        } catch (IOException e) {
+            throw new Exceptions("La terminal ha fallado", e);
         }
-      }catch(IOException e){
-       throw new Exceptions("La terminal ha fallado");
-      }
     }
 
     /**
@@ -103,5 +124,5 @@ public class TerminalInteractiva extends Observable{
             }
         }).start();
     }
-    
+
 }

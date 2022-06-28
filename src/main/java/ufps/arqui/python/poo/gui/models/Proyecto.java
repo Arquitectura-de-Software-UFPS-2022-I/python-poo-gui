@@ -1,18 +1,17 @@
 package ufps.arqui.python.poo.gui.models;
 
 import com.google.gson.Gson;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
+import ufps.arqui.python.poo.gui.utils.ConfScanFile;
+import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.utils.ConfScanFile;
-import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
@@ -45,32 +44,46 @@ public class Proyecto extends Observable implements Observer {
     private Directorio directorioTrabajo;
 
     /**
+     * Instancia de la terminal interactiva.
+     */
+    private final TerminalInteractiva terminalInteractiva;
+
+    public Proyecto(TerminalInteractiva terminalInteractiva) {
+        this.terminalInteractiva = terminalInteractiva;
+    }
+
+    /**
      * Escanea el proyecto en busca de clases declaradas en todos los
-     * directorios <br>
-     * y subdirectorios
+     * directorios y subdirectorios
      *
-     * @throws IOException
+     * @throws ufps.arqui.python.poo.gui.exceptions.Exceptions
      */
     public void escanearProyecto() throws Exceptions {
         if (this.directorioRaiz == null) {
-            throw new Exceptions("El proyecto no ha sido seleccionado");
+            throw new Exceptions("El proyecto no ha sido seleccionado", null);
         }
+        // Crear directorio src
+        File file = new File(this.directorioRaiz + "/src");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
         //Si el archivo scan no esta en la raiz del proyecto, lo crea
         try {
             ConfScanFile.actualizarArchivoScan(this.directorioRaiz);
         } catch (IOException e) {
-            throw new Exceptions("No se ha podido actualizar el archivo scan");
+            throw new Exceptions("No se ha podido actualizar el archivo scan", e);
         }
-
-        TerminalInteractiva terminal = new TerminalInteractiva();
-        terminal.addObserver(this);
-        terminal.inicializarTerminal(this.directorioRaiz, new String[]{"python", "scan.py"});
+        this.directorioTrabajo = new Directorio(file);
+        this.terminalInteractiva.ingresarComando("scanner_project()");
+//        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
     }
 
     /**
-     * Lista las clases correspondientes a un directorio <br>
-     * Se toma la ruta relativa y se concatena a la ruta del proyecto para <br>
-     * asi obtener la ruta absooluta del directorio en el cual se extraeran las
+     * Lista las clases correspondientes a un directorio.
+     *
+     * Se toma la ruta relativa y se concatena a la ruta del proyecto para asi
+     * obtener la ruta absooluta del directorio en el cual se extraeran las
      * clases
      *
      * @param relativePath
@@ -90,7 +103,7 @@ public class Proyecto extends Observable implements Observer {
      * Lista las clases correspondientes a un directorio.
      *
      * @param directorio
-     * @return
+     * @return listado de clases de python de un directivo dado.
      */
     private List<ClasePython> obtenerClasesDesde(Directorio directorio) {
         List<ClasePython> clases = new ArrayList<>();
@@ -136,9 +149,9 @@ public class Proyecto extends Observable implements Observer {
 
     /**
      * Crea un directorio en la ubiacion y el nombre que se le indica.
-     * 
+     *
      * @param ubicacionDirectorio
-     * @param nombreDirectorio 
+     * @param nombreDirectorio
      */
     public void crearDirectorio(String ubicacionDirectorio, String nombreDirectorio) {
         File file = new File(ubicacionDirectorio + "/" + nombreDirectorio);
@@ -164,8 +177,8 @@ public class Proyecto extends Observable implements Observer {
 
     public void setDirectorioRaiz(File directorioRaiz) throws Exceptions {
         this.directorioRaiz = directorioRaiz;
-        // TODO: al cambiar de directorio, inicializar el directorio de trabajo,
-        // Validar si existe, y realizar la lectura de los archivos, sino, registrarlo.
+        this.directorioTrabajo = new Directorio(new File(this.directorioRaiz.getAbsolutePath() + File.separator + "src"));
+        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
         this.update("directorio");
         this.escanearProyecto();
     }
@@ -174,6 +187,12 @@ public class Proyecto extends Observable implements Observer {
         return directorioTrabajo;
     }
 
+    /**
+     * Actualiza el modelo y notifica a los observaciones del Mundo a que se a
+     * realizado un cambio
+     *
+     * @param type representa el tipo de cambio realizado.
+     */
     private void update(String type) {
         super.setChanged();
         super.notifyObservers(type);
@@ -190,10 +209,35 @@ public class Proyecto extends Observable implements Observer {
         if (arg instanceof Mensaje) {
             Mensaje m = (Mensaje) arg;
             Gson gson = new Gson();
-            this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
-            super.setChanged();
-            super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
-            this.update("directoriosTrabajo");
+            if (m.getLinea().startsWith("scan_get_directorio_trabajo:")) {
+                try {
+                    this.directorioTrabajo = gson.fromJson(m.getLinea().replaceAll("scan_get_directorio_trabajo:", ""), Directorio.class);
+                    super.setChanged();
+                    super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
+                    this.update("directoriosTrabajo");
+                } catch (Exception e) {
+                }
+            }
+            if (m.getLinea().startsWith("scan_import_modules:")) {
+                try {
+                    String[] importaciones = gson.fromJson(m.getLinea().replaceAll("scan_import_modules:", ""), String[].class);
+                    for (String impor: importaciones) {
+                        this.terminalInteractiva.ingresarComando(impor);
+                    }
+                } catch (Exception e) {
+                }
+            }
         }
+    }
+
+    public void eliminarArchivo(String relativePath) throws Exceptions {
+        File file = new File(this.directorioTrabajo.getDirectorio().getAbsolutePath() + File.separator + relativePath);
+        if (file.getAbsolutePath().equals(this.directorioTrabajo.getDirectorio().getAbsolutePath())) {
+            throw new Exceptions("No se puede eliminar el Directorio de Trabajo", null);
+        }
+        AdministrarArchivo.eliminarArchivo(file);
+
+        this.setChanged();
+        this.update("archivoBorrado");
     }
 }
