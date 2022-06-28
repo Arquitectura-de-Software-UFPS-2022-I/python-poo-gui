@@ -1,5 +1,19 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import ufps.arqui.python.poo.gui.models.ClasePython;
+import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
@@ -10,6 +24,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Panel del proyecto para visualizar las clases del proyecto, así como sus
@@ -44,8 +60,22 @@ public class PanelProyecto implements IPanelProyecto {
 
     @Override
     public void inicializarContenido() {
-        PanelClass pc1 = new PanelClass("SoloTest 1", this.panel);
+        PanelClass pc1 = new PanelClass("prueba.py", this.panel);
         PanelClass pc2 = new PanelClass("SoloTest 2", this.panel);
+        pc1.getPanel().addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                try {
+                    System.out.println(pc1.getPanel().getName());
+                    EditorTexto editor = new EditorTexto( "prueba.txt");
+                } catch (Exception ex) {
+                    Logger.getLogger(PanelProyecto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+
         pc1.añadirHerencia(pc2);
         this.classPanels.add(pc1);
         this.classPanels.add(pc2);
@@ -196,12 +226,12 @@ public class PanelProyecto implements IPanelProyecto {
 
         g.fillPolygon(xpoints, ypoints, 3);
     }
-    
+
     /**
      * Cambia la posición de los paneles a su ultima ubicación
      */
-    private void cambiaAUltimaUbicacion(){
-        for(PanelClass pc: this.classPanels){
+    private void cambiaAUltimaUbicacion() {
+        for (PanelClass pc : this.classPanels) {
             pc.cambiaAUltimaUbicacion();
         }
     }

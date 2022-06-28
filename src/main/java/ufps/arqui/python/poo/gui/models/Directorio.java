@@ -35,6 +35,10 @@ public class Directorio {
     public Directorio(File directorio) {
         this.directorio = directorio;
     }
+    
+    public Directorio(){
+        
+    }
 
     /**
      * Crea un archivo .py tomando como ruta el directorio en el que se
