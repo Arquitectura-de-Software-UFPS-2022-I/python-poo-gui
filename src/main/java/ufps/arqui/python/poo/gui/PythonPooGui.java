@@ -91,7 +91,7 @@ public class PythonPooGui {
         IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
 
         //Selecciona el proyecto desde aca para testear
-        proyecto.setDirectorioRaiz(new File("C:\\Users\\stiwa\\Documents\\workdirectory"));
+//        proyecto.setDirectorioRaiz(new File("C:\\Users\\stiwa\\Documents\\workdirectory"));
     }
 
 }
