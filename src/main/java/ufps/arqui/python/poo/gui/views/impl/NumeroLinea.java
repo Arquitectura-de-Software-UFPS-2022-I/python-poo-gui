@@ -7,6 +7,13 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
+/**
+ *Clase Numero Linea
+ *Se consume en la clase EditorArchivoContenido, que permite mostrar la enumeracion de cada linea de codigo.
+ * Referencias: https://www.youtube.com/watch?v=JJBAzyXb7-g&t=141s
+ * @author MATEMATICA_SENCILLA
+ */
+
 public class NumeroLinea extends JPanel
         implements CaretListener, DocumentListener, PropertyChangeListener {
 

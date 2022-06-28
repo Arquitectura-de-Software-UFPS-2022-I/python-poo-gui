@@ -20,4 +20,10 @@ public interface IPanelMenu extends Observer, IPanelView {
      * @param directorio directorio del proyecto.
      */
     void modalCrearProyecto(String nombre, String directorio)  throws IOException;
+    /**
+     * El modal para abrir proyecto llama a este metodo del PanelMenu cuando el usuario quiere abrir un proyecto existente.
+     *
+     * @param directorio directorio del proyecto.
+     */
+    void modalAbrirProyecto(String nombre, String directorio) throws  IOException;
 }

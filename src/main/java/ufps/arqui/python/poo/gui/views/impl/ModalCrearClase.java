@@ -5,12 +5,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.swing.*;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelMenuClase;
 
 /**
- *
- * @author Sachikia
+ *Clase Modal para Crear una clase
+ * la ventana podar solo pide el nombre que se le desea poner a la clase que se quiere crear y toma la ruta del proyecto base.
+ * 
+ * @author Rafael Peña
  */
 public class ModalCrearClase {
     private IPanelMenuClase panelMenu;
@@ -19,7 +22,7 @@ public class ModalCrearClase {
     private JButton btnAceptar;
     private JButton btnCancel;
 
-    public ModalCrearClase(IPanelMenuClase panel) throws Exception {
+    public ModalCrearClase() throws Exception {
         this.panelMenu = panelMenu;
         this.frame = new JFrame("Nueva Clase");
         this.txtName = new JTextField();
@@ -30,23 +33,64 @@ public class ModalCrearClase {
     }
 
     private void init() throws Exception {
-        JPanel panelForm = new JPanel(new GridBagLayout());
+       JPanel panelForm = new JPanel(new GridBagLayout());
+
         JLabel lblName = new JLabel("Nombre");
-        
+        JLabel lblPath = new JLabel("Ubicación");
+        JLabel lblFullPath = new JLabel("Proyecto");
+
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
-        
-        ViewTool.insert(panelForm, lblName, 0, 0, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
-        ViewTool.insert(panelForm, this.txtName, 1, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 10);
-        
+
+        ConfGrid config = new ConfGrid(panelForm, lblName);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, this.txtName);
+        config.setGridx(1);
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        config.setIpady(10);
+        ViewTool.insert(config);
+
         JPanel panelOptions = new JPanel(new GridBagLayout());
 
-        ViewTool.insert(panelOptions, this.btnAceptar, 0, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, new Insets(0, 0, 0, 10), 0, 0);
-        ViewTool.insert(panelOptions, this.btnCancel, 1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LAST_LINE_END, null, 0, 0);
-        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
-        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
+        config = new ConfGrid(panelOptions, btnAceptar);
+        config.setWeightx(1);
+        config.setAnchor(GridBagConstraints.LAST_LINE_END);
+        config.setInsets(0, 0, 0, 10);
 
-        this.frame.setPreferredSize(new Dimension(500, 200));
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelOptions, btnCancel);
+        config.setGridx(1);
+        config.setAnchor(GridBagConstraints.LAST_LINE_END);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(container, panelForm);
+        config.setWeightx(1);
+        config.setGridwidth(3);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(10, 10, 10, 10);
+
+        ViewTool.insert(config);
+
+        config = new ConfGrid(container, panelOptions);
+        config.setGridy(1);
+        config.setWeightx(1);
+        config.setWeighty(1);
+        config.setGridwidth(3);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(0, 0, 10, 10);
+
+        ViewTool.insert(config);
+
+        this.frame.setPreferredSize(new Dimension(500, 130));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }

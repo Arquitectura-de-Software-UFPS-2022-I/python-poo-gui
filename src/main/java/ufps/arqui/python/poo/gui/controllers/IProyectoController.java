@@ -1,5 +1,7 @@
 package ufps.arqui.python.poo.gui.controllers;
 
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+
 import java.io.IOException;
 
 /**
@@ -13,7 +15,7 @@ public interface IProyectoController {
      * Escanea el proyecto en busca de clases declaradas en todos los directorios y subdirectorios
      * @throws IOException Excepción en caso del
      */
-    void escanearProyecto() throws IOException;
+    void escanearProyecto() throws Exceptions;
     
     /**
      * Lista las clases correspondientes a un directorio <br>
@@ -21,5 +23,5 @@ public interface IProyectoController {
      * asi obtener la ruta absooluta del directorio en el cual se extraeran las clases
      * @param relativePath Ruta relativa del directorio sobre el cual se desean listar clases
      */
-    void obtenerClasesDesde(String relativePath);
+    void obtenerClasesDesde(String relativePath) throws Exceptions;
 }

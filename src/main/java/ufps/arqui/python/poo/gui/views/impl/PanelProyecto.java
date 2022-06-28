@@ -2,6 +2,7 @@ package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import ufps.arqui.python.poo.gui.models.ClasePython;
 import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -10,17 +11,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 
 import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
-import java.util.Observable;
-import java.util.Set;
-import ufps.arqui.python.poo.gui.models.ClasePython;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Panel del proyecto para visualizar las clases del proyecto, así como sus
@@ -55,14 +60,18 @@ public class PanelProyecto implements IPanelProyecto {
 
     @Override
     public void inicializarContenido() {
-        PanelClass pc1 = new PanelClass("scan.py", this.panel);
+        PanelClass pc1 = new PanelClass("prueba.py", this.panel);
         PanelClass pc2 = new PanelClass("SoloTest 2", this.panel);
         pc1.getPanel().addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent me) {
-                System.out.println(pc1.getPanel().getName());
-               EditorTexto editor = new EditorTexto( "rc\\main\\resources\\scan.py");
+                try {
+                    System.out.println(pc1.getPanel().getName());
+                    EditorTexto editor = new EditorTexto( "prueba.txt");
+                } catch (Exception ex) {
+                    Logger.getLogger(PanelProyecto.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -105,8 +114,7 @@ public class PanelProyecto implements IPanelProyecto {
     }
 
     /**
-     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se
-     * relacionan los paneles que dispongan de herencia.
+     * Ubica y muestra los paneles(clases) que se desean dibujar, ademas se relacionan los paneles que dispongan de herencia.
      *
      * @param classes listado de clases del archivo.
      */
@@ -176,12 +184,14 @@ public class PanelProyecto implements IPanelProyecto {
                 int yC1 = p1.y + (pc.getPanel().getHeight() / 2);
                 int xC2 = p2.x + (pc1.getPanel().getWidth() / 2);
                 int yC2 = p2.y + (pc.getPanel().getHeight() / 2);
+                g.drawLine(xC1-1, yC1-1, xC2-1, yC2-1);
                 g.drawLine(xC1, yC1, xC2, yC2);
+                g.drawLine(xC1+1, yC1+1, xC2+1, yC2+1);
 
                 int x = (xC1 + xC2) / 2;
                 int y = (yC1 + yC2) / 2;
-
-                this.dibujarLineaConFlecha(g, xC1, yC1, x, y, 20, 20);
+                
+                this.dibujarLineaConFlecha(g, xC1, yC1, x, y, 15, 15);
             }
         }
     }
@@ -214,7 +224,7 @@ public class PanelProyecto implements IPanelProyecto {
         int[] xpoints = {x2, (int) xm, (int) xn};
         int[] ypoints = {y2, (int) ym, (int) yn};
 
-        g.drawPolygon(xpoints, ypoints, 3);
+        g.fillPolygon(xpoints, ypoints, 3);
     }
 
     /**

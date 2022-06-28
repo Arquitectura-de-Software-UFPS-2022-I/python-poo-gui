@@ -1,18 +1,15 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.io.IOException;
-import java.util.Observable;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Proyecto;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Observable;
 
 /**
  * Implementación de Interfaz lateral del proyecto, donde el usuario puede gestionar sus archivos.
@@ -42,10 +39,10 @@ public class PanelFichero implements IPanelFichero{
     @Override
     public void inicializarContenido() {
         this.btnVerificar.addActionListener(e -> {
-            try{
+            try {
                 this.controller.escanearProyecto();
-            }catch(IOException err){
-                JOptionPane.showMessageDialog(null, err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exceptions ex) {
+                mostrarError(ex);
             }
         });
         

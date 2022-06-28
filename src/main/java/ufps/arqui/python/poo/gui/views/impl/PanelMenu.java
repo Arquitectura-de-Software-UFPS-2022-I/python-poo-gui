@@ -1,15 +1,17 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Observable;
-import javax.swing.*;
-
 import ufps.arqui.python.poo.gui.controllers.IMenuController;
-import ufps.arqui.python.poo.gui.models.Proyecto;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
+
+import javax.swing.*;
+import java.awt.*;
+
+import java.io.IOException;
+
+import java.util.Observable;
 
 /**
  * Panel para visualizar las opciones del proyecto.
@@ -30,6 +32,8 @@ public class PanelMenu implements IPanelMenu {
     private final JButton btnAyuda;
     
     private final ModalCrearProyecto modalCrearProyecto;
+    private final ModalAbrirProyecto modalAbrirProyecto;
+    private final ModalAyuda modalAyuda;
     
     public PanelMenu(IMenuController controller) throws Exception {
         this.controller = controller;
@@ -41,6 +45,8 @@ public class PanelMenu implements IPanelMenu {
         this.btnAyuda = new JButton("Ayuda");
         
         this.modalCrearProyecto = new ModalCrearProyecto(this);
+        this.modalAbrirProyecto = new ModalAbrirProyecto(this);
+        this.modalAyuda = new ModalAyuda(this);
         
         this.inicializarContenido();
     }
@@ -71,6 +77,12 @@ public class PanelMenu implements IPanelMenu {
         this.btnNuevoProyecto.addActionListener(e -> {
             this.modalCrearProyecto.setVisible(true);
         });
+        this.btnAbrirProyecto.addActionListener(e -> {
+            this.modalAbrirProyecto.setVisible(true);
+        });
+         this.btnAyuda.addActionListener(e -> {
+            this.modalAyuda.setVisible(true);
+        });
 
         this.panel.setVisible(true);
     }
@@ -85,7 +97,21 @@ public class PanelMenu implements IPanelMenu {
     }
 
     @Override
-    public void modalCrearProyecto(String name, String path) throws IOException{
-        this.controller.crearProyecto(name, path);
+    public void modalCrearProyecto(String name, String path){
+        try {
+            this.controller.crearProyecto(name, path);
+        } catch (Exceptions ex) {
+            mostrarError(ex);
+        }
+    }
+
+    @Override
+    public void modalAbrirProyecto(String name,String path) throws IOException {
+        try {
+            this.controller.abrirProyecto(name,path);
+        }catch (Exceptions ex){
+            mostrarError(ex);
+        }
+
     }
 }

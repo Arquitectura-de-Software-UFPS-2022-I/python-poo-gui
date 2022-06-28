@@ -1,21 +1,15 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Point;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.utils.ConfGrid;
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase
@@ -76,8 +70,8 @@ public class PanelClass {
     }
 
     private void init() {
-        this.panel.setBackground(Color.CYAN);
-        this.panel.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        this.panel.setBackground(new Color(243, 215, 174));
+        this.panel.setBorder(BorderFactory.createLineBorder(Color.black));
         this.panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         this.lblName.setHorizontalAlignment(SwingConstants.CENTER);
