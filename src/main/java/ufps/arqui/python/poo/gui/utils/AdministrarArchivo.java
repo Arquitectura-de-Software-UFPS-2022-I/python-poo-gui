@@ -8,7 +8,7 @@ public class AdministrarArchivo {
 
     public static void eliminarArchivo(File archivo) throws Exceptions {
         if (!archivo.exists()) {
-            throw new Exceptions(archivo.getAbsolutePath() + "No existe", null);
+            throw new Exceptions(archivo.getAbsolutePath() + " No existe", null);
         }
         File[] archivos = archivo.listFiles();
         if (archivos != null) {

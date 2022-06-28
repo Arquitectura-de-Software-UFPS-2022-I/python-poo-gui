@@ -51,10 +51,17 @@ public class PanelFichero implements IPanelFichero {
         });
 
         this.btnElimianr.addActionListener(e -> {
-            try {
-                this.controller.eliminarArchivo(this.arbol.getCurrentPath());
-            } catch (Exceptions ex) {
-                mostrarError(ex);
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el archivo?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                try {
+                    this.controller.eliminarArchivo(this.arbol.getCurrentPath());
+                    JOptionPane.showMessageDialog(null, "Archivo eliminado correctamente");
+                } catch (Exceptions ex) {
+                    mostrarError(ex);
+                    JOptionPane.showMessageDialog(null, "No se pudo eliminar el archivo");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha eliminado el archivo");
             }
         });
 

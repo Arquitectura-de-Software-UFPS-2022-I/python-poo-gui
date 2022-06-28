@@ -56,7 +56,7 @@ public class Proyecto extends Observable implements Observer {
      * Escanea el proyecto en busca de clases declaradas en todos los
      * directorios y subdirectorios
      *
-     * @throws IOException
+     * @throws ufps.arqui.python.poo.gui.exceptions.Exceptions
      */
     public void escanearProyecto() throws Exceptions {
         if (this.directorioRaiz == null) {
