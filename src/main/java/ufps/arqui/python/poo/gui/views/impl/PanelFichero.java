@@ -51,17 +51,19 @@ public class PanelFichero implements IPanelFichero {
         });
 
         this.btnElimianr.addActionListener(e -> {
-            int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el archivo?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
-            if (respuesta == JOptionPane.YES_OPTION) {
-                try {
-                    this.controller.eliminarArchivo(this.arbol.getCurrentPath());
-                    JOptionPane.showMessageDialog(null, "Archivo eliminado correctamente");
-                } catch (Exceptions ex) {
-                    mostrarError(ex);
-                    JOptionPane.showMessageDialog(null, "No se pudo eliminar el archivo");
+            String path = this.arbol.getCurrentPath();
+            if (!path.isEmpty()) {
+                int option = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el " + isArchive(path) + getFileName(path) + "?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    try {
+                        this.controller.eliminarArchivo(path);
+                        JOptionPane.showMessageDialog(null, "Archivo eliminado correctamente");
+                    } catch (Exceptions ex) {
+                        mostrarError(ex);
+                    }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "No se ha eliminado el archivo");
+                mostrarError(new Exceptions("No se ha seleccionado ningún archivo.", null));
             }
         });
 
@@ -117,4 +119,18 @@ public class PanelFichero implements IPanelFichero {
     public JPanel getPanel() {
         return this.panel;
     }
+
+    private String isArchive(String path) {
+        if (path.endsWith(".py")) {
+            return "archivo ";
+        } else {
+            return "directorio ";
+        }
+    }
+
+    private String getFileName(String path) {
+        String[] parts = path.split("\\\\");
+        return parts[parts.length - 1];
+    }
+
 }
