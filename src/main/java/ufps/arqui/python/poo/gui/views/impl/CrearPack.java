@@ -1,36 +1,19 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.views.IPanelMenu;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-
-
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.Mundo;
-import ufps.arqui.python.poo.gui.models.Mundo.*;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.views.IPanelMenu;
+import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
-
-/**
- *
- * @author Sachikia
- */
-public class ModalCrearProyecto {
-
-    private IPanelMenu panelMenu;
+public class CrearPack {
+    private PanelFichero panelFichero;
     
     private String lastDir;
     private String selectDir;
@@ -38,42 +21,30 @@ public class ModalCrearProyecto {
     private JFrame frame;
     private JTextField txtName;
     private JTextField txtPath;
-    private JTextField txtPythonVersions ;
-
     private JLabel lblAbsolutePath;
-    private JLabel lblPythonVersion;
-    private JButton btnChoose;
-    private JButton btnAceptar;
-    private JButton btnCancel;
+    private JButton btnGuardar;
+    private JButton btnCancelar;
 
-    public ModalCrearProyecto(IPanelMenu panelMenu) throws Exception {
-        this.panelMenu = panelMenu;
-        this.frame = new JFrame("Nuevo Proyecto");
+    public CrearPack(PanelFichero panelFichero) throws Exception {
+        this.panelFichero = panelFichero;
+        this.frame = new JFrame("Crear Paquete");
 
         this.txtName = new JTextField();
         this.txtPath = new JTextField();
-        this.txtPythonVersions = new JTextField();
-
         this.lblAbsolutePath = new JLabel();
-        this.lblPythonVersion = new JLabel();
 
-        this.btnChoose = new JButton("Cambiar");
-        this.btnAceptar = new JButton("Aceptar");
-        this.btnCancel = new JButton("Cancelar");
+        this.btnGuardar = new JButton("Guardar");
+        this.btnCancelar = new JButton("Cancelar");
 
         this.init();
         this.addEvents();
     }
-
+    
     private void init() throws Exception {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
-        JLabel lblName = new JLabel("Nombre");
-
-        JLabel lblPath = new JLabel("Localización");
+        JLabel lblName = new JLabel("Nombre del Paquete");
         JLabel lblFullPath = new JLabel("Path");
-        JLabel lblPythonVersion = new JLabel("Version de Python:");
-
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -89,29 +60,6 @@ public class ModalCrearProyecto {
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 5);
         config.setIpady(10);
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, lblPath);
-        config.setGridy(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, txtPath);
-        config.setGridx(1);
-        config.setGridy(1);
-        config.setWeightx(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        config.setIpady(10);
-
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, btnChoose);
-        config.setGridx(2);
-        config.setGridy(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 0);
 
         ViewTool.insert(config);
 
@@ -128,21 +76,6 @@ public class ModalCrearProyecto {
         config.setWeightx(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 5);
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, lblPythonVersion);
-        config.setGridy(3);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, txtPythonVersions);
-        config.setGridx(1);
-        config.setGridy(3);
-        config.setWeightx(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        ViewTool.insert(config);
 
         ViewTool.insert(config);
 //        ViewTool.insert(panelForm, lblName, 0, 0, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
@@ -155,14 +88,14 @@ public class ModalCrearProyecto {
 
         JPanel panelOptions = new JPanel(new GridBagLayout());
 
-        config = new ConfGrid(panelOptions, btnAceptar);
+        config = new ConfGrid(panelOptions, btnGuardar);
         config.setWeightx(1);
         config.setAnchor(GridBagConstraints.LAST_LINE_END);
         config.setInsets(0, 0, 0, 10);
 
         ViewTool.insert(config);
 
-        config = new ConfGrid(panelOptions, btnCancel);
+        config = new ConfGrid(panelOptions, btnCancelar);
         config.setGridx(1);
         config.setAnchor(GridBagConstraints.LAST_LINE_END);
 
@@ -192,7 +125,7 @@ public class ModalCrearProyecto {
 //        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
 //        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
 
-        this.frame.setPreferredSize(new Dimension(500, 225));
+        this.frame.setPreferredSize(new Dimension(500, 200));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }
@@ -218,16 +151,9 @@ public class ModalCrearProyecto {
                 lblAbsolutePath.setText(txtPath.getText() +"/"+ txtName.getText());
             }
         };
+ 
 
-        this.txtName.getDocument().addDocumentListener(docEvent);
-        this.txtPath.getDocument().addDocumentListener(docEvent);
-
-        this.btnChoose.addActionListener(e -> {
-            this.askForDirectory();
-        });
-
-        // Evento del menú para cerrar la modal al darle click primario.
-        this.btnCancel.addMouseListener(new MouseAdapter() {
+        this.btnCancelar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
@@ -237,13 +163,9 @@ public class ModalCrearProyecto {
             }
         });
         
-        this.btnAceptar.addActionListener(e -> {
-            try{
-                this.panelMenu.modalCrearProyecto(this.txtName.getText(), this.txtPath.getText());
-                this.cerrarModal();
-            }catch(IOException err){
-                JOptionPane.showMessageDialog(this.panelMenu.getPanel(), "Error al crear el proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        this.btnGuardar.addActionListener(e -> {
+            this.panelFichero.crearPack(this.txtName.getText(), this.txtPath.getText());
+            this.cerrarModal();
         });
     }
 
@@ -252,22 +174,6 @@ public class ModalCrearProyecto {
         this.frame.dispose();
     }
     
-    private void askForDirectory(){
-        JFileChooser chooser = new JFileChooser();
-        if(this.lastDir != null) chooser.setCurrentDirectory(new File(this.lastDir));
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.showOpenDialog(null);
-        
-        this.selectDir = chooser.getSelectedFile() != null ? chooser.getSelectedFile().getAbsolutePath() : this.selectDir;
-        this.lastDir = chooser.getCurrentDirectory().getAbsolutePath();
-        this.txtPath.setText(this.selectDir);
-    }
-
-    private void askForpythonVersion() throws Exceptions {
-        String currentPythonVersion = this.txtPythonVersions.toString();
-        Mundo mundo = new Mundo();
-        mundo.setPythonVersion(currentPythonVersion);
-    }
 
     public void setVisible(boolean visible) {
         this.frame.setVisible(visible);

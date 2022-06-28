@@ -3,6 +3,7 @@ package ufps.arqui.python.poo.gui.models;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -14,6 +15,8 @@ import java.util.Observer;
  * @author Omar Ramón Montes
  */
 public class Mundo extends Observable implements Observer{
+
+    public String pythonVersion = "python3";
 
     /**
      * Cola de comandos para ejecutar en el shell.
@@ -37,6 +40,15 @@ public class Mundo extends Observable implements Observer{
 
     public Mundo(TerminalInteractiva terminalInteractiva) {
         this.terminalInteractiva = terminalInteractiva;
+    }
+
+    public Mundo() throws Exceptions {
+        this.terminalInteractiva = new TerminalInteractiva();
+
+        // Solo para testear
+        this.terminalInteractiva.inicializarTerminal(new File("."), new String[]{pythonVersion, "-i", "-q"});
+
+        this.terminalInteractiva.addObserver(this);
     }
 
     /**
@@ -123,5 +135,13 @@ public class Mundo extends Observable implements Observer{
             Mensaje m = (Mensaje)arg;
             this.nuevaSalida(m);
         }
+    }
+
+    public String getPythonVersion() {
+        return pythonVersion;
+    }
+
+    public void setPythonVersion(String pythonVersion) {
+        this.pythonVersion = pythonVersion;
     }
 }
