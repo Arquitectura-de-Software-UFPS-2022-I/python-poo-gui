@@ -199,28 +199,23 @@ public class Proyecto extends Observable implements Observer {
     }
 
     @Override
-    public String toString() {
-        return "Proyecto{" + "nombre=" + nombre + ", directorioRaiz=" + directorioRaiz + ", directorioTrabajo=" + directorioTrabajo + '}';
-    }
-
-    @Override
     public void update(Observable o, Object arg) {
         //Proyecto solo esta pendiente de la terminal, por lo tanto solo va ser notificado por esta misma
         if (arg instanceof Mensaje) {
             Mensaje m = (Mensaje) arg;
             Gson gson = new Gson();
-            if (m.getLinea().startsWith("scan_get_directorio_trabajo:")) {
+            if (m.getTipo().esDirectorio()) {
                 try {
-                    this.directorioTrabajo = gson.fromJson(m.getLinea().replaceAll("scan_get_directorio_trabajo:", ""), Directorio.class);
+                    this.directorioTrabajo = gson.fromJson(m.getLinea(), Directorio.class);
                     super.setChanged();
                     super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
                     this.update("directoriosTrabajo");
                 } catch (Exception e) {
                 }
             }
-            if (m.getLinea().startsWith("scan_import_modules:")) {
+            if (m.getTipo().esImports()) {
                 try {
-                    String[] importaciones = gson.fromJson(m.getLinea().replaceAll("scan_import_modules:", ""), String[].class);
+                    String[] importaciones = gson.fromJson(m.getLinea(), String[].class);
                     for (String impor: importaciones) {
                         this.terminalInteractiva.ingresarComando(impor);
                     }

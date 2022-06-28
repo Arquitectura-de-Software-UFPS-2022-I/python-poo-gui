@@ -263,12 +263,6 @@ public class ModalCrearProyecto {
         this.txtPath.setText(this.selectDir);
     }
 
-    private void askForpythonVersion() throws Exceptions {
-        String currentPythonVersion = this.txtPythonVersions.toString();
-        Mundo mundo = new Mundo();
-        mundo.setPythonVersion(currentPythonVersion);
-    }
-
     public void setVisible(boolean visible) {
         this.frame.setVisible(visible);
     }

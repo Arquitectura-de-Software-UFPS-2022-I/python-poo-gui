@@ -1,12 +1,9 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
 import ufps.arqui.python.poo.gui.models.ClasePython;
 import java.awt.GridBagLayout;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,17 +11,11 @@ import java.util.Map;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
-import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Panel del proyecto para visualizar las clases del proyecto, así como sus
@@ -59,45 +50,6 @@ public class PanelProyecto implements IPanelProyecto {
 
     @Override
     public void inicializarContenido() {
-        PanelClass pc1 = new PanelClass("prueba.py", this.panel);
-        PanelClass pc2 = new PanelClass("SoloTest 2", this.panel);
-        pc1.getPanel().addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent me) {
-                try {
-                    System.out.println(pc1.getPanel().getName());
-                    EditorTexto editor = new EditorTexto( "prueba.txt");
-                } catch (Exception ex) {
-                    Logger.getLogger(PanelProyecto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        });
-
-        pc1.añadirHerencia(pc2);
-        this.classPanels.add(pc1);
-        this.classPanels.add(pc2);
-
-        ConfGrid config = new ConfGrid(panel, pc1.getPanel());
-        config.setWeightx(1);
-        config.setWeighty(1);
-        config.setIpadx(100);
-        config.setIpady(40);
-
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panel, pc2.getPanel());
-        config.setGridx(1);
-        config.setWeightx(1);
-        config.setWeighty(1);
-        config.setIpadx(100);
-        config.setIpady(40);
-
-        ViewTool.insert(config);
-
-//        ViewTool.insert(this.panel, pc1.getPanel(), 0, 0, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
-//        ViewTool.insert(this.panel, pc2.getPanel(), 1, 0, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
     }
 
     @Override
@@ -108,7 +60,7 @@ public class PanelProyecto implements IPanelProyecto {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof List) {
-            this.paintPanelClasses((List<ClasePython>) arg);
+            this.pintarClases((List<ClasePython>) arg);
         }
     }
 
@@ -117,7 +69,7 @@ public class PanelProyecto implements IPanelProyecto {
      *
      * @param classes listado de clases del archivo.
      */
-    private void paintPanelClasses(List<ClasePython> classes) {
+    private void pintarClases(List<ClasePython> classes) {
         Map<String, PanelClass> panels = new HashMap<>();
 
         this.classPanels.clear();
@@ -138,11 +90,11 @@ public class PanelProyecto implements IPanelProyecto {
                 pcBase.añadirHerencia(pcHerencia);
             }
 
-            this.inicializarConfig(pcBase);
+            this.inicializarPanelClase(pcBase);
         }
         for (PanelClass pc : classPanels) {
             if (!pc.estaDibujado()) {
-                inicializarConfig(pc);
+                inicializarPanelClase(pc);
             }
         }
 
@@ -150,7 +102,11 @@ public class PanelProyecto implements IPanelProyecto {
         this.panel.repaint();
     }
 
-    private void inicializarConfig(PanelClass pc) {
+    /**
+     * Inicializa el diseño de las clases.
+     * @param pc Panel contenedor de la clase.
+     */
+    private void inicializarPanelClase(PanelClass pc) {
         ConfGrid config = new ConfGrid(this.panel, pc.getPanel());
         config.setGridx(x);
         config.setGridy(y);
@@ -161,7 +117,6 @@ public class PanelProyecto implements IPanelProyecto {
 
         ViewTool.insert(config);
 
-//        ViewTool.insert(this.panel, pc.getPanel(), x, y, 1, 1, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, null, 100, 40);
         pc.setEstaDibujado(Boolean.TRUE);
         if (this.x++ > 3) {
             this.x = 0;

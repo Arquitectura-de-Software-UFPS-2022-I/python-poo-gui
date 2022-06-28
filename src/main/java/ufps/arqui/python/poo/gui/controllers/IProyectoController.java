@@ -29,7 +29,7 @@ public interface IProyectoController {
     
     ArchivoPython obtenerArchivo(String nombre) throws Exceptions;
     
-    void crearClase(String nombre, ArchivoPython  archivo) throws Exceptions
+    void crearClase(String nombre, ArchivoPython  archivo) throws Exceptions;
 
     /**
      * Elimina Archivos y directorios de un directorio dado.

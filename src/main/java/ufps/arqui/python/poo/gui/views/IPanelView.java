@@ -10,6 +10,11 @@ import javax.swing.*;
  * @author Omar Ramón Montes
  */
 public interface IPanelView {
+
+    /**
+     * Obtiene el Jpanel contenedor.
+     * @return JPanel contenedor.
+     */
     JPanel getPanel();
 
     /**
@@ -17,6 +22,10 @@ public interface IPanelView {
      */
     void inicializarContenido();
 
+    /**
+     * Metodo para mostrar cuadro de error en los paneles.
+     * @param e Excepción generada.
+     */
     default void mostrarError(Exceptions e){
         JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
     };

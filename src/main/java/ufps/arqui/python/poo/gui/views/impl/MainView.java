@@ -24,7 +24,7 @@ public class MainView implements IMainView{
     private final IPanelMundoTerminal panelMundoTerminal;
 
     public MainView(String title, IPanelMenu panelMenu, IPanelFicheroProyecto panelFicheroProyecto, 
-            IPanelMundoTerminal panelMundoTerminal) throws Exception {
+            IPanelMundoTerminal panelMundoTerminal) {
         this.frame = new JFrame(title);
 
         this.panelMenu = panelMenu;
@@ -36,9 +36,8 @@ public class MainView implements IMainView{
 
     /**
      * Inicializar la ventana principal del sistema.
-     * @throws java.lang.Exception
      */
-    public void init() throws Exception {
+    public void init() {
         this.frame.setPreferredSize(new Dimension(1100, 700));
         this.frame.pack();
         
@@ -63,26 +62,8 @@ public class MainView implements IMainView{
         config.setFill(GridBagConstraints.BOTH);
         ViewTool.insert(config);
 
-//        ViewTool.insert(container, this.panelMenu.getPanel(),   0, 0, 1, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.LINE_START, null, 0, 0);
-//        ViewTool.insert(container, splitPane,                   0, 1, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
-        
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
-    }
-
-    @Override
-    public IPanelMenu getPanelMenu() {
-        return panelMenu;
-    }
-
-    @Override
-    public IPanelFicheroProyecto getPanelFicheroProyecto() {
-        return panelFicheroProyecto;
-    }
-
-    @Override
-    public IPanelMundoTerminal getPanelMundoTerminal() {
-        return panelMundoTerminal;
     }
 }

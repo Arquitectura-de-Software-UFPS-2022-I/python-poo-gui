@@ -70,7 +70,6 @@ public class PythonPooGui {
         proyecto.addObserver(panelTerminal);
         mundo.addObserver(panelTerminal);
         mundo.addObserver(panelMundo);
-
         terminalInteractiva.addObserver(mundo);
         terminalInteractiva.addObserver(proyecto);
 
@@ -81,15 +80,16 @@ public class PythonPooGui {
         window.getContentPane().add(new JLabel("", new ImageIcon(PythonPooGui.class.getClassLoader().getResource("logo.gif").getFile()), SwingConstants.CENTER));
         window.setVisible(true);
         try {
-            Thread.sleep(700);
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // Cerrar splash cuando la interfaz ya es visible.
-        window.dispose();
 
         // Iniciar de ventana principal.
         IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
+
+        // Cerrar splash cuando la interfaz ya es visible.
+        window.dispose();
 
         //Selecciona el proyecto desde aca para testear
 //        proyecto.setDirectorioRaiz(new File("C:\\Users\\stiwa\\Documents\\workdirectory"));

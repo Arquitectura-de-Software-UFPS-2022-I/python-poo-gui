@@ -21,6 +21,16 @@ public class Mensaje {
     public Mensaje(String linea, TipoMensaje tipo) {
         this.linea = linea.replaceAll(">>>","");
         this.tipo = tipo;
+        if (linea.startsWith("list_all_instancias:")) {
+            this.linea = this.linea.replaceAll("list_all_instancias:", "");
+            this.tipo = TipoMensaje.INSTANCIA;
+        } else if (linea.startsWith("get_directorio_trabajo:")) {
+            this.linea = this.linea.replaceAll("get_directorio_trabajo:", "");
+            this.tipo = TipoMensaje.DIRECTORIO;
+        } else if (linea.startsWith("import_modules:")) {
+            this.linea = this.linea.replaceAll("import_modules:", "");
+            this.tipo = TipoMensaje.IMPORTS;
+        }
     }
 
     public TipoMensaje getTipo() {

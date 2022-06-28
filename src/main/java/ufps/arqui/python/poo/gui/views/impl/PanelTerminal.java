@@ -170,7 +170,7 @@ public class PanelTerminal implements IPanelTerminal  {
     private void visualizarNuevasSalidas(List<Mensaje> salidas) {
         JLabel lblSalida;
         for (Mensaje salida : salidas) {
-            if (salida.getLinea().startsWith("scan_")) {
+            if (salida.getTipo().esInterno()) {
                 continue;
             }
 

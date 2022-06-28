@@ -16,7 +16,7 @@ import java.util.Observer;
  */
 public class Mundo extends Observable implements Observer{
 
-    public String pythonVersion = "python3";
+    public String pythonVersion = "python";
 
     /**
      * Cola de comandos para ejecutar en el shell.
@@ -40,15 +40,6 @@ public class Mundo extends Observable implements Observer{
 
     public Mundo(TerminalInteractiva terminalInteractiva) {
         this.terminalInteractiva = terminalInteractiva;
-    }
-
-    public Mundo() throws Exceptions {
-        this.terminalInteractiva = new TerminalInteractiva();
-
-        // Solo para testear
-        this.terminalInteractiva.inicializarTerminal(new File("."), new String[]{pythonVersion, "-i", "-q"});
-
-        this.terminalInteractiva.addObserver(this);
     }
 
     /**
