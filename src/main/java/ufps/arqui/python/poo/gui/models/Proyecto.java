@@ -2,6 +2,7 @@ package ufps.arqui.python.poo.gui.models;
 
 import com.google.gson.Gson;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
 import ufps.arqui.python.poo.gui.utils.ConfScanFile;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
@@ -52,9 +53,10 @@ public class Proyecto extends Observable implements Observer {
     }
 
     /**
-     * Escanea el proyecto en busca de clases declaradas en todos los directorios y subdirectorios
+     * Escanea el proyecto en busca de clases declaradas en todos los
+     * directorios y subdirectorios
      *
-     * @throws IOException
+     * @throws ufps.arqui.python.poo.gui.exceptions.Exceptions
      */
     public void escanearProyecto() throws Exceptions {
         if (this.directorioRaiz == null) {
@@ -80,8 +82,8 @@ public class Proyecto extends Observable implements Observer {
     /**
      * Lista las clases correspondientes a un directorio.
      *
-     * Se toma la ruta relativa y se concatena a la ruta del proyecto para
-     * asi obtener la ruta absooluta del directorio en el cual se extraeran las
+     * Se toma la ruta relativa y se concatena a la ruta del proyecto para asi
+     * obtener la ruta absooluta del directorio en el cual se extraeran las
      * clases
      *
      * @param relativePath
@@ -147,9 +149,9 @@ public class Proyecto extends Observable implements Observer {
 
     /**
      * Crea un directorio en la ubiacion y el nombre que se le indica.
-     * 
+     *
      * @param ubicacionDirectorio
-     * @param nombreDirectorio 
+     * @param nombreDirectorio
      */
     public void crearDirectorio(String ubicacionDirectorio, String nombreDirectorio) {
         File file = new File(ubicacionDirectorio + "/" + nombreDirectorio);
@@ -186,7 +188,9 @@ public class Proyecto extends Observable implements Observer {
     }
 
     /**
-     * Actualiza el modelo y notifica a los observaciones del Mundo a que se a realizado un cambio
+     * Actualiza el modelo y notifica a los observaciones del Mundo a que se a
+     * realizado un cambio
+     *
      * @param type representa el tipo de cambio realizado.
      */
     private void update(String type) {
@@ -224,5 +228,16 @@ public class Proyecto extends Observable implements Observer {
                 }
             }
         }
+    }
+
+    public void eliminarArchivo(String relativePath) throws Exceptions {
+        File file = new File(this.directorioTrabajo.getDirectorio().getAbsolutePath() + File.separator + relativePath);
+        if (file.getAbsolutePath().equals(this.directorioTrabajo.getDirectorio().getAbsolutePath())) {
+            throw new Exceptions("No se puede eliminar el Directorio de Trabajo", null);
+        }
+        AdministrarArchivo.eliminarArchivo(file);
+
+        this.setChanged();
+        this.update("archivoBorrado");
     }
 }

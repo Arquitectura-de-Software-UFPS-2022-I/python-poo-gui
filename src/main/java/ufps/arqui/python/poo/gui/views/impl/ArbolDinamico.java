@@ -33,9 +33,11 @@ public class ArbolDinamico implements IPanelView {
     protected JTree tree;
     private boolean load;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
+    private String currentPath;
 
     public ArbolDinamico(IProyectoController controller) {
         this.controller = controller;
+        this.currentPath = "";
         this.panel = new JPanel(new GridLayout(1, 0));
         this.load = false;
 
@@ -55,30 +57,45 @@ public class ArbolDinamico implements IPanelView {
 
         tree.addTreeSelectionListener((TreeSelectionEvent e) -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-            String currentPath = "";
+            if (node == null) {
+                return;
+            }
             int i = 0;
-            for (TreeNode tn : node.getPath()) {
-                if (i++ > 0) {
-                    currentPath += tn + "\\";
-                }
-            }
-            if (!currentPath.isEmpty()) {
-                currentPath = currentPath.substring(0, currentPath.length() - 1);
-            }
+            this.currentPath = this.getPath(node);
 
-            if (!currentPath.contains(".py")) {
+            if (!this.currentPath.contains(".py")) {
                 if (this.load) {
-                    try {
-                        this.controller.obtenerClasesDesde(currentPath);
-                    } catch (Exceptions ex) {
-                        mostrarError(ex);
-                    }
+                    this.actualizarDiagramas(this.currentPath);
                 }
             }
         });
 
         JScrollPane scrollPane = new JScrollPane(tree);
         this.panel.add(scrollPane);
+    }
+
+    private String getPath(DefaultMutableTreeNode node) {
+        int i = 0;
+        String path = "";
+        for (TreeNode tn : node.getPath()) {
+            if (i++ > 0) {
+                path += tn + "\\";
+            }
+        }
+
+        if (!path.isEmpty()) {
+            path = path.substring(0, path.length() - 1);
+        }
+        return path;
+    }
+
+    private void actualizarDiagramas(String path) {
+        try {
+            System.out.println(path);
+            this.controller.obtenerClasesDesde(path);
+        } catch (Exceptions ex) {
+            mostrarError(ex);
+        }
     }
 
     /**
@@ -199,4 +216,11 @@ public class ArbolDinamico implements IPanelView {
 
     }
 
+    /**
+     * Retorna el directorio actualmente seleccionado
+     * @return String directorio actualmente seleccionado
+     */
+    public String getCurrentPath() {
+        return currentPath;
+    }
 }
