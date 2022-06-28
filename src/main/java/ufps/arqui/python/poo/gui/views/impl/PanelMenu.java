@@ -8,6 +8,9 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 import javax.swing.*;
 import java.awt.*;
+
+import java.io.IOException;
+
 import java.util.Observable;
 
 /**
@@ -29,6 +32,8 @@ public class PanelMenu implements IPanelMenu {
     private final JButton btnAyuda;
     
     private final ModalCrearProyecto modalCrearProyecto;
+    private final ModalAbrirProyecto modalAbrirProyecto;
+    private final ModalAyuda modalAyuda;
     
     public PanelMenu(IMenuController controller) throws Exception {
         this.controller = controller;
@@ -40,6 +45,8 @@ public class PanelMenu implements IPanelMenu {
         this.btnAyuda = new JButton("Ayuda");
         
         this.modalCrearProyecto = new ModalCrearProyecto(this);
+        this.modalAbrirProyecto = new ModalAbrirProyecto(this);
+        this.modalAyuda = new ModalAyuda(this);
         
         this.inicializarContenido();
     }
@@ -70,6 +77,12 @@ public class PanelMenu implements IPanelMenu {
         this.btnNuevoProyecto.addActionListener(e -> {
             this.modalCrearProyecto.setVisible(true);
         });
+        this.btnAbrirProyecto.addActionListener(e -> {
+            this.modalAbrirProyecto.setVisible(true);
+        });
+         this.btnAyuda.addActionListener(e -> {
+            this.modalAyuda.setVisible(true);
+        });
 
         this.panel.setVisible(true);
     }
@@ -90,5 +103,15 @@ public class PanelMenu implements IPanelMenu {
         } catch (Exceptions ex) {
             mostrarError(ex);
         }
+    }
+
+    @Override
+    public void modalAbrirProyecto(String name,String path) throws IOException {
+        try {
+            this.controller.abrirProyecto(name,path);
+        }catch (Exceptions ex){
+            mostrarError(ex);
+        }
+
     }
 }
