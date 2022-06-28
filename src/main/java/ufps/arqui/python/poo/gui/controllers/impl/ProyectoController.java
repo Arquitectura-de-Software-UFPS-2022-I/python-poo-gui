@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.ArchivoPython;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
@@ -43,6 +44,14 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
+    public void crearClase(String nombre, ArchivoPython archivo) throws Exceptions {
+        archivo.crearClase(nombre);
+    }
+
+    @Override
+    public ArchivoPython obtenerArchivo(String nombre) throws Exceptions {
+        return this.proyecto.getDirectorioTrabajo().getArchivoPorNombre(nombre);
+    }
     public void eliminarArchivo(String relativePath) throws Exceptions {
         this.proyecto.eliminarArchivo(relativePath);
     }

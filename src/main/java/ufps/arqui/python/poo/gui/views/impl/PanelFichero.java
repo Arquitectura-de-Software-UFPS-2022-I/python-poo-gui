@@ -12,6 +12,7 @@ import ufps.arqui.python.poo.gui.views.impl.CrearPack;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
+import ufps.arqui.python.poo.gui.models.ArchivoPython;
 
 /**
  * Implementación de Interfaz lateral del proyecto, donde el usuario puede
@@ -26,6 +27,7 @@ public class PanelFichero implements IPanelFichero {
 
     // elementos de GUI
     private JButton btnNuevoArchivo;
+    private JButton btnNuevaClase;
     private JButton btnVerificar;
     private JButton btnElimianr;
     private ArbolDinamico arbol;
@@ -36,6 +38,7 @@ public class PanelFichero implements IPanelFichero {
         this.panel = new JPanel(new GridBagLayout());
 
         this.btnNuevoArchivo = new JButton("Nuevo archivo");
+        this.btnNuevaClase = new JButton("Nueva clase");
         this.btnVerificar = new JButton("Verificar");
         this.btnElimianr = new JButton("Eliminar");
         this.arbol = new ArbolDinamico(controller);
@@ -54,6 +57,15 @@ public class PanelFichero implements IPanelFichero {
         this.btnVerificar.addActionListener(e -> {
             try {
                 this.controller.escanearProyecto();
+            } catch (Exceptions ex) {
+                mostrarError(ex);
+            }
+        });
+        
+        this.btnNuevaClase.addActionListener(e -> {
+            try {
+                ArchivoPython archivo = this.controller.obtenerArchivo("vehiculos");
+                this.controller.crearClase("example", archivo);
             } catch (Exceptions ex) {
                 mostrarError(ex);
             }
@@ -85,6 +97,13 @@ public class PanelFichero implements IPanelFichero {
 
         config = new ConfGrid(panel, btnVerificar);
         config.setGridy(1);
+        config.setAnchor(GridBagConstraints.PAGE_START);
+        config.setInsets(10, 0, 0, 0);
+
+        ViewTool.insert(config);
+        
+        config = new ConfGrid(panel, btnNuevaClase);
+        config.setGridy(2);
         config.setAnchor(GridBagConstraints.PAGE_START);
         config.setInsets(10, 0, 0, 0);
 
