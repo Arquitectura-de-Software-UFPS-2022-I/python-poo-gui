@@ -14,6 +14,9 @@ import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
  */
 public class Mundo extends Observable implements Observer{
 
+
+    public String pythonVersion = "python3";
+
     /**
      * Cola de comandos para ejecutar en el shell.
      */
@@ -29,11 +32,12 @@ public class Mundo extends Observable implements Observer{
      */
     private TerminalInteractiva interactiveShell;
 
+
     public Mundo() throws Exceptions {
         this.interactiveShell = new TerminalInteractiva();
         
         // Solo para testear
-        this.interactiveShell.inicializarTerminal(new File("."), new String[]{"python", "-i", "-q"});
+        this.interactiveShell.inicializarTerminal(new File("."), new String[]{pythonVersion, "-i", "-q"});
         
         this.interactiveShell.addObserver(this);
     }
@@ -81,5 +85,13 @@ public class Mundo extends Observable implements Observer{
             Mensaje m = (Mensaje)arg;
             this.nuevaSalida(m);
         }
+    }
+
+    public String getPythonVersion() {
+        return pythonVersion;
+    }
+
+    public void setPythonVersion(String pythonVersion) {
+        this.pythonVersion = pythonVersion;
     }
 }

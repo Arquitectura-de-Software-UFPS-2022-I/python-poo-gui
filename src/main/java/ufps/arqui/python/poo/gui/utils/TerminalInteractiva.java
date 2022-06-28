@@ -44,27 +44,26 @@ public class TerminalInteractiva extends Observable{
     public void reiniciarTerminal() throws Exceptions {
         
         try{
-        if (terminalActiva()) {
-            this.process.destroyForcibly();
-            this.bufferedReader.close();
-            this.bufferedWriter.close();
-            this.bufferedWriter.close();
+            if (terminalActiva()) {
+                this.process.destroyForcibly();
+                this.bufferedReader.close();
+                this.bufferedWriter.close();
+                this.bufferedWriter.close();
+            }
+
+            this.process = new ProcessBuilder(this.parameters).directory(new File(this.directorio)).start();
+            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
+            this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
+            this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
+
+            this.leerSalida(this.bufferedReader, false);
+            this.leerSalida(this.bufferedReaderError, true);
         }
-
-        this.process = new ProcessBuilder(this.parameters).directory(new File(this.directorio)).start();
-        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.process.getOutputStream()));
-        this.bufferedReader = new BufferedReader(new InputStreamReader(this.process.getInputStream()));
-        this.bufferedReaderError = new BufferedReader(new InputStreamReader(this.process.getErrorStream()));
-
-        this.leerSalida(this.bufferedReader, false);
-        this.leerSalida(this.bufferedReaderError, true);
-    }
-    catch(IOException e){
-         throw new Exceptions("La terminal ha fallado");
-    }
+        catch(IOException e){
+            throw new Exceptions("La terminal ha fallado");
+        }
        
     }
-    
 
     /**
      * Ingresar comando para ejecutar.
