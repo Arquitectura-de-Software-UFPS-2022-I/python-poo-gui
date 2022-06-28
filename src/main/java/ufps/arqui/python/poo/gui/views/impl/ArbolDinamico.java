@@ -99,32 +99,40 @@ public class ArbolDinamico implements IPanelView {
     }
 
     /**
-     * Remueve todos los nodos excepto el nodo raiz
-     */
-    public void clear() {
-        rootNode.removeAllChildren();
-        treeModel.reload();
-    }
-
-    /**
      * Remueve el nodo actualmente seleccionado
      */
     public void removeCurrentNode() {
         TreePath currentSelection = tree.getSelectionPath();
         if (currentSelection != null) {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection
-                    .getLastPathComponent());
-            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) (currentNode.getParent());
-
-            if (parent != null) {
-                treeModel.removeNodeFromParent(currentNode);
-                this.actualizarDiagramas(this.getPath(parent));
-                return;
-            }
+                            .getLastPathComponent());
+            this.removeNode(currentNode);
         }
-
+        
         // Either there was no selection, or the root was selected.
         toolkit.beep();
+    }
+
+    /**
+     * Remueve un nodo del <code>JTree</code>
+     * @param node Nodo a remover
+     */
+    private void removeNode(MutableTreeNode node) {
+        MutableTreeNode parent = (MutableTreeNode) (node.getParent());
+        if (parent != null) {
+            treeModel.removeNodeFromParent(node);
+        }
+    }
+    
+    /**
+     * Resetea el <code>JTree</code>, este metodo toma el nodo raiz y borra <br>
+     * todos los nodos hijos que este tenga, en consecuencia queda solo el nodo "src"
+     */
+    private void resetTree(){
+        int currentChildCount = this.rootNode.getChildCount();
+        for(int i = 0; i < currentChildCount; i++){
+            this.removeNode((DefaultMutableTreeNode)this.rootNode.getChildAt(0));
+        }
     }
 
     /**
@@ -179,7 +187,7 @@ public class ArbolDinamico implements IPanelView {
      * @param directorioTrabajo Directorio raiz del proyecto
      */
     public void populate(Directorio directorioTrabajo) {
-
+        this.resetTree();
         this.load = true;
         for (ArchivoPython file : directorioTrabajo.getArchivos()) {
             this.addObject(this.rootNode, file.getArchivo().getName());

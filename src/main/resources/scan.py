@@ -147,7 +147,7 @@ def list_all_instancias(local_val: dict):
                 classes_values.append(attr_value)
                 break
 
-    print("list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
+    print("scan_list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
 
 def list_all_python_class_with_hierarchy(list_of_files):
     dict_folders_class = {}
@@ -163,14 +163,15 @@ def list_all_python_class_with_hierarchy(list_of_files):
     directorio = Directorio(folder)
     dict_folders_class[folder] = directorio
     dict_folders_list.append(directorio)
-
     for file in list_of_files:
         #name -> nombre de clase
-        #cls -> tipo de clase	
+        #cls -> tipo de clase
+        ## Eliminar modulos previamente importados.
+        exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
         for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
             folder = "\\".join(file.split("\\")[:-1])
             #print(folder)
-            #print(cls, name)
+            #print(cls, name, folder)
             if folder not in dict_folders:
                 dict_folders[folder] = {}
                 
@@ -211,16 +212,17 @@ def list_all_python_class_with_hierarchy(list_of_files):
 
     return dict_folders_class
 
-dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
-src = dict_folders_class["src"]
-del dict_folders_class["src"]
-for val in dict_folders_class.values():
-    src.push_folder(val, val.directorio.split("\\")[1:])
-src.set_absolute_path(os.getcwd())
 
-module_names = src.get_names_modules()
-for module in module_names:
-    import_str = "from {} import *".format(module)
-    exec(import_str)
-#print(json.dumps(json.loads(str(src).replace("'", '"')), indent=3))
-print(json.dumps(json.loads(str(src).replace("'", '"'))))
+def scanner_project():
+    dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
+    src = dict_folders_class["src"]
+    del dict_folders_class["src"]
+    for val in dict_folders_class.values():
+        src.push_folder(val, val.directorio.split("\\")[1:])
+    src.set_absolute_path(os.getcwd())
+    module_names = src.get_names_modules()
+    import_modules = []
+    for module in module_names:
+        import_modules.append("from {} import *".format(module))
+    print("scan_get_directorio_trabajo:"+json.dumps(json.loads(str(src).replace("'", '"'))))
+    print("scan_import_modules:"+json.dumps(json.loads(str(import_modules).replace("'", '"'))))
