@@ -124,5 +124,5 @@ public class TerminalInteractiva extends Observable {
             }
         }).start();
     }
-    
+
 }

@@ -13,11 +13,23 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
+
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.Mundo;
+import ufps.arqui.python.poo.gui.models.Mundo.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.views.IPanelMenu;
+
+
 /**
  *
  * @author Sachikia
  */
 public class ModalCrearProyecto {
+
     private IPanelMenu panelMenu;
     
     private String lastDir;
@@ -26,7 +38,10 @@ public class ModalCrearProyecto {
     private JFrame frame;
     private JTextField txtName;
     private JTextField txtPath;
+    private JTextField txtPythonVersions ;
+
     private JLabel lblAbsolutePath;
+    private JLabel lblPythonVersion;
     private JButton btnChoose;
     private JButton btnAceptar;
     private JButton btnCancel;
@@ -37,9 +52,12 @@ public class ModalCrearProyecto {
 
         this.txtName = new JTextField();
         this.txtPath = new JTextField();
-        this.lblAbsolutePath = new JLabel();
-        this.btnChoose = new JButton("Cambiar");
+        this.txtPythonVersions = new JTextField();
 
+        this.lblAbsolutePath = new JLabel();
+        this.lblPythonVersion = new JLabel();
+
+        this.btnChoose = new JButton("Cambiar");
         this.btnAceptar = new JButton("Aceptar");
         this.btnCancel = new JButton("Cancelar");
 
@@ -51,8 +69,11 @@ public class ModalCrearProyecto {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
         JLabel lblName = new JLabel("Nombre");
-        JLabel lblPath = new JLabel("Ubicación");
-        JLabel lblFullPath = new JLabel("Proyecto");
+
+        JLabel lblPath = new JLabel("Localización");
+        JLabel lblFullPath = new JLabel("Path");
+        JLabel lblPythonVersion = new JLabel("Version de Python:");
+
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -107,6 +128,21 @@ public class ModalCrearProyecto {
         config.setWeightx(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, lblPythonVersion);
+        config.setGridy(3);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
+
+        config = new ConfGrid(panelForm, txtPythonVersions);
+        config.setGridx(1);
+        config.setGridy(3);
+        config.setWeightx(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setInsets(0, 0, 5, 5);
+        ViewTool.insert(config);
 
         ViewTool.insert(config);
 //        ViewTool.insert(panelForm, lblName, 0, 0, 0, 0, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER, new Insets(0, 0, 5, 5), 0, 0);
@@ -156,7 +192,7 @@ public class ModalCrearProyecto {
 //        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
 //        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
 
-        this.frame.setPreferredSize(new Dimension(500, 200));
+        this.frame.setPreferredSize(new Dimension(500, 225));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }
@@ -225,6 +261,12 @@ public class ModalCrearProyecto {
         this.selectDir = chooser.getSelectedFile() != null ? chooser.getSelectedFile().getAbsolutePath() : this.selectDir;
         this.lastDir = chooser.getCurrentDirectory().getAbsolutePath();
         this.txtPath.setText(this.selectDir);
+    }
+
+    private void askForpythonVersion() throws Exceptions {
+        String currentPythonVersion = this.txtPythonVersions.toString();
+        Mundo mundo = new Mundo();
+        mundo.setPythonVersion(currentPythonVersion);
     }
 
     public void setVisible(boolean visible) {
