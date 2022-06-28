@@ -50,7 +50,7 @@ public class ModalAbrirProyecto {
     private void init() throws Exception {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
-        JLabel lblName = new JLabel("Nombre");
+        JLabel lblName = new JLabel("");
         JLabel lblPath = new JLabel("Localización");
         JLabel lblFullPath = new JLabel("Path");
 

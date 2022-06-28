@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import ufps.arqui.python.poo.gui.PythonPooGui;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
@@ -34,7 +35,7 @@ public class ModalAyuda {
 
     private JFrame frame;
     //private JTextField txtName;
-    private JTextField txtPath;
+    
     private JLabel lblAbsolutePath;
     private JButton btnAceptar;
 
@@ -43,10 +44,12 @@ public class ModalAyuda {
         this.frame = new JFrame("Ayuda");
 
         //this.txtName = new JTextField();
-        this.txtPath = new JTextField();
+        
         this.lblAbsolutePath = new JLabel();
 
-        this.btnAceptar = new JButton("Manual de User");
+
+        this.btnAceptar = new JButton("Manual de Usuario");
+
 
         this.init();
         this.addEvents();
@@ -56,55 +59,42 @@ public class ModalAyuda {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
         JLabel lblInfo = new JLabel("Información Basica");
-        JLabel lblPath = new JLabel("Nombre:           BluePy");
-        JLabel lblVer = new JLabel("Versión:           Test");
-        JLabel lblAu = new JLabel("Autores:           Grupo de Arqui de Soft");
-        JLabel lblUltimaModificacion = new JLabel("Ultima Modificación: ");
-
+        JLabel lblName = new JLabel("Nombre: BluePy");
+        JLabel lblVer = new JLabel("Versión: 1.0.0");
+        JLabel lblAut = new JLabel("Autores: Grupo De Arquitectura");
+        JLabel lblUlt = new JLabel("Ultima Modificación: --/--/----");
+        
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
 
         ConfGrid config = new ConfGrid(panelForm, lblInfo);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(5, 1, 0, 3);
+        config.setInsets(0, 0, 5, 5);
         ViewTool.insert(config);
 
-       // config = new ConfGrid(panelForm, this.txtName);
-        
-
-        config = new ConfGrid(panelForm, lblPath);
+        config = new ConfGrid(panelForm, lblName);
         config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(40, 1, 20, 3);
+        config.setInsets(0, 0, 5, 5);
         ViewTool.insert(config);
 
-        
-        //
-        
         config = new ConfGrid(panelForm, lblVer);
-        config.setGridy(1);
+        config.setGridy(2);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(80, 1, 20, 5);
+        config.setInsets(0, 0, 5, 5);
         ViewTool.insert(config);
-
-        
         //
-        
-        config = new ConfGrid(panelForm, lblAu);
-        config.setGridy(1);
+        config = new ConfGrid(panelForm, lblAut);
+        config.setGridy(3);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(120, 1, 20, 5);
+        config.setInsets(0, 0, 5, 5);
         ViewTool.insert(config);
-
-        
-         //
-        
-        config = new ConfGrid(panelForm, lblUltimaModificacion);
-        config.setGridy(1);
+        //
+        config = new ConfGrid(panelForm, lblUlt);
+        config.setGridy(4);
         config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(160, 1, 20, 5);
+        config.setInsets(0, 0, 5, 5);
         ViewTool.insert(config);
-
 
         config = new ConfGrid(panelForm, lblAbsolutePath);
         config.setGridx(1);
@@ -156,7 +146,7 @@ public class ModalAyuda {
 //        ViewTool.insert(container, panelForm, 0, 0, 1, 0, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, new Insets(10, 10, 10, 10), 0, 0);
 //        ViewTool.insert(container, panelOptions, 0, 1, 1, 1, 3, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_END, new Insets(0, 0, 10, 10), 0, 0);
 
-        this.frame.setPreferredSize(new Dimension(300, 325));
+        this.frame.setPreferredSize(new Dimension(300, 230));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }
@@ -184,7 +174,7 @@ public class ModalAyuda {
         };
 
         //this.txtName.getDocument().addDocumentListener(docEvent);
-        this.txtPath.getDocument().addDocumentListener(docEvent);
+        //this.txtPath.getDocument().addDocumentListener(docEvent);
 
 
 
@@ -196,7 +186,7 @@ public class ModalAyuda {
                 //this.panelMenu.mo
                 mostrarPDF();
             }catch(Exception err){
-                JOptionPane.showMessageDialog(null, "Error al abrirel proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Error al abrirel proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         //this.btnAyuda.addActionListener(e -> {
@@ -215,23 +205,14 @@ public class ModalAyuda {
         this.frame.dispose();
     }
     
-    private void askForDirectory(){
-        JFileChooser chooser = new JFileChooser();
-        if(this.lastDir != null) chooser.setCurrentDirectory(new File(this.lastDir));
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.showOpenDialog(null);
-        
-        this.selectDir = chooser.getSelectedFile() != null ? chooser.getSelectedFile().getAbsolutePath() : this.selectDir;
-        this.lastDir = chooser.getCurrentDirectory().getAbsolutePath();
-        this.txtPath.setText(this.selectDir);
-    }
+   
 
     public void setVisible(boolean visible) {
         this.frame.setVisible(visible);
     }
     public void mostrarPDF(){
         try {
-                 File path = new File ("./src/main/java/ufps/arqui/python/poo/gui/views/impl/Manual_test.pdf");
+                 File path = new File(PythonPooGui.class.getClassLoader().getResource("Manual_test.pdf").getFile()); 
                  Desktop.getDesktop().open(path);
            }catch (IOException ex) {
                 ex.printStackTrace();
