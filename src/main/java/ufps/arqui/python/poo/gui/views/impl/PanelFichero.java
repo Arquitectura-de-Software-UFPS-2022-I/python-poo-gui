@@ -7,6 +7,8 @@ import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
+import ufps.arqui.python.poo.gui.views.impl.CrearPack;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
@@ -27,6 +29,7 @@ public class PanelFichero implements IPanelFichero {
     private JButton btnVerificar;
     private JButton btnElimianr;
     private ArbolDinamico arbol;
+    private CrearPack crearPack;
 
     public PanelFichero(IProyectoController controller) throws Exception {
         this.controller = controller;
@@ -37,11 +40,17 @@ public class PanelFichero implements IPanelFichero {
         this.btnElimianr = new JButton("Eliminar");
         this.arbol = new ArbolDinamico(controller);
 
+        this.crearPack = new CrearPack(this);
+
         this.inicializarContenido();
     }
 
     @Override
     public void inicializarContenido() {
+        this.btnNuevoArchivo.addActionListener(e -> {
+            this.crearPack.setVisible(true);
+        });
+
         this.btnVerificar.addActionListener(e -> {
             try {
                 this.controller.escanearProyecto();
@@ -118,6 +127,9 @@ public class PanelFichero implements IPanelFichero {
     @Override
     public JPanel getPanel() {
         return this.panel;
+    }
+
+    public void crearPack(String text, String text2) {
     }
 
     private String isArchive(String path) {
