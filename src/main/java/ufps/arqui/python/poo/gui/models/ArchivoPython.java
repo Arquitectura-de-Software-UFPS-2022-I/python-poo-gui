@@ -1,12 +1,11 @@
 package ufps.arqui.python.poo.gui.models;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Modelado de archivo de python.

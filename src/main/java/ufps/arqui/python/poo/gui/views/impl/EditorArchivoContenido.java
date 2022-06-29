@@ -1,12 +1,9 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 
 /**
  *Clase Editor Archivo Contenido

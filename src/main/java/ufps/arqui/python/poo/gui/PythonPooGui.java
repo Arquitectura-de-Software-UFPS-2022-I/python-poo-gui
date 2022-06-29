@@ -9,6 +9,7 @@ import ufps.arqui.python.poo.gui.controllers.impl.MenuController;
 import ufps.arqui.python.poo.gui.controllers.impl.MundoController;
 import ufps.arqui.python.poo.gui.controllers.impl.ProyectoController;
 import ufps.arqui.python.poo.gui.controllers.impl.TerminalController;
+import ufps.arqui.python.poo.gui.models.Editor;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
@@ -17,7 +18,6 @@ import ufps.arqui.python.poo.gui.views.impl.*;
 
 import javax.swing.*;
 import java.io.File;
-import ufps.arqui.python.poo.gui.models.Editor;
 
 
 /**

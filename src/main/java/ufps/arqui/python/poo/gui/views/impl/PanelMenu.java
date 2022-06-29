@@ -8,10 +8,7 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-
 import java.util.Observable;
 
 /**

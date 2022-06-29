@@ -1,10 +1,11 @@
 package ufps.arqui.python.poo.gui.models;
 
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
+
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
 
 /**
  * Clase del modelo encargada de gestionar los archivos abiertos en el editor de

@@ -1,14 +1,13 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.views.IPanelFichero;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import javax.swing.*;
-
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
 /**
  * Modal para crear fichero.

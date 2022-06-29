@@ -5,7 +5,6 @@ import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.MundoInstancia;
-import ufps.arqui.python.poo.gui.models.TipoMensaje;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 
 import javax.swing.*;

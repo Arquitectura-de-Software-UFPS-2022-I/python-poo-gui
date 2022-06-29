@@ -1,6 +1,5 @@
 package ufps.arqui.python.poo.gui.views;
 
-import java.io.IOException;
 import java.util.Observer;
 
 /**

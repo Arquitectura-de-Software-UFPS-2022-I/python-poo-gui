@@ -1,7 +1,10 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
+import ufps.arqui.python.poo.gui.views.IPanelView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import ufps.arqui.python.poo.gui.controllers.IProyectoController;
-import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.views.IPanelView;
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase

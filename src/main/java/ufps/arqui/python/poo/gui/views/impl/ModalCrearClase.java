@@ -1,13 +1,12 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import ufps.arqui.python.poo.gui.utils.ConfGrid;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import javax.swing.*;
-import ufps.arqui.python.poo.gui.utils.ConfGrid;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.views.IPanelMenuClase;
 
 /**
  *Clase Modal para Crear una clase

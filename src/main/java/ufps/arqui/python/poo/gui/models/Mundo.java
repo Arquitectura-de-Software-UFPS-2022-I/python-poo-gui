@@ -3,7 +3,6 @@ package ufps.arqui.python.poo.gui.models;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
