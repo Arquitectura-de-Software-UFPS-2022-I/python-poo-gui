@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import ufps.arqui.python.poo.gui.PythonPooGui;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IMainView;
@@ -7,8 +8,11 @@ import ufps.arqui.python.poo.gui.views.IPanelFicheroProyecto;
 import ufps.arqui.python.poo.gui.views.IPanelMenu;
 import ufps.arqui.python.poo.gui.views.IPanelMundoTerminal;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Vista principal, donde se concentra la inicialización de cada parte
@@ -26,6 +30,12 @@ public class MainView implements IMainView{
     public MainView(String title, IPanelMenu panelMenu, IPanelFicheroProyecto panelFicheroProyecto, 
             IPanelMundoTerminal panelMundoTerminal) {
         this.frame = new JFrame(title);
+        try {
+            InputStream logo = PythonPooGui.class.getClassLoader().getResourceAsStream("icon.png");
+            this.frame.setIconImage((new ImageIcon(ImageIO.read(logo)).getImage()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.panelMenu = panelMenu;
         this.panelFicheroProyecto = panelFicheroProyecto;

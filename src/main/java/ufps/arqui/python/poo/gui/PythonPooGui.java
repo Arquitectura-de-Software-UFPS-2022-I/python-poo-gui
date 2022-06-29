@@ -16,8 +16,11 @@ import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 import ufps.arqui.python.poo.gui.views.*;
 import ufps.arqui.python.poo.gui.views.impl.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 
 
 /**
@@ -82,7 +85,8 @@ public class PythonPooGui {
         JWindow window = new JWindow();
         window.setSize(460, 344);
         window.setLocationRelativeTo(null);
-        window.getContentPane().add(new JLabel("", new ImageIcon(PythonPooGui.class.getClassLoader().getResource("logo.gif").getFile()), SwingConstants.CENTER));
+        InputStream logo = PythonPooGui.class.getClassLoader().getResourceAsStream("logo.gif");
+        window.getContentPane().add(new JLabel(new ImageIcon(ImageIO.read(logo))), SwingConstants.CENTER);
         window.setVisible(true);
         try {
             Thread.sleep(600);
@@ -91,7 +95,7 @@ public class PythonPooGui {
         }
 
         // Iniciar de ventana principal.
-        IMainView main = new MainView("POO Con Python", panelMenu, panelFicheroProyecto, panelMundoTerminal);
+        IMainView main = new MainView("BluePy", panelMenu, panelFicheroProyecto, panelMundoTerminal);
 
         // Cerrar splash cuando la interfaz ya es visible.
         window.dispose();
