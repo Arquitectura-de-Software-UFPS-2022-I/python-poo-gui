@@ -10,13 +10,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.views.IPanelView;
 
 /**
  * PanelClass componente que se dibujara en el area de proyecto como Clase
  *
  * @author Sachikia
  */
-public class PanelClass {
+public class PanelClass implements IPanelView{
 
     /**
      * JPanel en el cual sera dibujado y arratrado este PanelClass
@@ -32,7 +35,12 @@ public class PanelClass {
      * JLabel representación visual del nombre de una clase de python
      */
     private JLabel lblName;
-
+    
+    /**
+     * Ruta del archivo que contiene la clase actual
+     */
+    private String relativePathFile;
+    
     /**
      * Listado de paneles de herencia, se usa para posteriormente saber hacia
      * que panel dibujar la flecha
@@ -55,9 +63,11 @@ public class PanelClass {
      */
     private Point lastLocation;
 
-    private EditorTexto editor;
+    private IProyectoController controller;
 
-    public PanelClass(String name, JPanel parent) {
+    public PanelClass(String relativePathFile, String name, JPanel parent, IProyectoController controller) {
+        this.relativePathFile = relativePathFile;
+        this.controller = controller;
         this.panel = new JPanel(new GridBagLayout());
         this.estaDibujado = false;
         this.parent = parent;
@@ -65,11 +75,12 @@ public class PanelClass {
         this.location = new Point();
         this.lastLocation = new Point();
 
-        this.init();
+        this.inicializarContenido();
         this.draggableMode();
     }
 
-    private void init() {
+    @Override
+    public void inicializarContenido() {
         this.panel.setBackground(new Color(243, 215, 174));
         this.panel.setBorder(BorderFactory.createLineBorder(Color.black));
         this.panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -99,11 +110,16 @@ public class PanelClass {
     }
 
     /**
-     * Añade los eventos para arrastrar la clase(PanelClass)
+     * Añade los eventos la clase(PanelClass)
      */
     private void draggableMode() {
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
+                try{
+                    controller.abrirArchivo(relativePathFile);
+                }catch(Exceptions e){
+                    mostrarError(e);
+                }
                 location.move(ev.getX(), ev.getY());
             }
         });
@@ -123,17 +139,8 @@ public class PanelClass {
             }
         });
     }
-
-//    public void openEditor() {
-//        this.panel.addMouseListener(new MouseAdapter() {
-//            public void mouseCliked(MouseEvent ev) {
-//                //editor
-//                System.out.println("Estoy en el evento Cliked");
-//                new EditorTexto();
-//            }
-//        });
-//    }
-
+    
+    @Override
     public JPanel getPanel() {
         return this.panel;
     }

@@ -42,14 +42,21 @@ public class Proyecto extends Observable implements Observer {
      * El directorio debe llamarse src, y debe estár dentro del directorio raiz.
      */
     private Directorio directorioTrabajo;
-
+    
+    /**
+     * Editor de texto, encargado de administrar las operaciones sobre los archivos <br>
+     * del proyecto
+     */
+    private Editor editor;
+    
     /**
      * Instancia de la terminal interactiva.
      */
     private final TerminalInteractiva terminalInteractiva;
 
-    public Proyecto(TerminalInteractiva terminalInteractiva) {
+    public Proyecto(TerminalInteractiva terminalInteractiva, Editor editor) {
         this.terminalInteractiva = terminalInteractiva;
+        this.editor = editor;
     }
 
     /**
@@ -239,5 +246,28 @@ public class Proyecto extends Observable implements Observer {
 
         this.setChanged();
         this.update("archivoBorrado");
+    }
+    
+    /**
+     * Abre un <code>ArchivoPython</code> que corresponda a la ruta relativa pasada como
+     * parametro
+     * @param relativaPathFile Ruta relativa del archivo a abrir
+     * @throws Exceptions 
+     */
+    public void abrirArchivo(String relativaPathFile) throws Exceptions{
+        relativaPathFile = this.directorioRaiz.getAbsolutePath() + File.separator + relativaPathFile;
+        ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(relativaPathFile);
+        this.editor.abrirArchivo(archivoPython);
+    }
+    
+    /**
+     * Cierra un <code>ArchivoPython</code> que corresponda a la ruta absoluta pasada como
+     * parametro
+     * @param absolutePathFile Ruta absoluta del archivo a abrir
+     * @throws Exceptions 
+     */
+    public void cerrarArchivo(String absolutePathFile) throws Exceptions{
+        ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePathFile);
+        this.editor.cerrarArchivo(archivoPython);
     }
 }

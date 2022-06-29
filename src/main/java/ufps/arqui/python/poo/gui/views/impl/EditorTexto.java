@@ -1,31 +1,30 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import ufps.arqui.python.poo.gui.controllers.IEditorTextoController;
-import ufps.arqui.python.poo.gui.models.Directorio;
+import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.models.Editor;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
-import ufps.arqui.python.poo.gui.views.IPanelMenuClase;
+import ufps.arqui.python.poo.gui.views.IPanelView;
 
 /**
  * Clase Editor de texto En esta clase se podra visualizar los contenidos de
@@ -33,9 +32,10 @@ import ufps.arqui.python.poo.gui.views.IPanelMenuClase;
  *
  * @author Rafael Peña
  */
-public class EditorTexto {
-
-    private IEditorTextoController controller;
+public class EditorTexto implements IPanelView, Observer{
+    
+    private Map<String, EditorArchivoContenido> pestañasAbiertas = new HashMap<>();
+    private IProyectoController controller;
     private ModalCrearClase modalCrearClase;
 
     private JFrame frame;
@@ -47,22 +47,20 @@ public class EditorTexto {
     private JButton btncrearClass;
     private JButton btncancelarNewClass;
 
-    public EditorTexto(IEditorTextoController controller) throws Exception {
-        this("");
+    public EditorTexto(IProyectoController controller) throws Exception {
         this.controller = controller;
-    }
-
-    public EditorTexto(String nombre) throws Exception {
+        
         this.frame = new JFrame("Editor de Texto");
         this.tabbedPane = new JTabbedPane();
         this.btnClose = new JButton("Cerrar");
         this.btnSave = new JButton("Guardar");
         this.btnNewClass = new JButton("Nueva Clase");
         this.modalCrearClase = new ModalCrearClase();
-        this.init(nombre);
+        this.inicializarContenido();
     }
 
-    private void init(String nombre) {
+    @Override
+    public void inicializarContenido() {
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
         JPanel p = new JPanel(new GridBagLayout());
@@ -133,23 +131,7 @@ public class EditorTexto {
         ViewTool.insert(config);
 
         this.btnClose.addActionListener(e -> {
-            this.tabbedPane.remove(this.tabbedPane.getSelectedIndex());
-        });
-
-        this.btnSave.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent me) {
-                try {
-                    File f = buscar(nombre);
-                    String ruta = f.getAbsolutePath();
-                    EditorArchivoContenido eac = new EditorArchivoContenido();
-                    eac.guardar(ruta);
-                } catch (Exception ex) {
-                    Logger.getLogger(PanelProyecto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
+            this.cerrarPestaña();
         });
 
         this.btnNewClass.addActionListener(e -> {
@@ -157,47 +139,30 @@ public class EditorTexto {
         });
 
         this.frame.setPreferredSize(new Dimension(500, 700));
-        this.test(nombre);
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.frame.setVisible(true);
     }
 
-    private void test(String nombre) {
-        File f = buscar(nombre);
-        String ruta = f.getAbsolutePath();
-        EditorArchivoContenido eac = new EditorArchivoContenido(ruta, informacion(ruta));
-        this.tabbedPane.add(eac.getTitle(), eac.getPanel());
-//        String ruta = new File(".").getAbsolutePath();
-//        ruta = ruta.replace('.', 's') + nombre;
-//        this.tabbedPane.add("Dos ventana", new EditorArchivoContenido("C:path2", informacion("")).getPanel());
-    }
-
-    private static File buscar(String archivoABuscar) {
-        String path = new File(".").getAbsolutePath();
-                path = path.replace('.', 's') + "rc\\main\\resources\\";
-
-        
-        System.out.println("---------------------------"+path);
-        String files;
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-
-            if (listOfFiles[i].isFile()) {
-                files = listOfFiles[i].getName();
-
-                if (files.equalsIgnoreCase(archivoABuscar)) {
-                    return listOfFiles[i];
-                }
+    private void cerrarPestaña(){
+        Component component = this.tabbedPane.getSelectedComponent();
+        String key_value = "";
+        for(String key: this.pestañasAbiertas.keySet()){
+            if(this.pestañasAbiertas.get(key).getPanel().equals(component)){
+                this.pestañasAbiertas.remove(key);
+                key_value = key;
+                break;
             }
         }
-        System.out.println("Fin");
-        return null;
+        this.tabbedPane.remove(component);
+        
+        try{
+            this.controller.cerrarArchivo(key_value);
+        }catch(Exceptions e){
+            mostrarError(e);
+        }
     }
-
+    
     //toca acomodar de acuerdo a la arquitectura
     public String informacion(String ruta) {
         String info = "";
@@ -212,18 +177,34 @@ public class EditorTexto {
         return info;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        new EditorTexto("src\\main\\resources\\scan.py");
-//    }
-//    @Override
-//    public void update(Observable o, Object arg) {
-//        if (arg.toString().equals("openFile")) {
-//            //this.tabbedPane.add();
-//        } else if (arg.toString().equals("añadiClase")) {
-//
-//        }
-//    }
     public void modalCrearClase(String name) throws IOException {
         this.controller.crearClase(name);
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return null;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg.toString().equals("archivoAbierto")){
+            Editor editor = (Editor)o;
+            EditorArchivoContenido eac = new EditorArchivoContenido(
+                    editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath(), 
+                    editor.getUltimoArchivoAbierto().getContenido().toString()
+            );
+            
+            this.tabbedPane.add(editor.getUltimoArchivoAbierto().getArchivo().getName(), eac.getPanel());
+            this.tabbedPane.setSelectedComponent(eac.getPanel());
+            this.pestañasAbiertas.put(editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath(), eac);
+            this.frame.setVisible(true);
+            
+        }else if(arg.toString().equals("estaAbierto")){
+            Editor editor = (Editor)o;
+            EditorArchivoContenido eac = this.pestañasAbiertas.get(editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath());
+            this.tabbedPane.setSelectedComponent(eac.getPanel());
+            this.frame.setVisible(true);
+        }
     }
 }

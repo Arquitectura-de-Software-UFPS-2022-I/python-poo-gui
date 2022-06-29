@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
 
 /**
  * Modelado de archivo de python.
@@ -23,6 +25,11 @@ public class ArchivoPython {
      * Representación del archivo python.
      */
     private File archivo;
+    
+    /**
+     * Contenido del archivo
+     */
+    private final StringBuilder contenido = new StringBuilder();
 
     /**
      * Listado de clases que contiene el archivo.
@@ -56,7 +63,26 @@ public class ArchivoPython {
             //..
         }
     }
-
+    
+    /**
+     * Lee el contenido del archivo y lo almacena en el atributo <code>contenido</code>
+     * @throws Exceptions 
+     */
+    public void leerContenido() throws Exceptions{
+        this.contenido.setLength(0);
+        AdministrarArchivo.abrirArchivo(this.archivo, this.contenido);
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o == null || !(o instanceof ArchivoPython)){
+            return false;
+        }
+        
+        ArchivoPython other = (ArchivoPython)o;
+        return this.archivo.getAbsolutePath().equals(other.getArchivo().getAbsolutePath());
+    }
+    
     public File getArchivo() {
         if (this.archivo == null && this.archivoStr != null) {
             this.archivo = new File(this.archivoStr);
@@ -80,4 +106,7 @@ public class ArchivoPython {
         this.clases.add(clase);
     }
 
+    public StringBuilder getContenido() {
+        return contenido;
+    }
 }

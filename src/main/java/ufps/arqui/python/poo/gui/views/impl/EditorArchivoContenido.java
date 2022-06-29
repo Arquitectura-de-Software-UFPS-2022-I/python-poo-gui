@@ -1,24 +1,10 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
 
 /**
  *Clase Editor Archivo Contenido
@@ -52,6 +38,7 @@ public class EditorArchivoContenido {
             this.title = pathArray[pathArray.length - 1];
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

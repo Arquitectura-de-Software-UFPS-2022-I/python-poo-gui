@@ -96,6 +96,30 @@ public class Directorio {
     public void addArchivo(ArchivoPython archivo) {
         this.archivos.add(archivo);
     }
+    
+    /**
+     * Busca un <code>ArchivoPython</code> que corresponda con la ruta absoluta
+     * @param absolutePath Ruta absoluta del archivo a buscar
+     * @return <code>ArchivoPython</code>
+     */
+    public ArchivoPython getArchivo(String absolutePath){
+        ArchivoPython res = null;
+        for(ArchivoPython archivoPython: this.archivos){
+            if(archivoPython.getArchivo().getAbsolutePath().equals(absolutePath)){
+                res = archivoPython;
+                break;
+            }
+        }
+        
+        if(res == null){
+            for(Directorio subDirectorio: this.directorios){
+                res = subDirectorio.getArchivo(absolutePath);
+                if (res != null) break;
+            }
+        }
+        
+        return res;
+    }
 
     @Override
     public String toString() {
