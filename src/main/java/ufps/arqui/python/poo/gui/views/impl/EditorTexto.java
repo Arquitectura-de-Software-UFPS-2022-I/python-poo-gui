@@ -1,10 +1,7 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -46,8 +43,11 @@ public class EditorTexto implements IPanelView, Observer{
         this.frame = new JFrame("Editor de Texto");
         this.tabbedPane = new JTabbedPane();
         this.btnClose = new JButton("Cerrar");
+        this.btnClose.setToolTipText("Alt + K");
         this.btnSave = new JButton("Guardar");
+        this.btnSave.setToolTipText("Alt + S");
         this.btnNewClass = new JButton("Nueva Clase");
+        this.btnNewClass.setToolTipText("Alt + C");
         this.textAreaErrores = new JTextArea();
         this.modalCrearClase = new ModalCrearClase(this);
         this.inicializarContenido();
@@ -137,7 +137,8 @@ public class EditorTexto implements IPanelView, Observer{
         config.setIpadx(0);
         config.setIpady(100);
         ViewTool.insert(config);
-        
+
+        this.btnSave.setMnemonic(KeyEvent.VK_S);
         this.btnSave.addActionListener(e -> {
             String key_path = this.getKeyComponent(this.tabbedPane.getSelectedComponent());
             try{
@@ -147,10 +148,12 @@ public class EditorTexto implements IPanelView, Observer{
             }
         });
 
+        this.btnClose.setMnemonic(KeyEvent.VK_K);
         this.btnClose.addActionListener(e -> {
             this.cerrarPestaña();
         });
 
+        this.btnNewClass.setMnemonic(KeyEvent.VK_C);
         this.btnNewClass.addActionListener(e -> {
             this.modalCrearClase.setVisible(true);
         });

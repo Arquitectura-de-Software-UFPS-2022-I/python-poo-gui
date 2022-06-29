@@ -9,6 +9,7 @@ import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Observable;
 
@@ -26,7 +27,7 @@ public class PanelFichero implements IPanelFichero {
     // elementos de GUI
     private JButton btnNuevoArchivo;
     private JButton btnVerificar;
-    private JButton btnElimianr;
+    private JButton btnEliminar;
     private ArbolDinamico arbol;
     private ModalCrearFichero modalCrearFichero;
 
@@ -35,8 +36,11 @@ public class PanelFichero implements IPanelFichero {
         this.panel = new JPanel(new GridBagLayout());
 
         this.btnNuevoArchivo = new JButton("Nuevo archivo");
+        this.btnNuevoArchivo.setToolTipText("Alt + N");
         this.btnVerificar = new JButton("Verificar");
-        this.btnElimianr = new JButton("Eliminar");
+        this.btnVerificar.setToolTipText("Alt + V");
+        this.btnEliminar = new JButton("Eliminar");
+        this.btnEliminar.setToolTipText("Alt + D");
         this.arbol = new ArbolDinamico(controller);
         this.modalCrearFichero = new ModalCrearFichero(this);
 
@@ -45,6 +49,8 @@ public class PanelFichero implements IPanelFichero {
 
     @Override
     public void inicializarContenido() {
+
+        this.btnNuevoArchivo.setMnemonic(KeyEvent.VK_N);
         this.btnNuevoArchivo.addActionListener(e -> {
             String path = this.arbol.getCurrentPath();
             if (!path.endsWith(".py")) {
@@ -54,6 +60,7 @@ public class PanelFichero implements IPanelFichero {
             }
         });
 
+        this.btnVerificar.setMnemonic(KeyEvent.VK_V);
         this.btnVerificar.addActionListener(e -> {
             try {
                 this.controller.escanearProyecto();
@@ -62,7 +69,8 @@ public class PanelFichero implements IPanelFichero {
             }
         });
 
-        this.btnElimianr.addActionListener(e -> {
+        this.btnEliminar.setMnemonic(KeyEvent.VK_D);
+        this.btnEliminar.addActionListener(e -> {
             String path = this.arbol.getCurrentPath();
             if (!path.isEmpty()) {
                 int option = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el " + esArchivo(path) + getFileName(path) + "?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
@@ -91,7 +99,7 @@ public class PanelFichero implements IPanelFichero {
 
         ViewTool.insert(config);
 
-        config = new ConfGrid(panel, btnElimianr);
+        config = new ConfGrid(panel, btnEliminar);
         config.setGridy(2);
         config.setAnchor(GridBagConstraints.PAGE_START);
         config.setInsets(10, 0, 0, 0);

@@ -9,6 +9,7 @@ import ufps.arqui.python.poo.gui.views.IPanelMenu;
 import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import java.util.Observable;
@@ -22,28 +23,31 @@ import java.util.Observable;
  * @author Omar Ramón Montes
  */
 public class PanelMenu implements IPanelMenu {
-    
+
     private final IMenuController controller;
     private final JPanel panel;
-    
+
     // elementos de GUI
     private final JButton btnAbrirProyecto;
     private final JButton btnNuevoProyecto;
     private final JButton btnAyuda;
-    
+
     private final ModalCrearProyecto modalCrearProyecto;
     private final ModalAbrirProyecto modalAbrirProyecto;
     private ModalAyuda modalAyuda;
-    
+
     public PanelMenu(IMenuController controller) {
         this.controller = controller;
-        
+
         this.panel = new JPanel(new GridBagLayout());
-        
+
         this.btnAbrirProyecto = new JButton("Abrir proyecto");
+        this.btnAbrirProyecto.setToolTipText("Alt + O");
         this.btnNuevoProyecto = new JButton("Nuevo proyecto");
+        this.btnNuevoProyecto.setToolTipText("Alt + P");
         this.btnAyuda = new JButton("Acerca de");
-        
+        this.btnAyuda.setToolTipText("Alt + A");
+
         this.modalCrearProyecto = new ModalCrearProyecto(this);
         this.modalAbrirProyecto = new ModalAbrirProyecto(this);
 
@@ -74,17 +78,20 @@ public class PanelMenu implements IPanelMenu {
         ViewTool.insert(config);
 
         // Abrir modal para crear un nuevo proyecto.
+        this.btnNuevoProyecto.setMnemonic(KeyEvent.VK_P);
         this.btnNuevoProyecto.addActionListener(e -> {
             this.modalCrearProyecto.setVisible(true);
         });
 
         // Abrir modal para abrir un proyecto existente.
+        this.btnAbrirProyecto.setMnemonic(KeyEvent.VK_O);
         this.btnAbrirProyecto.addActionListener(e -> {
             this.modalAbrirProyecto.setVisible(true);
         });
 
         // Abrir modal para visualizar ayuda.
-         this.btnAyuda.addActionListener(e -> {
+        this.btnAyuda.setMnemonic(KeyEvent.VK_A);
+        this.btnAyuda.addActionListener(e -> {
             this.modalAyuda = new ModalAyuda(this);
         });
 
@@ -101,7 +108,7 @@ public class PanelMenu implements IPanelMenu {
     }
 
     @Override
-    public void modalCrearProyecto(String name, String path, String comandoPython){
+    public void modalCrearProyecto(String name, String path, String comandoPython) {
         try {
             this.controller.crearProyecto(name, path, comandoPython);
             mostrarMensaje("Proyecto creado", "El proyecto ha sido creado exitosamente.", this.panel);
@@ -115,7 +122,7 @@ public class PanelMenu implements IPanelMenu {
         try {
             this.controller.abrirProyecto(path);
             mostrarMensaje("Proyecto abierto", "El proyecto ha sido abierto exitosamente.", this.panel);
-        }catch (Exceptions ex){
+        } catch (Exceptions ex) {
             mostrarError(this.panel, ex);
         }
     }
