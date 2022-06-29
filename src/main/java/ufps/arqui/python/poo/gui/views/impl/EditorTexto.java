@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Editor;
@@ -34,6 +35,7 @@ public class EditorTexto implements IPanelView, Observer{
 
     private JFrame frame;
     private JTabbedPane tabbedPane;
+    private JTextArea textAreaErrores;
     private JButton btnNewClass;
     private JButton btnSave;
     private JButton btnClose;
@@ -46,6 +48,7 @@ public class EditorTexto implements IPanelView, Observer{
         this.btnClose = new JButton("Cerrar");
         this.btnSave = new JButton("Guardar");
         this.btnNewClass = new JButton("Nueva Clase");
+        this.textAreaErrores = new JTextArea();
         this.modalCrearClase = new ModalCrearClase(this);
         this.inicializarContenido();
     }
@@ -119,6 +122,20 @@ public class EditorTexto implements IPanelView, Observer{
         config.setAnchor(GridBagConstraints.CENTER);
         config.setIpadx(0);
         config.setIpady(0);
+        ViewTool.insert(config);
+        
+        this.textAreaErrores.setEditable(false);
+        config = new ConfGrid(container, this.textAreaErrores);
+        config.setGridx(0);
+        config.setGridy(2);
+        config.setWeightx(1);
+        config.setWeighty(0);
+        config.setGridwidth(1);
+        config.setGridheight(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.CENTER);
+        config.setIpadx(0);
+        config.setIpady(100);
         ViewTool.insert(config);
         
         this.btnSave.addActionListener(e -> {
