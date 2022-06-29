@@ -347,12 +347,11 @@ public class Proyecto extends Observable implements Observer {
         String nombre_clase = nombre.replaceAll(".py", "");
         try {
             file.createNewFile();
-            FileWriter out = new FileWriter(file);
-            out.write("class "+nombre_clase+"(object):\n" +
+            String contenidoClase = "class "+nombre_clase+"(object):\n" +
                     "    def __init__(self):\n" +
                     "        self.a = 1\n" +
-                    "        self.b = 3");
-            out.close();
+                    "        self.b = 3";
+            AdministrarArchivo.escribirArchivo(file, contenidoClase, false);
         } catch (IOException e) {
             throw new Exceptions("El archivo no puede ser creado", e);
         }

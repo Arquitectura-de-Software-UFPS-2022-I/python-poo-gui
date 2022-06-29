@@ -70,7 +70,7 @@ public class AdministrarArchivo {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw);
             
-            out.println(contenido);
+            out.print(contenido);
             out.close();
             
         }catch(Exception e){

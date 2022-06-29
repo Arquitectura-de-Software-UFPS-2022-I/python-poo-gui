@@ -55,7 +55,7 @@ public class ArchivoPython {
             clasePython.setPathModule(modulo);
             addClase(clasePython);
                 
-            String contenidoClase = "class " + nombre + "(object):\n\tpass\n";
+            String contenidoClase = "\nclass " + nombre + "(object):\n\tpass\n";
                 
             AdministrarArchivo.escribirArchivo(this.getArchivo(), contenidoClase, true);
             this.leerContenido();
