@@ -1,6 +1,7 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.Color;
+import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -26,12 +27,16 @@ public class EditorArchivoContenido {
     public EditorArchivoContenido(String path, String contenido, JTabbedPane tabbedPane) {
         this.tabbedPane = tabbedPane;
         this.cotenidoInicial = contenido;
-        this.ruta = path.replace('\\', '/');
-        this.txtArea = new JTextArea();
-        this.txtArea.setText(contenido);
-        this.jsCroll = new JScrollPane();
         
+        this.ruta = path.replace('\\', '/');
+        
+        this.txtArea = new JTextArea();
+        this.txtArea.setTabSize(2);
+        this.txtArea.setText(contenido);
+        
+        this.jsCroll = new JScrollPane();
         this.numero = new NumeroLinea(txtArea);
+        
         this.jsCroll.setRowHeaderView(numero);
         this.jsCroll.setViewportView(txtArea);
         

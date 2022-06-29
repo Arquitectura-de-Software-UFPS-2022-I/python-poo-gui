@@ -321,4 +321,22 @@ public class Proyecto extends Observable implements Observer {
         this.editor.guardarArchivo(archivoPython, contenido);
         this.escanearProyecto();
     }
+
+    /**
+     * Crea una clase con el nombre <code>nombre</code> en el archivo python que <br>
+     * corresponda con la ruta absoluta
+     * @param absolutePath Ruta absoluta del archivo al cual se le añadira una nueva clase
+     * @param nombre Nombre de la clase a ser añadida
+     */
+    public void crearClase(String absolutePath, String nombre) throws Exceptions {
+        ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePath);
+        
+        String dirWork = this.directorioRaiz.getAbsolutePath();
+        String module = absolutePath.replace(dirWork, "").substring(1).replaceAll("\\\\", ".").replace(".py", "");
+        
+        this.editor.crearClase(archivoPython, module, nombre);
+        
+        super.setChanged();
+        super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
+    }
 }

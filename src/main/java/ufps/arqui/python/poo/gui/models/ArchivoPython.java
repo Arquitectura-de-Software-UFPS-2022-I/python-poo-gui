@@ -41,7 +41,7 @@ public class ArchivoPython {
      * 
      * @param nombre 
      */
-    public void crearClase(String nombre) {
+    public void crearClase(String modulo, String nombre) throws Exceptions{
         boolean existe = false;
         for (int i = 0; i < this.clases.size(); i++) {
             if (this.clases.get(i).getNombre().equals(nombre)) {
@@ -49,18 +49,18 @@ public class ArchivoPython {
                 break;
             }
         }
-        try {
-            if (!existe) {
-                ClasePython clasePython = new ClasePython();
-                clasePython.setNombre(nombre);
-                addClase(clasePython);
-                FileWriter fw = new FileWriter(archivo.getAbsoluteFile(), true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write("class " + nombre + ":\n\tpass\n");
-                bw.close();
-            }
-        } catch (Exception e) {
-            //..
+        if (!existe) {
+            ClasePython clasePython = new ClasePython();
+            clasePython.setNombre(nombre);
+            clasePython.setPathModule(modulo);
+            addClase(clasePython);
+                
+            String contenidoClase = "class " + nombre + "(object):\n\tpass\n";
+            this.contenido.append(contenidoClase);
+                
+            AdministrarArchivo.escribirArchivo(this.getArchivo(), contenidoClase, true);
+        }else{
+            throw new Exceptions("Ya existe una clase con el mismo nombre en el archivo");
         }
     }
     

@@ -68,7 +68,9 @@ public interface IProyectoController {
     * Para eso se tiene en cuenta el path (ruta la ubicacion de la clase) y el contenido que llego o se edito.
     * 
     * Se debe de pedir el directorio y el nombre
+    * @param absolutePath Ruta absoluta del archivo en que se debe crear la clase
     * @param nombre representa el nombre de la clase que se desea crear.
+    * @throws ufps.arqui.python.poo.gui.exceptions.Exceptions
     */
-    void crearClase(String nombre)  throws IOException;
+    void crearClase(String absolutePath, String nombre) throws Exceptions;
 }

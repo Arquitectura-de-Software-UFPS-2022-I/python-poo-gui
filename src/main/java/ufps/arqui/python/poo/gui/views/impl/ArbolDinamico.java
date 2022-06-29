@@ -91,7 +91,6 @@ public class ArbolDinamico implements IPanelView {
 
     private void actualizarDiagramas(String path) {
         try {
-            System.out.println(path);
             this.controller.obtenerClasesDesde(path);
         } catch (Exceptions ex) {
             mostrarError(this.panel, ex);
@@ -155,7 +154,7 @@ public class ArbolDinamico implements IPanelView {
 
     public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,
             Object child) {
-        return addObject(parent, child, false);
+        return addObject(parent, child, true);
     }
 
     public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,

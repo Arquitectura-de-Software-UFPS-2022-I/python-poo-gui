@@ -51,6 +51,7 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
-    public void crearClase(String nombre) throws IOException {
+    public void crearClase(String absolutePath, String nombre) throws Exceptions {
+        this.proyecto.crearClase(absolutePath, nombre);
     }
 }

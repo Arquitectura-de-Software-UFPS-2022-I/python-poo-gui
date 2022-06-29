@@ -1,5 +1,6 @@
 package ufps.arqui.python.poo.gui.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class ClasePython {
     /**
      * Listado de clases de las cuales hereda la clase actual.
      */
-    List<ClasePython> herencia;
+    List<ClasePython> herencia = new ArrayList<>();
     
     /**
      * Posición en la cual la clase SERA o FUE dibujada en la vista 
