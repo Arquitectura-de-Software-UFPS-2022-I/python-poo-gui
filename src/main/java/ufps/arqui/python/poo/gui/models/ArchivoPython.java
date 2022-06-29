@@ -109,4 +109,9 @@ public class ArchivoPython {
     public StringBuilder getContenido() {
         return contenido;
     }
+    
+    public void setContenido(String contenido){
+        this.contenido.setLength(0);
+        this.contenido.append(contenido);
+    }
 }

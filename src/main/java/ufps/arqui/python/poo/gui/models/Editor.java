@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
+import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
 
 /**
  * Clase del modelo encargada de gestionar los archivos abiertos en el editor de
@@ -62,10 +63,18 @@ public class Editor extends Observable{
      * Cierra el archivo python
      * @param archivoPython 
      */
-    void cerrarArchivo(ArchivoPython archivoPython) {
+    public void cerrarArchivo(ArchivoPython archivoPython) {
         this.archivosAbiertos.remove(archivoPython);
         if(this.ultimoArchivoAbierto != null && this.ultimoArchivoAbierto.equals(archivoPython)){
             this.ultimoArchivoAbierto = null;
         }
+    }
+
+    public void guardarArchivo(ArchivoPython archivoPython, String contenido) throws Exceptions {
+        AdministrarArchivo.escribirArchivo(archivoPython.getArchivo(), contenido);
+        archivoPython.setContenido(contenido);
+        this.ultimoArchivoAbierto = archivoPython;
+        
+        this.update("actualizacionArchivo");
     }
 }

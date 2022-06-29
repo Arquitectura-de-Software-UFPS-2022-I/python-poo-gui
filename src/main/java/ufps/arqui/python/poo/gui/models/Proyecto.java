@@ -308,4 +308,17 @@ public class Proyecto extends Observable implements Observer {
         ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePathFile);
         this.editor.cerrarArchivo(archivoPython);
     }
+    
+    /**
+     * Guarda el contenido en un <code>ArchivoPython</code> que corresponda con <br>
+     * la ruta absoluta pasada como parametro
+     * @param absolutePathFile Ruta absoluta del archivo
+     * @param contenido Contenido nuevo a escribir en el archivo
+     * @throws Exceptions 
+     */
+    public void guardarArchivo(String absolutePathFile, String contenido) throws Exceptions {
+        ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePathFile);
+        this.editor.guardarArchivo(archivoPython, contenido);
+        this.escanearProyecto();
+    }
 }

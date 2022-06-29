@@ -1,10 +1,11 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
+import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *Clase Editor Archivo Contenido
@@ -14,60 +15,69 @@ import java.nio.file.StandardOpenOption;
  * @author Rafael Peña
  */
 public class EditorArchivoContenido {
-
-    private String title;
-    private String path;
+    private JTabbedPane tabbedPane;
+    private String cotenidoInicial;
+    private String titulo;
+    private String ruta;
     private JTextArea txtArea;
     private NumeroLinea numero;
     private JScrollPane jsCroll;
-
-    public EditorArchivoContenido(){
+    
+    public EditorArchivoContenido(String path, String contenido, JTabbedPane tabbedPane) {
+        this.tabbedPane = tabbedPane;
+        this.cotenidoInicial = contenido;
+        this.ruta = path.replace('\\', '/');
+        this.txtArea = new JTextArea();
+        this.txtArea.setText(contenido);
+        this.jsCroll = new JScrollPane();
         
-    }
-    public EditorArchivoContenido(String path, String contenido) {
-        try {
-
-            this.path = path.replace('\\', '/');
-            this.txtArea = new JTextArea();
-            this.txtArea.setText(contenido);
-            this.jsCroll = new JScrollPane();
-            this.numero = new NumeroLinea(txtArea);
-            this.jsCroll.setRowHeaderView(numero);
-            this.jsCroll.setViewportView(txtArea);
-            String pathArray[] = this.path.split("/");
-            this.title = pathArray[pathArray.length - 1];
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-    public void guardar(String ruta){
-         try
-        {    
-            String txt="\n"+"----";
-            System.out.println(this.txtArea.getText()+".-----");
-            String filePath = ruta;
-          byte[] byteArr = txt.getBytes();
-            Files.write(Paths.get(filePath), byteArr, StandardOpenOption.APPEND);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+        this.numero = new NumeroLinea(txtArea);
+        this.jsCroll.setRowHeaderView(numero);
+        this.jsCroll.setViewportView(txtArea);
         
+        String pathArray[] = this.ruta.split("/");
+        this.titulo = pathArray[pathArray.length - 1];
+        
+        this.addEvent();
     }
 
+    private void addEvent(){
+        this.txtArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                this.validateContent();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                this.validateContent();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                this.validateContent();
+            }
+            
+            private void validateContent(){
+                if(!cotenidoInicial.equals(txtArea.getText())){
+                    tabbedPane.setBackgroundAt(tabbedPane.getSelectedIndex(), Color.GRAY);
+                }else{
+                    tabbedPane.setBackgroundAt(tabbedPane.getSelectedIndex(), new Color(242, 242, 242));
+                }
+            }
+        });
+    }
+    
     public JScrollPane getPanel() {
         return this.jsCroll;
     }
 
     public String getPath() {
-        return path;
+        return ruta;
     }
 
     public void setPath(String path) {
-        this.path = path;
+        this.ruta = path;
     }
 
     public JTextArea getTxtArea() {
@@ -79,10 +89,20 @@ public class EditorArchivoContenido {
     }
 
     public String getTitle() {
-        return title;
+        return titulo;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.titulo = title;
+    }
+    
+    public void setContenido(String contenido){
+        this.txtArea.setText(contenido);
+        this.cotenidoInicial = contenido;
+        tabbedPane.setBackgroundAt(tabbedPane.getSelectedIndex(), new Color(242, 242, 242));
+    }
+    
+    public String getContenido(){
+        return this.txtArea.getText();
     }
 }
