@@ -5,6 +5,7 @@ import ufps.arqui.python.poo.gui.controllers.IMundoController;
 import ufps.arqui.python.poo.gui.models.Mensaje;
 import ufps.arqui.python.poo.gui.models.Mundo;
 import ufps.arqui.python.poo.gui.models.MundoInstancia;
+import ufps.arqui.python.poo.gui.models.TipoMensaje;
 import ufps.arqui.python.poo.gui.views.IPanelMundo;
 
 import javax.swing.*;
@@ -52,9 +53,8 @@ public class PanelMundo implements IPanelMundo {
             Mundo m = (Mundo) o;
             Gson gson = new Gson();
             for (Mensaje salida : m.getSalidas2()) {
-                if (salida.getLinea().startsWith("scan_list_all_instancias:")) {
-                    MundoInstancia[] list = gson.fromJson(salida.getLinea().replaceAll("scan_list_all_instancias:", ""),
-                            MundoInstancia[].class);
+                if (salida.getTipo().esInstancia()) {
+                    MundoInstancia[] list = gson.fromJson(salida.getLinea(), MundoInstancia[].class);
                     PanelObjeto obj;
                     this.contenedor.removeAll();
                     for (MundoInstancia item : list) {

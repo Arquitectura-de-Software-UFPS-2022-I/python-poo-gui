@@ -144,6 +144,9 @@ public class EditorTexto implements IPanelView, Observer{
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Cierra la pestaña actual del editor de texto
+     */
     private void cerrarPestaña(){
         Component component = this.tabbedPane.getSelectedComponent();
         String key_value = "";
@@ -155,6 +158,7 @@ public class EditorTexto implements IPanelView, Observer{
             }
         }
         this.tabbedPane.remove(component);
+        this.frame.setVisible(this.tabbedPane.getComponentCount() > 0);
         
         try{
             this.controller.cerrarArchivo(key_value);

@@ -27,9 +27,13 @@ public class TerminalInteractiva extends Observable {
     private BufferedReader bufferedReader;
     private BufferedReader bufferedReaderError;
 
-    public TerminalInteractiva() {
-    }
-
+    /**
+     * Inicializa la terminal de python.
+     *
+     * @param directorio directorio raiz donde ejecutará python
+     * @param parameters listado de parametros que ejecutará despues de inicializar la terminal de python.
+     * @throws Exceptions En caso de que los comando sean invalidos.
+     */
     public void inicializarTerminal(File directorio, String parameters[]) throws Exceptions {
         this.parameters = parameters;
         // Validar que no se quiera reiniciar la terminal si el directorio es el mismo
@@ -41,7 +45,7 @@ public class TerminalInteractiva extends Observable {
 
     /**
      * Verifica si la terminal interactiva cuenta con el proceso activo.
-     * @return
+     * @return true si la terminal está activa.
      */
     public boolean terminalActiva() {
         return this.process != null;
@@ -65,6 +69,7 @@ public class TerminalInteractiva extends Observable {
             lineas.add("-i");
             // No imprimir la versión de python.
             lineas.add("-q");
+
             for (String p : this.parameters) {
                 lineas.add(p);
             }
@@ -95,7 +100,7 @@ public class TerminalInteractiva extends Observable {
                 bufferedWriter.flush();
 
                 // En caso de que se modifique las instancias, volver a consultar las instancias.
-                bufferedWriter.write("list_all_instancias(locals())");
+                bufferedWriter.write("list_all_instancias(locals()) if 'list_all_instancias' in dir() else [].clear()");
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } else {
@@ -107,9 +112,11 @@ public class TerminalInteractiva extends Observable {
     }
 
     /**
+     *
      * Lee la salida linea por linea de la terminal de python.
      *
      * @param buffered bufer del archivo de lectura.
+     * @param error true si el buffer es de la salida de errores.
      */
     private void leerSalida(BufferedReader buffered, boolean error) {
         new Thread(() -> {
@@ -124,5 +131,5 @@ public class TerminalInteractiva extends Observable {
             }
         }).start();
     }
-    
+
 }

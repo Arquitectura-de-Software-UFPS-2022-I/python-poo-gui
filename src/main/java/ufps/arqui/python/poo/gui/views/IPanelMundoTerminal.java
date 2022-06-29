@@ -8,5 +8,4 @@ import java.util.Observer;
  * @author Sachikia
  */
 public interface IPanelMundoTerminal extends Observer, IPanelView {
-    
 }

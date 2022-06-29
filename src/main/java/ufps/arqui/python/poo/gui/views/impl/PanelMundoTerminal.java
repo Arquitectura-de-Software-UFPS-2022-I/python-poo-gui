@@ -45,7 +45,6 @@ public class PanelMundoTerminal implements IPanelMundoTerminal{
         config.setFill(GridBagConstraints.BOTH);
 
         ViewTool.insert(config);
-//        ViewTool.insert(this.panel, splitPane, 0, 0, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, null, 0, 0);
     }
     
     @Override

@@ -3,6 +3,7 @@ package ufps.arqui.python.poo.gui.models;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -14,6 +15,8 @@ import java.util.Observer;
  * @author Omar Ramón Montes
  */
 public class Mundo extends Observable implements Observer{
+
+    public String pythonVersion = "python";
 
     /**
      * Cola de comandos para ejecutar en el shell.
@@ -123,5 +126,13 @@ public class Mundo extends Observable implements Observer{
             Mensaje m = (Mensaje)arg;
             this.nuevaSalida(m);
         }
+    }
+
+    public String getPythonVersion() {
+        return pythonVersion;
+    }
+
+    public void setPythonVersion(String pythonVersion) {
+        this.pythonVersion = pythonVersion;
     }
 }

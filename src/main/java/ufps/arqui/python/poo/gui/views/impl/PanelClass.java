@@ -115,12 +115,17 @@ public class PanelClass implements IPanelView{
     private void draggableMode() {
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
-                try{
-                    controller.abrirArchivo(relativePathFile);
-                }catch(Exceptions e){
-                    mostrarError(e);
-                }
                 location.move(ev.getX(), ev.getY());
+            }
+            
+            public void mouseClicked(MouseEvent event){
+                if (event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
+                    try{
+                        controller.abrirArchivo(relativePathFile);
+                    }catch(Exceptions e){
+                        mostrarError(e);
+                    }
+                }
             }
         });
 

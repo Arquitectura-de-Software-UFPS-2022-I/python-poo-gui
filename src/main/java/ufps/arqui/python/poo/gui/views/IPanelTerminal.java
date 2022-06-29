@@ -11,5 +11,4 @@ import java.util.Observer;
  * @author Omar Ramón Montes
  */
 public interface IPanelTerminal extends Observer, IPanelView {
-
 }

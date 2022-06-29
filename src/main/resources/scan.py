@@ -147,7 +147,7 @@ def list_all_instancias(local_val: dict):
                 classes_values.append(attr_value)
                 break
 
-    print("scan_list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
+    print("list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
 
 def list_all_python_class_with_hierarchy(list_of_files):
     dict_folders_class = {}
@@ -224,5 +224,5 @@ def scanner_project():
     import_modules = []
     for module in module_names:
         import_modules.append("from {} import *".format(module))
-    print("scan_get_directorio_trabajo:"+json.dumps(json.loads(str(src).replace("'", '"'))))
-    print("scan_import_modules:"+json.dumps(json.loads(str(import_modules).replace("'", '"'))))
+    print("get_directorio_trabajo:"+json.dumps(json.loads(str(src).replace("'", '"'))))
+    print("import_modules:"+json.dumps(json.loads(str(import_modules).replace("'", '"'))))
