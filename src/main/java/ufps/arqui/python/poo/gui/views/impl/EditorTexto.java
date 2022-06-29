@@ -132,7 +132,7 @@ public class EditorTexto implements IPanelView, Observer{
             try{
                 this.controller.guardarArchivo(key_path, this.pestañasAbiertas.get(key_path).getContenido());
             }catch(Exceptions err){
-                mostrarError(err);
+                mostrarError(frame.getContentPane(), err);
             }
         });
 
