@@ -113,11 +113,13 @@ class Directorio:
 #List all python files in current folder and subdirectories and save in a list
 def list_files(path):
     files = []
+    dir_names = []
     for root, dirs, filenames in os.walk(path):
+        dir_names += ['{}\\{}'.format(root, dir_name) for dir_name in dirs if dir_name != "__pycache__"]
         for filename in filenames:
             if filename.endswith(".py") and filename != "__init__.py" and filename != "scan.py":
                 files.append(os.path.join(root, filename))
-    return files
+    return [files, dir_names]
 
 def list_all_instancias(local_val: dict):
     classes = [cls for cls in inspect.getmembers(sys.modules[__name__], inspect.isclass) if cls[1].__module__ != '__main__']
@@ -149,7 +151,9 @@ def list_all_instancias(local_val: dict):
 
     print("list_all_instancias:"+json.dumps(json.loads(str(classes_values).replace("'", '"'))))
 
-def list_all_python_class_with_hierarchy(list_of_files):
+def list_all_python_class_with_hierarchy(list_of_files_folder):
+    list_of_files = list_of_files_folder[0]
+    list_of_folder = list_of_files_folder[1]
     dict_folders_class = {}
     dict_folders_list = []
 
@@ -163,6 +167,13 @@ def list_all_python_class_with_hierarchy(list_of_files):
     directorio = Directorio(folder)
     dict_folders_class[folder] = directorio
     dict_folders_list.append(directorio)
+    for folder in list_of_folder:
+        if folder not in dict_folders:
+            dict_folders[folder] = {}
+            directorio = Directorio(folder)
+            dict_folders_class[folder] = directorio
+            dict_folders_list.append(directorio)
+
     for file in list_of_files:
         #name -> nombre de clase
         #cls -> tipo de clase

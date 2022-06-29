@@ -8,5 +8,12 @@ import java.util.Observer;
  * @author Sachikia
  */
 public interface IPanelFichero extends Observer, IPanelView {
+
+    /**
+     * Crear un nuevo fichero en el directorio seleccionado.
+     * @param nombre
+     * @param directorioSeleccionado
+     */
+    void crearFichero(String nombre, String directorioSeleccionado);
     
 }
