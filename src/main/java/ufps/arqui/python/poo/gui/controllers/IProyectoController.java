@@ -65,7 +65,7 @@ public interface IProyectoController {
      * @param path representa el nombre del proyecto.
      * @param contenido representa el directorio raiz donde se guardo.
      */
-    public void guardarArchivo(String path, String contenido);
+    public void guardarArchivo(String path, String contenido) throws Exceptions;
     
     /**
     * Creacion de clase.

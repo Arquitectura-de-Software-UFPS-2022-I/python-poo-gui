@@ -55,7 +55,8 @@ public class ProyectoController implements IProyectoController {
     }
     
     @Override
-    public void guardarArchivo(String path, String contenido) {
+    public void guardarArchivo(String path, String contenido) throws Exceptions {
+        this.proyecto.guardarArchivo(path, contenido);
     }
 
     @Override

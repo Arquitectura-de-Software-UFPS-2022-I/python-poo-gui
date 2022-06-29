@@ -43,9 +43,6 @@ public class EditorTexto implements IPanelView, Observer{
     private JButton btnNewClass;
     private JButton btnSave;
     private JButton btnClose;
-    private JLabel label;
-    private JButton btncrearClass;
-    private JButton btncancelarNewClass;
 
     public EditorTexto(IProyectoController controller) throws Exception {
         this.controller = controller;
@@ -129,6 +126,15 @@ public class EditorTexto implements IPanelView, Observer{
         config.setIpadx(0);
         config.setIpady(0);
         ViewTool.insert(config);
+        
+        this.btnSave.addActionListener(e -> {
+            String key_path = this.getKeyComponent(this.tabbedPane.getSelectedComponent());
+            try{
+                this.controller.guardarArchivo(key_path, this.pestañasAbiertas.get(key_path).getContenido());
+            }catch(Exceptions err){
+                mostrarError(err);
+            }
+        });
 
         this.btnClose.addActionListener(e -> {
             this.cerrarPestaña();
@@ -149,14 +155,8 @@ public class EditorTexto implements IPanelView, Observer{
      */
     private void cerrarPestaña(){
         Component component = this.tabbedPane.getSelectedComponent();
-        String key_value = "";
-        for(String key: this.pestañasAbiertas.keySet()){
-            if(this.pestañasAbiertas.get(key).getPanel().equals(component)){
-                this.pestañasAbiertas.remove(key);
-                key_value = key;
-                break;
-            }
-        }
+        String key_value = this.getKeyComponent(component);
+        this.pestañasAbiertas.remove(key_value);
         this.tabbedPane.remove(component);
         this.frame.setVisible(this.tabbedPane.getComponentCount() > 0);
         
@@ -165,6 +165,16 @@ public class EditorTexto implements IPanelView, Observer{
         }catch(Exceptions e){
             mostrarError(e);
         }
+    }
+    
+    private String getKeyComponent(Component component){
+        for(String key: this.pestañasAbiertas.keySet()){
+            if(this.pestañasAbiertas.get(key).getPanel().equals(component)){
+                return key;
+            }
+        }
+        
+        return null;
     }
     
     //toca acomodar de acuerdo a la arquitectura
@@ -196,7 +206,8 @@ public class EditorTexto implements IPanelView, Observer{
             Editor editor = (Editor)o;
             EditorArchivoContenido eac = new EditorArchivoContenido(
                     editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath(), 
-                    editor.getUltimoArchivoAbierto().getContenido().toString()
+                    editor.getUltimoArchivoAbierto().getContenido().toString(),
+                    this.tabbedPane
             );
             
             this.tabbedPane.add(editor.getUltimoArchivoAbierto().getArchivo().getName(), eac.getPanel());
@@ -209,6 +220,11 @@ public class EditorTexto implements IPanelView, Observer{
             EditorArchivoContenido eac = this.pestañasAbiertas.get(editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath());
             this.tabbedPane.setSelectedComponent(eac.getPanel());
             this.frame.setVisible(true);
+            
+        }else if(arg.toString().equals("actualizacionArchivo")){
+            Editor editor = (Editor)o;
+            EditorArchivoContenido eac = this.pestañasAbiertas.get(editor.getUltimoArchivoAbierto().getArchivo().getAbsolutePath());
+            eac.setContenido(editor.getUltimoArchivoAbierto().getContenido().toString());
         }
     }
 }
