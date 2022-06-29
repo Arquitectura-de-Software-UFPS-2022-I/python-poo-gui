@@ -17,12 +17,6 @@ public interface ITerminalController {
     void ejecutarComando(String commando) throws Exceptions;
 
     /**
-     * Obtener comando según la posición.
-     * @param indice indice de la lista.
-     */
-    String getComando(int indice);
-
-    /**
      * Metodo para reiniciar la terminal
      * @throws java.io.IOException En caso de que la terminal no pudo ser inicializada.
      */

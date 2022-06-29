@@ -31,15 +31,6 @@ public class ProyectoController implements IProyectoController {
         this.proyecto.obtenerClasesDesde(relativePath);
     }
 
-    @Override
-    public void crearClase(String nombre, ArchivoPython archivo) throws Exceptions {
-        archivo.crearClase(nombre);
-    }
-
-    @Override
-    public ArchivoPython obtenerArchivo(String nombre) throws Exceptions {
-        return this.proyecto.getDirectorioTrabajo().getArchivoPorNombre(nombre);
-    }
     public void eliminarArchivo(String relativePath) throws Exceptions {
         this.proyecto.eliminarArchivo(relativePath);
     }

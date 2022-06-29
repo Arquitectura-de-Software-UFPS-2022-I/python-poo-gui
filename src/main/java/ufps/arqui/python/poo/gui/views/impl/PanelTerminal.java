@@ -14,6 +14,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -29,6 +30,7 @@ public class PanelTerminal implements IPanelTerminal  {
 
     private final ITerminalController controller;
     private int posComando = 0;
+    private List<String> comandos = new ArrayList<>();
 
     private final JPanel panel;
     private JTextField txtInput;
@@ -125,6 +127,7 @@ public class PanelTerminal implements IPanelTerminal  {
     private void ingresarComando() {
         try {
             controller.ejecutarComando(txtInput.getText());
+            comandos.add(txtInput.getText());
         } catch (Exceptions ex) {
             mostrarError(panel, ex);
         }
@@ -135,7 +138,7 @@ public class PanelTerminal implements IPanelTerminal  {
      * Obtener comando.
      */
     private void getComandoIngresado(boolean abajo) {
-        String comando = controller.getComando(posComando);
+        String comando = this.getComando(posComando);
         if (comando != null) {
             if (abajo) {
                 posComando -= 1;
@@ -160,6 +163,21 @@ public class PanelTerminal implements IPanelTerminal  {
             Mundo m = (Mundo) o;
             visualizarNuevasSalidas(m.getSalidas());
         }
+    }
+
+    /**
+     * Obtiene el comando ingresado por el usuario.
+     *
+     * Se obtiene de manera inversa donde el indice 0 representa el ultimo ingresado.
+     * @param indice indice inverso de la lista de comando ingresados por el usuario.
+     * @return
+     */
+    private String getComando(int indice) {
+        int i = this.comandos.size()-indice-1;
+        if (i >= 0 && i < this.comandos.size()) {
+            return this.comandos.get(i);
+        }
+        return null;
     }
 
     /**

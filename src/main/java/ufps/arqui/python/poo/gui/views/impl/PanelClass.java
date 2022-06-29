@@ -65,13 +65,14 @@ public class PanelClass implements IPanelView{
 
     private IProyectoController controller;
 
-    public PanelClass(String relativePathFile, String name, JPanel parent, IProyectoController controller) {
+    public PanelClass(String relativePathFile, String name, String pathModule, JPanel parent, IProyectoController controller) {
         this.relativePathFile = relativePathFile;
         this.controller = controller;
         this.panel = new JPanel(new GridBagLayout());
         this.estaDibujado = false;
         this.parent = parent;
         this.lblName = new JLabel(name);
+        this.lblName.setToolTipText("Módulo: "+pathModule);
         this.location = new Point();
         this.lastLocation = new Point();
 
@@ -95,7 +96,6 @@ public class PanelClass implements IPanelView{
         config.setAnchor(GridBagConstraints.PAGE_START);
 
         ViewTool.insert(config);
-//        ViewTool.insert(this.panel, this.lblName, 0, 0, 1, 1, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.PAGE_START, null, 0, 0);
     }
 
     /**

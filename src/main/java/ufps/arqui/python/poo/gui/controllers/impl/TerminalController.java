@@ -27,11 +27,6 @@ public class TerminalController implements ITerminalController {
     }
 
     @Override
-    public String getComando(int indice) {
-        return this.mundo.getComando(indice);
-    }
-
-    @Override
     public void reiniciarTerminal() throws Exceptions {
         this.mundo.reiniciarTerminal();
     }

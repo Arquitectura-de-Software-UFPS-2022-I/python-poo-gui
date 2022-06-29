@@ -27,10 +27,6 @@ public interface IProyectoController {
      * @throws ufps.arqui.python.poo.gui.exceptions.Exceptions
      */
     void obtenerClasesDesde(String relativePath) throws Exceptions;
-    
-    ArchivoPython obtenerArchivo(String nombre) throws Exceptions;
-    
-    void crearClase(String nombre, ArchivoPython  archivo) throws Exceptions;
 
     /**
      * Elimina Archivos y directorios de un directorio dado.
@@ -47,7 +43,7 @@ public interface IProyectoController {
      * @param path Ruta del archivo a buscar
      * @throws Exceptions 
      */
-    public void abrirArchivo(String path) throws Exceptions;
+    void abrirArchivo(String path) throws Exceptions;
     
     /**
      * Debe buscar un <code>ArchivoPython</code> que corresponda con el <code>path</code> <br>
@@ -55,7 +51,7 @@ public interface IProyectoController {
      * @param path Ruta del archivo a buscar
      * @throws Exceptions 
      */
-    public void cerrarArchivo(String path) throws Exceptions;
+    void cerrarArchivo(String path) throws Exceptions;
     
     /**
      * Debe Guardar el contenido de la clase.
@@ -65,7 +61,7 @@ public interface IProyectoController {
      * @param path representa el nombre del proyecto.
      * @param contenido representa el directorio raiz donde se guardo.
      */
-    public void guardarArchivo(String path, String contenido) throws Exceptions;
+    void guardarArchivo(String path, String contenido) throws Exceptions;
     
     /**
     * Creacion de clase.
@@ -74,5 +70,5 @@ public interface IProyectoController {
     * Se debe de pedir el directorio y el nombre
     * @param nombre representa el nombre de la clase que se desea crear.
     */
-    public  void crearClase(String nombre)  throws IOException;
+    void crearClase(String nombre)  throws IOException;
 }

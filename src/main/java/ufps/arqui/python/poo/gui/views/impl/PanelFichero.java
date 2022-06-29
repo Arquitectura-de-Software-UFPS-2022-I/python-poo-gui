@@ -7,12 +7,9 @@ import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.utils.ViewTool;
 import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
-import ufps.arqui.python.poo.gui.views.impl.CrearPack;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
-import ufps.arqui.python.poo.gui.models.ArchivoPython;
 
 /**
  * Implementación de Interfaz lateral del proyecto, donde el usuario puede
@@ -27,7 +24,6 @@ public class PanelFichero implements IPanelFichero {
 
     // elementos de GUI
     private JButton btnNuevoArchivo;
-    private JButton btnNuevaClase;
     private JButton btnVerificar;
     private JButton btnElimianr;
     private ArbolDinamico arbol;
@@ -38,7 +34,6 @@ public class PanelFichero implements IPanelFichero {
         this.panel = new JPanel(new GridBagLayout());
 
         this.btnNuevoArchivo = new JButton("Nuevo archivo");
-        this.btnNuevaClase = new JButton("Nueva clase");
         this.btnVerificar = new JButton("Verificar");
         this.btnElimianr = new JButton("Eliminar");
         this.arbol = new ArbolDinamico(controller);
@@ -61,20 +56,11 @@ public class PanelFichero implements IPanelFichero {
                 mostrarError(this.panel, ex);
             }
         });
-        
-        this.btnNuevaClase.addActionListener(e -> {
-            try {
-                ArchivoPython archivo = this.controller.obtenerArchivo("vehiculos");
-                this.controller.crearClase("example", archivo);
-            } catch (Exceptions ex) {
-                mostrarError(this.panel, ex);
-            }
-        });
 
         this.btnElimianr.addActionListener(e -> {
             String path = this.arbol.getCurrentPath();
             if (!path.isEmpty()) {
-                int option = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el " + isArchive(path) + getFileName(path) + "?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
+                int option = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el " + esArchivo(path) + getFileName(path) + "?", "Eliminar archivo", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         this.controller.eliminarArchivo(path);
@@ -101,13 +87,6 @@ public class PanelFichero implements IPanelFichero {
         config.setInsets(10, 0, 0, 0);
 
         ViewTool.insert(config);
-        
-        config = new ConfGrid(panel, btnNuevaClase);
-        config.setGridy(2);
-        config.setAnchor(GridBagConstraints.PAGE_START);
-        config.setInsets(10, 0, 0, 0);
-
-        ViewTool.insert(config);
 
         config = new ConfGrid(panel, btnElimianr);
         config.setGridy(2);
@@ -126,8 +105,6 @@ public class PanelFichero implements IPanelFichero {
 
         ViewTool.insert(config);
 
-//        ViewTool.insert(this.panel, this.btnVerificar, 0, 1, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.PAGE_START, new Insets(10, 0, 0, 0), 0, 0);
-//        ViewTool.insert(this.panel, this.arbol.getPanel(), 0, 2, 1, 1, 1, 1, GridBagConstraints.BOTH, GridBagConstraints.PAGE_END, new Insets(10, 0, 0, 0), 0, 0);
     }
 
     @Override
@@ -151,7 +128,12 @@ public class PanelFichero implements IPanelFichero {
     public void crearPack(String text, String text2) {
     }
 
-    private String isArchive(String path) {
+    /**
+     * Verifica si el nombre del archivo corresponde a un fichero python.
+     * @param path nombre del archivo
+     * @return True si es un fichero con extensión .py
+     */
+    private String esArchivo(String path) {
         if (path.endsWith(".py")) {
             return "archivo ";
         } else {

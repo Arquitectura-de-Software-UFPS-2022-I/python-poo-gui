@@ -83,7 +83,8 @@ public class PanelProyecto implements IPanelProyecto {
                     new PanelClass(
                             relativePath ,
                             clase.getNombre(), 
-                            this.panel, 
+                            clase.getPathModule(),
+                            this.panel,
                             this.controller
                     )
             );
@@ -96,7 +97,7 @@ public class PanelProyecto implements IPanelProyecto {
                 PanelClass pcHerencia = panels.getOrDefault(
                         herencia.getNombre(), 
                         new PanelClass(
-                                relativePathHerencia, herencia.getNombre(), 
+                                relativePathHerencia, herencia.getNombre(), herencia.getPathModule(),
                                 this.panel, 
                                 this.controller
                         )

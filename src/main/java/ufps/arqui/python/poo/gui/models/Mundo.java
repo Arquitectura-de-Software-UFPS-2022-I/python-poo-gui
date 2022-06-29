@@ -97,21 +97,6 @@ public class Mundo extends Observable implements Observer{
     }
 
     /**
-     * Obtiene el comando ingresado por el usuario.
-     *
-     * Se obtiene de manera inversa donde el indice 0 representa el ultimo ingresado.
-     * @param indice indice inverso de la lista de comando ingresados por el usuario.
-     * @return
-     */
-    public String getComando(int indice) {
-        int i = this.entradas.size()-indice-1;
-        if (i >= 0 && i < this.entradas.size()) {
-            return this.entradas.get(i).getLinea();
-        }
-        return null;
-    }
-
-    /**
      * Actualiza el modelo y notifica a los observaciones del Mundo a que se a realizado un cambio
      * @param type representa el tipo de cambio realizado.
      */
