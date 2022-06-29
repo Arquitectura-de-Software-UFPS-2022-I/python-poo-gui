@@ -1,11 +1,13 @@
 package ufps.arqui.python.poo.gui.utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -57,17 +59,22 @@ public class AdministrarArchivo {
     
     /**
      * Escribe el contenido pasado como parametro al archivo
-     * @param archivo
-     * @param contenido
+     * @param archivo Archivo sobre el cual se va a escribir
+     * @param contenido Contenido que se escribira en el archivo
+     * @param adjuntar Inidica si se adjunta el contenido al archivo o si se sobreescribe
      * @throws Exceptions 
      */
-    public static void escribirArchivo(File archivo, String contenido) throws Exceptions{
+    public static void escribirArchivo(File archivo, String contenido, boolean adjuntar) throws Exceptions{
         try{
-            PrintWriter writer = new PrintWriter(archivo.getAbsolutePath(), "UTF-8");
-            writer.print(contenido);
-            writer.close();
+            FileWriter fw = new FileWriter(archivo, adjuntar);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw);
+            
+            out.print(contenido);
+            out.close();
+            
         }catch(Exception e){
-            throw new Exceptions("No se ha podido guardar el archivo", null);
+            throw new Exceptions("No se ha podido escribir en el archivo", null);
         }
     }
 }

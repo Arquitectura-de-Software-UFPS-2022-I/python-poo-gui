@@ -5,20 +5,15 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.Editor;
@@ -40,6 +35,7 @@ public class EditorTexto implements IPanelView, Observer{
 
     private JFrame frame;
     private JTabbedPane tabbedPane;
+    private JTextArea textAreaErrores;
     private JButton btnNewClass;
     private JButton btnSave;
     private JButton btnClose;
@@ -52,7 +48,8 @@ public class EditorTexto implements IPanelView, Observer{
         this.btnClose = new JButton("Cerrar");
         this.btnSave = new JButton("Guardar");
         this.btnNewClass = new JButton("Nueva Clase");
-        this.modalCrearClase = new ModalCrearClase();
+        this.textAreaErrores = new JTextArea();
+        this.modalCrearClase = new ModalCrearClase(this);
         this.inicializarContenido();
     }
 
@@ -127,6 +124,20 @@ public class EditorTexto implements IPanelView, Observer{
         config.setIpady(0);
         ViewTool.insert(config);
         
+        this.textAreaErrores.setEditable(false);
+        config = new ConfGrid(container, this.textAreaErrores);
+        config.setGridx(0);
+        config.setGridy(2);
+        config.setWeightx(1);
+        config.setWeighty(0);
+        config.setGridwidth(1);
+        config.setGridheight(1);
+        config.setFill(GridBagConstraints.HORIZONTAL);
+        config.setAnchor(GridBagConstraints.CENTER);
+        config.setIpadx(0);
+        config.setIpady(100);
+        ViewTool.insert(config);
+        
         this.btnSave.addActionListener(e -> {
             String key_path = this.getKeyComponent(this.tabbedPane.getSelectedComponent());
             try{
@@ -144,7 +155,7 @@ public class EditorTexto implements IPanelView, Observer{
             this.modalCrearClase.setVisible(true);
         });
 
-        this.frame.setPreferredSize(new Dimension(500, 700));
+        this.frame.setPreferredSize(new Dimension(800, 700));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -176,23 +187,14 @@ public class EditorTexto implements IPanelView, Observer{
         
         return null;
     }
-    
-    //toca acomodar de acuerdo a la arquitectura
-    public String informacion(String ruta) {
-        String info = "";
-        try {
-            InputStream ins = new FileInputStream(ruta);
-            Scanner obj = new Scanner(ins);
-            while (obj.hasNextLine()) {
-                info = info + obj.nextLine() + "\n";
-            }
-        } catch (FileNotFoundException e) {
-        }
-        return info;
-    }
 
-    public void modalCrearClase(String name) throws IOException {
-        this.controller.crearClase(name);
+    public void modalCrearClase(String name) {
+        String path_key = this.getKeyComponent(this.tabbedPane.getSelectedComponent());
+        try{
+            this.controller.crearClase(path_key, name);
+        }catch(Exceptions e){
+            mostrarError(this.frame.getContentPane(), e);
+        }
     }
 
     @Override

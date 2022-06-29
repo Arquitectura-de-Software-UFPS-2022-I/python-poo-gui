@@ -15,6 +15,7 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.*;
 import java.awt.*;
+import java.io.File;
 
 /**
  * Implementación del componente JTree, vista para visualizar los archivos,
@@ -66,6 +67,12 @@ public class ArbolDinamico implements IPanelView {
             if (!this.currentPath.contains(".py")) {
                 if (this.load) {
                     this.actualizarDiagramas(this.currentPath);
+                }
+            }else{
+                try{
+                    this.controller.abrirArchivo("src"+ File.separator +currentPath);
+                }catch(Exceptions err){
+                    mostrarError(this.panel, err);
                 }
             }
         });
@@ -154,7 +161,7 @@ public class ArbolDinamico implements IPanelView {
 
     public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,
             Object child) {
-        return addObject(parent, child, false);
+        return addObject(parent, child, true);
     }
 
     public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,

@@ -347,12 +347,11 @@ public class Proyecto extends Observable implements Observer {
         String nombre_clase = nombre.replaceAll(".py", "");
         try {
             file.createNewFile();
-            FileWriter out = new FileWriter(file);
-            out.write("class "+nombre_clase+"():\n" +
+            String contenidoClase = "class "+nombre_clase+"(object):\n" +
                     "    def __init__(self):\n" +
                     "        self.a = 1\n" +
-                    "        self.b = 3");
-            out.close();
+                    "        self.b = 3";
+            AdministrarArchivo.escribirArchivo(file, contenidoClase, false);
         } catch (IOException e) {
             throw new Exceptions("El archivo no puede ser creado", e);
         }
@@ -360,5 +359,23 @@ public class Proyecto extends Observable implements Observer {
         archivo.setArchivo(file);
         this.directorioTrabajo.addArchivo(archivo);
         this.escanearProyecto();
+    }
+    
+    /**
+     * Crea una clase con el nombre <code>nombre</code> en el archivo python que <br>
+     * corresponda con la ruta absoluta
+     * @param absolutePath Ruta absoluta del archivo al cual se le añadira una nueva clase
+     * @param nombre Nombre de la clase a ser añadida
+     */
+    public void crearClase(String absolutePath, String nombre) throws Exceptions {
+        ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePath);
+        
+        String dirWork = this.directorioRaiz.getAbsolutePath();
+        String module = absolutePath.replace(dirWork, "").substring(1).replaceAll("\\\\", ".").replace(".py", "");
+        
+        this.editor.crearClase(archivoPython, module, nombre);
+        
+        super.setChanged();
+        super.notifyObservers(obtenerClasesDesde(this.directorioTrabajo));
     }
 }

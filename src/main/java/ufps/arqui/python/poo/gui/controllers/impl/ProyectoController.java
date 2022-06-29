@@ -3,7 +3,6 @@ package ufps.arqui.python.poo.gui.controllers.impl;
 import java.io.IOException;
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
-import ufps.arqui.python.poo.gui.models.ArchivoPython;
 import ufps.arqui.python.poo.gui.models.Proyecto;
 
 /**
@@ -56,6 +55,7 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
-    public void crearClase(String nombre) throws IOException {
+    public void crearClase(String absolutePath, String nombre) throws Exceptions {
+        this.proyecto.crearClase(absolutePath, nombre);
     }
 }

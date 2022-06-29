@@ -71,8 +71,15 @@ public class Editor extends Observable{
     }
 
     public void guardarArchivo(ArchivoPython archivoPython, String contenido) throws Exceptions {
-        AdministrarArchivo.escribirArchivo(archivoPython.getArchivo(), contenido);
-        archivoPython.setContenido(contenido);
+        AdministrarArchivo.escribirArchivo(archivoPython.getArchivo(), contenido, false);
+        archivoPython.leerContenido();
+        this.ultimoArchivoAbierto = archivoPython;
+        
+        this.update("actualizacionArchivo");
+    }
+    
+    public void crearClase(ArchivoPython archivoPython, String modulo, String nombre) throws Exceptions{
+        archivoPython.crearClase(modulo, nombre);
         this.ultimoArchivoAbierto = archivoPython;
         
         this.update("actualizacionArchivo");

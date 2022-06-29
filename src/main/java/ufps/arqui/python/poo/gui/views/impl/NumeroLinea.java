@@ -50,6 +50,7 @@ public class NumeroLinea extends JPanel
         this.component = component;
 
         setFont(component.getFont());
+        component.setFont(new Font("Monospaced", 1, 15));
 
         setBorderGap(5);
         setCurrentLineForeground(color1);

@@ -16,14 +16,14 @@ import ufps.arqui.python.poo.gui.views.IPanelMenuClase;
  * @author Rafael Peña
  */
 public class ModalCrearClase {
-    private IPanelMenuClase panelMenu;
+    private EditorTexto editorTexto;
     private JFrame frame;
     private JTextField txtName;
     private JButton btnAceptar;
     private JButton btnCancel;
 
-    public ModalCrearClase() throws Exception {
-        this.panelMenu = panelMenu;
+    public ModalCrearClase(EditorTexto editorTexto) throws Exception {
+        this.editorTexto = editorTexto;
         this.frame = new JFrame("Nueva Clase");
         this.txtName = new JTextField();
         this.btnAceptar = new JButton("Aceptar");
@@ -102,24 +102,15 @@ public class ModalCrearClase {
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    cerrarModal();
+                    frame.setVisible(false);
                 }
             }
         });
         
         this.btnAceptar.addActionListener(e -> {
-            try{
-                this.panelMenu.modalCrearClase(this.txtName.getText());
-                this.cerrarModal();
-            }catch(IOException err){
-                JOptionPane.showMessageDialog(this.panelMenu.getPanel(), "Error al crear la clase: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            this.editorTexto.modalCrearClase(this.txtName.getText());
+            this.frame.setVisible(false);
         });
-    }
-
-    private void cerrarModal() {
-        this.frame.setVisible(false);
-        this.frame.dispose();
     }
     
     public void setVisible(boolean visible) {
