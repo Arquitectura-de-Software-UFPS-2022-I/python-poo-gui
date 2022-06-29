@@ -178,6 +178,8 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
         ## Eliminar modulos previamente importados.
         exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
 
+        folder = "\\".join(file.split("\\")[:-1])
+        directorio = dict_folders_class[folder]
         module = file.split("\\")[-1].split(".")[0]
         path_module = file[:-3].replace("\\", ".")
 
@@ -187,10 +189,10 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
                 archivo = ArchivoPython(module, path_module)
                 directorio.archivos.append(archivo)
 
-        #name -> nombre de clase
-        #cls -> tipo de clase
-        for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
-            try:
+        try:
+            #name -> nombre de clase
+            #cls -> tipo de clase
+            for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
                 #module -> archivo python
                 #class_name -> nombre de clase
                 module = str(cls).split("'")[1].split(".")[-2]
@@ -219,8 +221,8 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
 
                             clase_python.herencia.append(ClasePython(class_name, path_mod_herencia))
                     archivo.clases.append(clase_python)
-            except Exception as err:
-                errores.append(str(err))
+        except Exception as err:
+            errores.append(str(err))
     return [dict_folders_class, errores]
 
 
