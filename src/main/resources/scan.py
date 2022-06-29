@@ -3,6 +3,7 @@ import inspect
 import json
 import os
 import sys
+import re
 
 
 class ClasePython:
@@ -109,6 +110,18 @@ class Directorio:
 
     def __str__(self) -> str:
         return str(self.to_json())
+
+#Obtiene el archivo las lineas de inicio y fin de una clase
+def get_lines_class(class_name):
+    file = inspect.getsourcefile(class_name)
+    codigo, index = inspect.findsource(class_name)
+    index_last = index
+    for ind_linea in range(index+1, len(codigo)):
+        index_last += 1
+        if codigo[ind_linea].startswith('class '):
+            break
+    data = {'inicio': str(index), 'fin': str(index_last-1), 'archivo': str(file).replace("'", ""), 'clase': class_name.__name__}
+    print("get_lines_class:"+json.dumps(json.loads(str(data).replace("'", '"'))))
 
 #List all python files in current folder and subdirectories and save in a list
 def list_files(path):

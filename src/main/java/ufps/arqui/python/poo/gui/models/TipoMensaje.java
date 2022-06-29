@@ -10,10 +10,11 @@ public enum TipoMensaje {
     ERROR,
     INSTANCIA,
     DIRECTORIO,
-    IMPORTS;
+    IMPORTS,
+    LINE_CLASS;
 
     public boolean esInterno() {
-        return this.esInstancia() || this.esDirectorio() || this.esImports();
+        return this.esInstancia() || this.esDirectorio() || this.esImports() || this.esLineClass();
     }
 
     public boolean esInstancia() {
@@ -26,5 +27,9 @@ public enum TipoMensaje {
 
     public boolean esImports() {
         return this.toString().equals(TipoMensaje.IMPORTS.toString());
+    }
+
+    public boolean esLineClass() {
+        return this.toString().equals(TipoMensaje.LINE_CLASS.toString());
     }
 }

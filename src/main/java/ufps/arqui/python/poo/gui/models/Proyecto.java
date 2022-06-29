@@ -271,6 +271,18 @@ public class Proyecto extends Observable implements Observer {
                 } catch (Exception e) {
                 }
             }
+            if (m.getTipo().esLineClass()) {
+                try {
+                    LineasClase lineasClase = gson.fromJson(m.getLinea(), LineasClase.class);
+//                    File file = new File(lineasClase.getArchivo());
+//                    StringBuilder contenido =  new StringBuilder();
+//                    AdministrarArchivo.abrirArchivo(file, contenido);
+//                    String inicio = contenido.substring(0, lineasClase.getInicio());
+//                    String fin = contenido.substring(lineasClase.getFin(), contenido.length());
+//                    AdministrarArchivo.escribirArchivo(file, inicio+fin, true);
+                } catch (Exception e) {
+                }
+            }
         }
     }
 
@@ -296,6 +308,16 @@ public class Proyecto extends Observable implements Observer {
         relativaPathFile = this.directorioRaiz.getAbsolutePath() + File.separator + relativaPathFile;
         ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(relativaPathFile);
         this.editor.abrirArchivo(archivoPython);
+    }
+
+
+    /**
+     * Elimina una clase del proyecto
+     * @param nombreClase Nombre de la clase a eliminar
+     * @throws Exceptions En caso de que no exista la clase
+     */
+    public void eliminarClase(String nombreClase) throws Exceptions {
+        this.terminalInteractiva.ingresarComando("get_lines_class("+nombreClase+")");
     }
 
     /**

@@ -40,6 +40,13 @@ public interface IProyectoController {
      * @throws Exceptions 
      */
     void abrirArchivo(String path) throws Exceptions;
+
+    /**
+     * Elimina una clase de los archivos de python.
+     * @param nombreClase
+     * @throws Exceptions
+     */
+    void eliminarClase(String nombreClase) throws Exceptions;
     
     /**
      * Debe buscar un <code>ArchivoPython</code> que corresponda con el <code>path</code> <br>

@@ -39,6 +39,11 @@ public class ProyectoController implements IProyectoController {
     }
 
     @Override
+    public void eliminarClase(String nombreClase) throws Exceptions {
+        this.proyecto.eliminarClase(nombreClase);
+    }
+
+    @Override
     public void cerrarArchivo(String path) throws Exceptions {
         this.proyecto.cerrarArchivo(path);
     }

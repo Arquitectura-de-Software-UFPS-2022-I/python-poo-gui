@@ -126,6 +126,13 @@ public class PanelClass implements IPanelView{
                         mostrarError(panel, e);
                     }
                 }
+                if (event.getClickCount() == 1 && event.getButton() == MouseEvent.BUTTON1) {
+                    try{
+                        controller.eliminarClase(lblName.getText());
+                    }catch(Exceptions e){
+                        mostrarError(panel, e);
+                    }
+                }
             }
         });
 

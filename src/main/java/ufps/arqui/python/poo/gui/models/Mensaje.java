@@ -33,6 +33,9 @@ public class Mensaje {
         } else if (linea.startsWith("errores_importacion:")) {
             this.linea = this.linea.replaceAll("errores_importacion:", "");
             this.tipo = TipoMensaje.ERROR;
+        } else if (linea.startsWith("get_lines_class:")) {
+            this.linea = this.linea.replaceAll("get_lines_class:", "");
+            this.tipo = TipoMensaje.LINE_CLASS;
         }
     }
 
