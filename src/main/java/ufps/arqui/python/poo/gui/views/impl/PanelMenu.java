@@ -33,21 +33,20 @@ public class PanelMenu implements IPanelMenu {
     
     private final ModalCrearProyecto modalCrearProyecto;
     private final ModalAbrirProyecto modalAbrirProyecto;
-    private final ModalAyuda modalAyuda;
+    private ModalAyuda modalAyuda;
     
-    public PanelMenu(IMenuController controller) throws Exception {
+    public PanelMenu(IMenuController controller) {
         this.controller = controller;
         
         this.panel = new JPanel(new GridBagLayout());
         
         this.btnAbrirProyecto = new JButton("Abrir proyecto");
         this.btnNuevoProyecto = new JButton("Nuevo proyecto");
-        this.btnAyuda = new JButton("Ayuda");
+        this.btnAyuda = new JButton("Acerca de");
         
         this.modalCrearProyecto = new ModalCrearProyecto(this);
         this.modalAbrirProyecto = new ModalAbrirProyecto(this);
-        this.modalAyuda = new ModalAyuda(this);
-        
+
         this.inicializarContenido();
     }
 
@@ -55,12 +54,14 @@ public class PanelMenu implements IPanelMenu {
     public void inicializarContenido() {
         ConfGrid config = new ConfGrid(panel, btnAbrirProyecto);
         config.setAnchor(GridBagConstraints.LINE_START);
+        config.setInsets(10, 10, 10, 10);
 
         ViewTool.insert(config);
 
         config = new ConfGrid(panel, btnNuevoProyecto);
         config.setGridx(1);
         config.setAnchor(GridBagConstraints.LINE_START);
+        config.setInsets(10, 10, 10, 10);
 
         ViewTool.insert(config);
 
@@ -68,20 +69,23 @@ public class PanelMenu implements IPanelMenu {
         config.setGridx(2);
         config.setWeightx(1);
         config.setAnchor(GridBagConstraints.LINE_START);
+        config.setInsets(10, 10, 10, 10);
 
         ViewTool.insert(config);
-//        ViewTool.insert(this.panel, this.btnAbrirProyecto,  0, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
-//        ViewTool.insert(this.panel, this.btnNuevoProyecto,  1, 0, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
-//        ViewTool.insert(this.panel, this.btnAyuda,          2, 0, 1, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.LINE_START, null, 0, 0);
 
+        // Abrir modal para crear un nuevo proyecto.
         this.btnNuevoProyecto.addActionListener(e -> {
             this.modalCrearProyecto.setVisible(true);
         });
+
+        // Abrir modal para abrir un proyecto existente.
         this.btnAbrirProyecto.addActionListener(e -> {
             this.modalAbrirProyecto.setVisible(true);
         });
+
+        // Abrir modal para visualizar ayuda.
          this.btnAyuda.addActionListener(e -> {
-            this.modalAyuda.setVisible(true);
+            this.modalAyuda = new ModalAyuda(this);
         });
 
         this.panel.setVisible(true);
@@ -97,21 +101,37 @@ public class PanelMenu implements IPanelMenu {
     }
 
     @Override
-    public void modalCrearProyecto(String name, String path){
+    public void modalCrearProyecto(String name, String path, String comandoPython){
         try {
-            this.controller.crearProyecto(name, path);
+            this.controller.crearProyecto(name, path, comandoPython);
+            mostrarMensaje("Proyecto creado", "El proyecto ha sido creado exitosamente.", this.panel);
         } catch (Exceptions ex) {
-            mostrarError(ex);
+            mostrarError(this.panel, ex);
         }
     }
 
     @Override
-    public void modalAbrirProyecto(String name,String path) throws IOException {
+    public void modalAbrirProyecto(String path) {
         try {
-            this.controller.abrirProyecto(name,path);
+            this.controller.abrirProyecto(path);
+            mostrarMensaje("Proyecto abierto", "El proyecto ha sido abierto exitosamente.", this.panel);
         }catch (Exceptions ex){
-            mostrarError(ex);
+            mostrarError(this.panel, ex);
         }
+    }
 
+    @Override
+    public String gerNombreProyecto() {
+        return this.controller.gerNombreProyecto();
+    }
+
+    @Override
+    public String getPythonProyecto() {
+        return this.controller.getPythonProyecto();
+    }
+
+    @Override
+    public String getDireccionProyecto() {
+        return this.controller.getDireccionProyecto();
     }
 }

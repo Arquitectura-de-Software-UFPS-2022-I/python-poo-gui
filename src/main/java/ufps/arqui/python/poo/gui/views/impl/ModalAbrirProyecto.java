@@ -25,44 +25,35 @@ public class ModalAbrirProyecto {
 
     private JFrame frame;
     private JTextField txtPath;
-    private JLabel lblAbsolutePath;
     private JButton btnChoose;
     private JButton btnAceptar;
     private JButton btnCancel;
 
-    public ModalAbrirProyecto(IPanelMenu panelMenu) throws Exception {
+    public ModalAbrirProyecto(IPanelMenu panelMenu) {
         this.panelMenu = panelMenu;
         this.frame = new JFrame("Abrir Proyecto");
 
         this.txtPath = new JTextField();
-        this.lblAbsolutePath = new JLabel();
         this.btnChoose = new JButton("Buscar");
 
         this.btnAceptar = new JButton("Aceptar");
-        this.btnCancel = new JButton("Cancelar");
+        this.btnCancel = new JButton("Cerrar");
 
-        this.init();
-        this.addEvents();
+        this.inicializar();
+        this.agregarEventos();
     }
     /**
      * Creacion y ubicacion de los labels
      */
-    private void init() throws Exception {
+    private void inicializar() {
         JPanel panelForm = new JPanel(new GridBagLayout());
 
-        JLabel lblName = new JLabel("");
         JLabel lblPath = new JLabel("Localización");
-        JLabel lblFullPath = new JLabel("Path");
 
         Container container = this.frame.getContentPane();
         container.setLayout(new GridBagLayout());
 
-        ConfGrid config = new ConfGrid(panelForm, lblName);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-        ViewTool.insert(config);
-     
-        config = new ConfGrid(panelForm, lblPath);
+        ConfGrid config = new ConfGrid(panelForm, lblPath);
         config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 5);
@@ -83,22 +74,6 @@ public class ModalAbrirProyecto {
         config.setGridy(1);
         config.setFill(GridBagConstraints.HORIZONTAL);
         config.setInsets(0, 0, 5, 0);
-
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, lblFullPath);
-        config.setGridy(2);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
-
-        ViewTool.insert(config);
-
-        config = new ConfGrid(panelForm, lblAbsolutePath);
-        config.setGridx(1);
-        config.setGridy(2);
-        config.setWeightx(1);
-        config.setFill(GridBagConstraints.HORIZONTAL);
-        config.setInsets(0, 0, 5, 5);
 
         ViewTool.insert(config);
 
@@ -137,23 +112,19 @@ public class ModalAbrirProyecto {
 
         ViewTool.insert(config);
 
-        this.frame.setPreferredSize(new Dimension(500, 200));
+        this.frame.setPreferredSize(new Dimension(500, 150));
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
     }
 
-    private void addEvents() {
+    private void agregarEventos() {
  
-        /**
-         * llamado del metodo abrir directorio
-         */
+        // Evento para abrir el explorador de archivos y seleccionar el directorio del proyecto.
         this.btnChoose.addActionListener(e -> {
             this.askForDirectory();
         });
 
-        /**
-         * Evento del menú para cerrar la modal al darle click primario.
-         */
+        // Evento del menú para cerrar la modal al darle click primario.
         this.btnCancel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -163,18 +134,17 @@ public class ModalAbrirProyecto {
                 }
             }
         });
-        
+
+        // Evento para abrir un proyecto
         this.btnAceptar.addActionListener(e -> {
-            try{
-                //this.panelMenu.mo
-                this.panelMenu.modalAbrirProyecto("",this.txtPath.getText());
-                this.cerrarModal();
-            }catch(IOException err){
-                JOptionPane.showMessageDialog(this.panelMenu.getPanel(), "Error al abrirel proyecto: "+ err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            this.panelMenu.modalAbrirProyecto(this.txtPath.getText());
+            this.cerrarModal();
         });
     }
 
+    /**
+     * Cerrar modal de aprir un proyecto.
+     */
     private void cerrarModal() {
         this.frame.setVisible(false);
         this.frame.dispose();

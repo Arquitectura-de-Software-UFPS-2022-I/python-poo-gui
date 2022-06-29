@@ -85,7 +85,7 @@ public class PanelObjeto implements IPanelObjeto {
                     try {
                         controller.eliminarInstancia(instancia.getName());
                     } catch (Exceptions ex) {
-                        mostrarError(ex);
+                        mostrarError(panel, ex);
                     }
                 }
             }
