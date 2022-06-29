@@ -17,6 +17,7 @@ import ufps.arqui.python.poo.gui.views.impl.*;
 
 import javax.swing.*;
 import java.io.File;
+import ufps.arqui.python.poo.gui.models.Editor;
 
 
 /**
@@ -37,7 +38,8 @@ public class PythonPooGui {
         TerminalInteractiva terminalInteractiva = new TerminalInteractiva();
         terminalInteractiva.inicializarTerminal(new File("."), new String[]{});
 
-        Proyecto proyecto = new Proyecto(terminalInteractiva);
+        Editor editor = new Editor();
+        Proyecto proyecto = new Proyecto(terminalInteractiva, editor);
         Mundo mundo = new Mundo(terminalInteractiva);
 
         // Inicializar el menú.
@@ -55,7 +57,10 @@ public class PythonPooGui {
         // Inicializar el proyecto.
         IProyectoController proyectoController = new ProyectoController(proyecto);
         IPanelProyecto panelProyecto = new PanelProyecto(proyectoController);
-
+        
+        EditorTexto editorTexto = new EditorTexto(proyectoController);
+        editor.addObserver(editorTexto);
+        
         IPanelFichero panelFichero = new PanelFichero(proyectoController);
 
         IPanelMundoTerminal panelMundoTerminal = new PanelMundoTerminal(panelMundo, panelTerminal);

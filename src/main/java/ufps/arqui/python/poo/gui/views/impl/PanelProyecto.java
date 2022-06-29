@@ -1,21 +1,21 @@
 package ufps.arqui.python.poo.gui.views.impl;
 
 import java.awt.Graphics;
-import ufps.arqui.python.poo.gui.models.ClasePython;
 import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import ufps.arqui.python.poo.gui.utils.ViewTool;
 
-import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.models.ClasePython;
 import ufps.arqui.python.poo.gui.utils.ConfGrid;
 import ufps.arqui.python.poo.gui.views.IPanelProyecto;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.*;
+import ufps.arqui.python.poo.gui.controllers.IProyectoController;
+import ufps.arqui.python.poo.gui.utils.ViewTool;
 
 /**
  * Panel del proyecto para visualizar las clases del proyecto, así como sus
@@ -49,8 +49,7 @@ public class PanelProyecto implements IPanelProyecto {
     }
 
     @Override
-    public void inicializarContenido() {
-    }
+    public void inicializarContenido() {}
 
     @Override
     public JPanel getPanel() {
@@ -78,13 +77,30 @@ public class PanelProyecto implements IPanelProyecto {
         this.x = 0;
         this.y = 0;
         for (ClasePython clase : classes) {
-            PanelClass pcBase = panels.getOrDefault(clase.getNombre(), new PanelClass(clase.getNombre(), this.panel));
+            String relativePath = clase.getPathModule().replaceAll("\\.", "\\\\")+".py";
+            PanelClass pcBase = panels.getOrDefault(
+                    clase.getNombre(), 
+                    new PanelClass(
+                            relativePath ,
+                            clase.getNombre(), 
+                            this.panel, 
+                            this.controller
+                    )
+            );
 
             this.classPanels.add(pcBase);
             panels.put(clase.getNombre(), pcBase);
 
             for (ClasePython herencia : clase.getHerencia()) {
-                PanelClass pcHerencia = panels.getOrDefault(herencia.getNombre(), new PanelClass(herencia.getNombre(), this.panel));
+                String relativePathHerencia = herencia.getPathModule().replaceAll("\\.", "\\\\")+".py";
+                PanelClass pcHerencia = panels.getOrDefault(
+                        herencia.getNombre(), 
+                        new PanelClass(
+                                relativePathHerencia, herencia.getNombre(), 
+                                this.panel, 
+                                this.controller
+                        )
+                );
                 this.classPanels.add(pcHerencia);
                 panels.put(herencia.getNombre(), pcHerencia);
                 pcBase.añadirHerencia(pcHerencia);

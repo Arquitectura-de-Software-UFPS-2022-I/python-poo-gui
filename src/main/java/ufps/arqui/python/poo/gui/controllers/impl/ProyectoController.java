@@ -1,18 +1,6 @@
 package ufps.arqui.python.poo.gui.controllers.impl;
 
-
 import java.io.IOException;
-
-
-
-import java.io.File;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import java.io.IOException;
-
-
-
 import ufps.arqui.python.poo.gui.controllers.IProyectoController;
 import ufps.arqui.python.poo.gui.exceptions.Exceptions;
 import ufps.arqui.python.poo.gui.models.ArchivoPython;
@@ -56,4 +44,21 @@ public class ProyectoController implements IProyectoController {
         this.proyecto.eliminarArchivo(relativePath);
     }
 
+    @Override
+    public void abrirArchivo(String path) throws Exceptions{
+        this.proyecto.abrirArchivo(path);
+    }
+
+    @Override
+    public void cerrarArchivo(String path) throws Exceptions {
+        this.proyecto.cerrarArchivo(path);
+    }
+    
+    @Override
+    public void guardarArchivo(String path, String contenido) {
+    }
+
+    @Override
+    public void crearClase(String nombre) throws IOException {
+    }
 }
