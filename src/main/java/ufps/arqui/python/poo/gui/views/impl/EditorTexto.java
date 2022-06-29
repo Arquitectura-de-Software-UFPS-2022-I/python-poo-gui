@@ -163,7 +163,7 @@ public class EditorTexto implements IPanelView, Observer{
         try{
             this.controller.cerrarArchivo(key_value);
         }catch(Exceptions e){
-            mostrarError(e);
+            mostrarError(frame, e);
         }
     }
     

@@ -58,7 +58,7 @@ public class PanelFichero implements IPanelFichero {
             try {
                 this.controller.escanearProyecto();
             } catch (Exceptions ex) {
-                mostrarError(ex);
+                mostrarError(this.panel, ex);
             }
         });
         
@@ -67,7 +67,7 @@ public class PanelFichero implements IPanelFichero {
                 ArchivoPython archivo = this.controller.obtenerArchivo("vehiculos");
                 this.controller.crearClase("example", archivo);
             } catch (Exceptions ex) {
-                mostrarError(ex);
+                mostrarError(this.panel, ex);
             }
         });
 
@@ -80,11 +80,11 @@ public class PanelFichero implements IPanelFichero {
                         this.controller.eliminarArchivo(path);
                         JOptionPane.showMessageDialog(null, "Archivo eliminado correctamente");
                     } catch (Exceptions ex) {
-                        mostrarError(ex);
+                        mostrarError(this.panel, ex);
                     }
                 }
             } else {
-                mostrarError(new Exceptions("No se ha seleccionado ningún archivo.", null));
+                mostrarError(this.panel, new Exceptions("No se ha seleccionado ningún archivo.", null));
             }
         });
 

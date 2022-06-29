@@ -16,23 +16,22 @@ public interface IMenuController {
      * Se debe de pedir el directorio y el nombre
      * @param nombre representa el nombre del proyecto.
      * @param directorio representa el directorio raiz donde se guardo.
+     * @param comandoPython comando para inicializar python.
      */
-    void crearProyecto(String nombre, String directorio)  throws Exceptions;
+    void crearProyecto(String nombre, String directorio, String comandoPython)  throws Exceptions;
     
     /**
      * Debe permitir abrir un nuevo proyecto previamente guardado.
      * 
      * Se debe de pedir el directorio y el nombre
-     * @param nombre representa el nombre del proyecto.
      * @param directorio representa el directorio raiz donde se guardo.
      */
-    void abrirProyecto(String nombre, String directorio) throws Exceptions;
-    
-    /**
-     * Debe permitir visualiza el manual de usuario del sistema.
-     * 
-     * El manual de usuario debe estar en formato pdf.
-     */
-    void visualizarManualUsuario() throws Exceptions;
+    void abrirProyecto(String directorio) throws Exceptions;
+
+    String gerNombreProyecto();
+
+    String getPythonProyecto();
+
+    String getDireccionProyecto();
     
 }

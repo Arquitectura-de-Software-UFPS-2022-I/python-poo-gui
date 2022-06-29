@@ -7,6 +7,14 @@ package ufps.arqui.python.poo.gui.exceptions;
  */
 public class Exceptions extends Exception {
 
+
+    public Exceptions() {
+    }
+
+    public Exceptions(String message) {
+        super(message);
+    }
+
     public Exceptions(String msg, Exception e) {
        super(msg);
        if (e != null) {

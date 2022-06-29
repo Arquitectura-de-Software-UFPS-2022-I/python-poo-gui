@@ -94,7 +94,7 @@ public class ArbolDinamico implements IPanelView {
             System.out.println(path);
             this.controller.obtenerClasesDesde(path);
         } catch (Exceptions ex) {
-            mostrarError(ex);
+            mostrarError(this.panel, ex);
         }
     }
 

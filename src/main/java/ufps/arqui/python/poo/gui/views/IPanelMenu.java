@@ -18,12 +18,19 @@ public interface IPanelMenu extends Observer, IPanelView {
      *
      * @param nombre nombre del proyecto.
      * @param directorio directorio del proyecto.
+     * @param comandoPython comando para arrancar python.
      */
-    void modalCrearProyecto(String nombre, String directorio)  throws IOException;
+    void modalCrearProyecto(String nombre, String directorio, String comandoPython);
     /**
      * El modal para abrir proyecto llama a este metodo del PanelMenu cuando el usuario quiere abrir un proyecto existente.
      *
      * @param directorio directorio del proyecto.
      */
-    void modalAbrirProyecto(String nombre, String directorio) throws  IOException;
+    void modalAbrirProyecto(String directorio);
+
+    String gerNombreProyecto();
+
+    String getPythonProyecto();
+
+    String getDireccionProyecto();
 }

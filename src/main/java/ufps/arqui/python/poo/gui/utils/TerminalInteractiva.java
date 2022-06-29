@@ -21,6 +21,7 @@ public class TerminalInteractiva extends Observable {
     private final Logger logger = Logger.getLogger(TerminalInteractiva.class.getName());
 
     private String directorio;
+    private String python;
     private Process process;
     private String parameters[];
     private BufferedWriter bufferedWriter;
@@ -34,13 +35,12 @@ public class TerminalInteractiva extends Observable {
      * @param parameters listado de parametros que ejecutará despues de inicializar la terminal de python.
      * @throws Exceptions En caso de que los comando sean invalidos.
      */
-    public void inicializarTerminal(File directorio, String parameters[]) throws Exceptions {
+    public void inicializarTerminal(File directorio, String python, String parameters[]) throws Exceptions {
         this.parameters = parameters;
-        // Validar que no se quiera reiniciar la terminal si el directorio es el mismo
-        if (this.directorio == null || !directorio.getAbsolutePath().equals(this.directorio)) {
-            this.directorio = directorio.getAbsolutePath();
-            this.reiniciarTerminal();
-        }
+        this.python = python;
+
+        this.directorio = directorio.getAbsolutePath();
+        this.reiniciarTerminal();
     }
 
     /**
@@ -64,7 +64,7 @@ public class TerminalInteractiva extends Observable {
             }
             List<String> lineas = new ArrayList();
             // Inicializar proceso de python, el usuario debe contar con la variable de entorno en sus systema operativo.
-            lineas.add("python");
+            lineas.add(this.python);
             // Terminal de python interactiva, donde espera la interacción del usuario.
             lineas.add("-i");
             // No imprimir la versión de python.

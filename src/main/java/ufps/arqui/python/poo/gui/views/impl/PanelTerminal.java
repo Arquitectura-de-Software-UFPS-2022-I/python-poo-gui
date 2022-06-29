@@ -108,7 +108,7 @@ public class PanelTerminal implements IPanelTerminal  {
                         terminal.removeAll();
                         recalcularScroll();
                     } catch (Exceptions ex) {
-                        mostrarError(ex);
+                        mostrarError(panel, ex);
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class PanelTerminal implements IPanelTerminal  {
         try {
             controller.ejecutarComando(txtInput.getText());
         } catch (Exceptions ex) {
-            mostrarError(ex);
+            mostrarError(panel, ex);
         }
         txtInput.setText("");
     }

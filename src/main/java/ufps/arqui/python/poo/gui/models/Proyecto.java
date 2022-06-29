@@ -7,11 +7,10 @@ import ufps.arqui.python.poo.gui.utils.ConfScanFile;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
@@ -29,6 +28,16 @@ public class Proyecto extends Observable implements Observer {
      * Nombre del proyecto.
      */
     private String nombre;
+
+    /**
+     * Comando para inicializar python.
+     */
+    private String comandoPython;
+
+    /**
+     * Archivo de propiedades del proyecto.
+     */
+    private Properties fileProperties = new Properties();
 
     /**
      * Ubicación del directorio donde se ejecutará la aplicación.
@@ -70,7 +79,7 @@ public class Proyecto extends Observable implements Observer {
             throw new Exceptions("El proyecto no ha sido seleccionado", null);
         }
         // Crear directorio src
-        File file = new File(this.directorioRaiz + "/src");
+        File file = new File(this.directorioRaiz + File.separator+ "src");
         if (!file.exists()) {
             file.mkdir();
         }
@@ -154,23 +163,16 @@ public class Proyecto extends Observable implements Observer {
         return directorio;
     }
 
-    /**
-     * Crea un directorio en la ubiacion y el nombre que se le indica.
-     *
-     * @param ubicacionDirectorio
-     * @param nombreDirectorio
-     */
-    public void crearDirectorio(String ubicacionDirectorio, String nombreDirectorio) {
-        File file = new File(ubicacionDirectorio + "/" + nombreDirectorio);
-        if (!file.exists()) {
-            file.mkdir();
-        } else {
-            //..
-        }
-    }
-
     public String getNombre() {
         return nombre;
+    }
+
+    public String getComandoPython() {
+        return comandoPython;
+    }
+
+    public String getDirectorio() {
+        return directorioRaiz != null ? directorioRaiz.getAbsolutePath():"";
     }
 
     public void setNombre(String nombre) {
@@ -178,14 +180,55 @@ public class Proyecto extends Observable implements Observer {
         this.update("nombre");
     }
 
-    public File getDirectorioRaiz() {
-        return directorioRaiz;
+    /**
+     * Reinicia todo el proyecto.
+     */
+    public void resetearProyecto() {
+        this.nombre = null;
+        this.comandoPython = null;
+        this.fileProperties = new Properties();
+        this.directorioTrabajo = null;
+        this.directorioRaiz = null;
+    }
+
+    public void setComandoPython(String comandoPython) {
+        this.comandoPython = comandoPython;
+        this.update("comandoPython");
     }
 
     public void setDirectorioRaiz(File directorioRaiz) throws Exceptions {
         this.directorioRaiz = directorioRaiz;
         this.directorioTrabajo = new Directorio(new File(this.directorioRaiz.getAbsolutePath() + File.separator + "src"));
-        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, new String[]{"scan.py"});
+
+        // Crear archivo properties
+        try {
+            File properties = new File(this.directorioRaiz.getAbsolutePath() + File.separator + "project.properties");
+            if (!properties.exists() && this.nombre == null) {
+                throw new Exceptions("El directorio seleccionado no contiene ningún proyecto.", null);
+            }
+            if (properties.exists() && this.nombre != null) {
+                throw new Exceptions("El directorio seleccionado ya contiene un proyecto.", null);
+            }
+            if (!properties.exists()) {
+                properties.createNewFile();
+                FileOutputStream out = new FileOutputStream(properties);
+                this.fileProperties.setProperty("NAME", this.nombre);
+                this.fileProperties.setProperty("PYTHON", this.comandoPython);
+                this.fileProperties.setProperty("DIR", this.directorioRaiz.getAbsolutePath());
+                fileProperties.store(out, null);
+                out.close();
+            } else{
+                FileInputStream in = new FileInputStream(properties);
+                this.fileProperties.load(in);
+                this.nombre = this.fileProperties.getProperty("NAME");
+                this.comandoPython = this.fileProperties.getProperty("PYTHON");
+                in.close();
+            }
+        } catch (IOException e) {
+            throw new Exceptions("No se ha podido acceder al archivo de configuración", e);
+        }
+
+        this.terminalInteractiva.inicializarTerminal(this.directorioRaiz, this.comandoPython, new String[]{"scan.py"});
         this.update("directorio");
         this.escanearProyecto();
     }

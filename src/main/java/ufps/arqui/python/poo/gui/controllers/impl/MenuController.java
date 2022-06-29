@@ -21,10 +21,13 @@ public class MenuController implements IMenuController{
     }   
 
     @Override
-    public void abrirProyecto(String nombre, String directorio) throws Exceptions {
+    public void abrirProyecto(String directorio) throws Exceptions {
+        if (directorio == null || directorio.trim().isEmpty()) {
+            throw new Exceptions("El directorio del proyecto está vacio", null);
+        }
         File dir = new File(directorio);
         if (dir.exists() && dir.isDirectory()) {
-            this.proyecto.setNombre(nombre);
+            this.proyecto.resetearProyecto();
             this.proyecto.setDirectorioRaiz(dir);
         } else {
             throw new Exceptions("El directorio no existe", null);
@@ -32,18 +35,39 @@ public class MenuController implements IMenuController{
     }
 
     @Override
-    public void crearProyecto(String nombre, String directorio) throws Exceptions{
+    public void crearProyecto(String nombre, String directorio, String comandoPython) throws Exceptions{
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new Exceptions("El nombre del proyecto está vacio", null);
+        }
+        if (directorio == null || directorio.trim().isEmpty()) {
+            throw new Exceptions("El directorio del proyecto está vacio", null);
+        }
+        if (comandoPython == null || comandoPython.trim().isEmpty()) {
+            throw new Exceptions("El comando de python está vacio", null);
+        }
         this.proyecto.setNombre(nombre);
+        this.proyecto.setComandoPython(comandoPython);
         this.proyecto.setDirectorioRaiz(new File(directorio));
-    }
-    
-    @Override
-    public void visualizarManualUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String toString() {
         return proyecto.toString();
+    }
+
+    @Override
+    public String gerNombreProyecto() {
+        return this.proyecto.getNombre();
+    }
+
+    @Override
+    public String getPythonProyecto() {
+        return this.proyecto.getComandoPython();
+    }
+
+    @Override
+    public String getDireccionProyecto() {
+        return this.proyecto.getDirectorio();
     }
 }
