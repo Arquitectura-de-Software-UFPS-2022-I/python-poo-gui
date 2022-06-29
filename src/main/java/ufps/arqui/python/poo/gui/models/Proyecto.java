@@ -6,15 +6,12 @@ import ufps.arqui.python.poo.gui.utils.AdministrarArchivo;
 import ufps.arqui.python.poo.gui.utils.ConfScanFile;
 import ufps.arqui.python.poo.gui.utils.TerminalInteractiva;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
  * Modelo para la gestión del proyecto del usuario.
- *
+ * <p>
  * Aquí se almacenará la información del proyecto, para que los demás
  * componentes puedan interacturar con el proyecto, como por ejemplo lista de
  * clases con sus metodos y parametros; datos del proyecto; datos del mundo como
@@ -41,23 +38,22 @@ public class Proyecto extends Observable implements Observer {
 
     /**
      * Ubicación del directorio donde se ejecutará la aplicación.
-     *
      */
     private File directorioRaiz;
 
     /**
      * Directtorio de trabajo, donde el usuario tendra su proyecto.
-     *
+     * <p>
      * El directorio debe llamarse src, y debe estár dentro del directorio raiz.
      */
     private Directorio directorioTrabajo;
-    
+
     /**
      * Editor de texto, encargado de administrar las operaciones sobre los archivos <br>
      * del proyecto
      */
     private Editor editor;
-    
+
     /**
      * Instancia de la terminal interactiva.
      */
@@ -79,7 +75,7 @@ public class Proyecto extends Observable implements Observer {
             throw new Exceptions("El proyecto no ha sido seleccionado", null);
         }
         // Crear directorio src
-        File file = new File(this.directorioRaiz + File.separator+ "src");
+        File file = new File(this.directorioRaiz + File.separator + "src");
         if (!file.exists()) {
             file.mkdir();
         }
@@ -97,7 +93,7 @@ public class Proyecto extends Observable implements Observer {
 
     /**
      * Lista las clases correspondientes a un directorio.
-     *
+     * <p>
      * Se toma la ruta relativa y se concatena a la ruta del proyecto para asi
      * obtener la ruta absooluta del directorio en el cual se extraeran las
      * clases
@@ -172,7 +168,7 @@ public class Proyecto extends Observable implements Observer {
     }
 
     public String getDirectorio() {
-        return directorioRaiz != null ? directorioRaiz.getAbsolutePath():"";
+        return directorioRaiz != null ? directorioRaiz.getAbsolutePath() : "";
     }
 
     public void setNombre(String nombre) {
@@ -217,7 +213,7 @@ public class Proyecto extends Observable implements Observer {
                 this.fileProperties.setProperty("DIR", this.directorioRaiz.getAbsolutePath());
                 fileProperties.store(out, null);
                 out.close();
-            } else{
+            } else {
                 FileInputStream in = new FileInputStream(properties);
                 this.fileProperties.load(in);
                 this.nombre = this.fileProperties.getProperty("NAME");
@@ -266,7 +262,7 @@ public class Proyecto extends Observable implements Observer {
             if (m.getTipo().esImports()) {
                 try {
                     String[] importaciones = gson.fromJson(m.getLinea(), String[].class);
-                    for (String impor: importaciones) {
+                    for (String impor : importaciones) {
                         this.terminalInteractiva.ingresarComando(impor);
                     }
                 } catch (Exception e) {
@@ -285,36 +281,39 @@ public class Proyecto extends Observable implements Observer {
         this.setChanged();
         this.update("archivoBorrado");
     }
-    
+
     /**
      * Abre un <code>ArchivoPython</code> que corresponda a la ruta relativa pasada como
      * parametro
+     *
      * @param relativaPathFile Ruta relativa del archivo a abrir
-     * @throws Exceptions 
+     * @throws Exceptions
      */
-    public void abrirArchivo(String relativaPathFile) throws Exceptions{
+    public void abrirArchivo(String relativaPathFile) throws Exceptions {
         relativaPathFile = this.directorioRaiz.getAbsolutePath() + File.separator + relativaPathFile;
         ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(relativaPathFile);
         this.editor.abrirArchivo(archivoPython);
     }
-    
+
     /**
      * Cierra un <code>ArchivoPython</code> que corresponda a la ruta absoluta pasada como
      * parametro
+     *
      * @param absolutePathFile Ruta absoluta del archivo a abrir
-     * @throws Exceptions 
+     * @throws Exceptions
      */
-    public void cerrarArchivo(String absolutePathFile) throws Exceptions{
+    public void cerrarArchivo(String absolutePathFile) throws Exceptions {
         ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePathFile);
         this.editor.cerrarArchivo(archivoPython);
     }
-    
+
     /**
      * Guarda el contenido en un <code>ArchivoPython</code> que corresponda con <br>
      * la ruta absoluta pasada como parametro
+     *
      * @param absolutePathFile Ruta absoluta del archivo
-     * @param contenido Contenido nuevo a escribir en el archivo
-     * @throws Exceptions 
+     * @param contenido        Contenido nuevo a escribir en el archivo
+     * @throws Exceptions
      */
     public void guardarArchivo(String absolutePathFile, String contenido) throws Exceptions {
         ArchivoPython archivoPython = this.directorioTrabajo.getArchivo(absolutePathFile);
@@ -322,6 +321,47 @@ public class Proyecto extends Observable implements Observer {
         this.escanearProyecto();
     }
 
+    /**
+     * Crear un nuevo archivo
+     *
+     * @param relativeUrl directorio relativo
+     * @param nombre      nombre del archivo
+     * @throws Exceptions en caso del que el archivo exista.
+     */
+    public void crearArchivo(String relativeUrl, String nombre) throws Exceptions {
+        File file = new File(this.directorioRaiz.getAbsolutePath() + File.separator + relativeUrl + File.separator + nombre);
+        if (file.exists()) {
+            throw new Exceptions("El archivo ya existe en el directorio indicado", null);
+        }
+        if (!nombre.toUpperCase().endsWith(".PY")) {
+            file.mkdir();
+            File fileInit = new File(file.getAbsolutePath()+ File.separator+"__init__.py");
+            try {
+                fileInit.createNewFile();
+            } catch (IOException e) {
+                throw new Exceptions("El archivo inicial no puede ser creado", e);
+            }
+            this.escanearProyecto();
+            return;
+        }
+        String nombre_clase = nombre.replaceAll(".py", "");
+        try {
+            file.createNewFile();
+            FileWriter out = new FileWriter(file);
+            out.write("class "+nombre_clase+"(object):\n" +
+                    "    def __init__(self):\n" +
+                    "        self.a = 1\n" +
+                    "        self.b = 3");
+            out.close();
+        } catch (IOException e) {
+            throw new Exceptions("El archivo no puede ser creado", e);
+        }
+        ArchivoPython archivo = new ArchivoPython();
+        archivo.setArchivo(file);
+        this.directorioTrabajo.addArchivo(archivo);
+        this.escanearProyecto();
+    }
+    
     /**
      * Crea una clase con el nombre <code>nombre</code> en el archivo python que <br>
      * corresponda con la ruta absoluta

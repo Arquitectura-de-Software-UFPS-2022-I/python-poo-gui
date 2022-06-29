@@ -9,6 +9,7 @@ import ufps.arqui.python.poo.gui.views.IPanelFichero;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Observable;
 
 /**
@@ -27,9 +28,9 @@ public class PanelFichero implements IPanelFichero {
     private JButton btnVerificar;
     private JButton btnElimianr;
     private ArbolDinamico arbol;
-    private CrearPack crearPack;
+    private ModalCrearFichero modalCrearFichero;
 
-    public PanelFichero(IProyectoController controller) throws Exception {
+    public PanelFichero(IProyectoController controller) {
         this.controller = controller;
         this.panel = new JPanel(new GridBagLayout());
 
@@ -37,8 +38,7 @@ public class PanelFichero implements IPanelFichero {
         this.btnVerificar = new JButton("Verificar");
         this.btnElimianr = new JButton("Eliminar");
         this.arbol = new ArbolDinamico(controller);
-
-        this.crearPack = new CrearPack(this);
+        this.modalCrearFichero = new ModalCrearFichero(this);
 
         this.inicializarContenido();
     }
@@ -46,7 +46,12 @@ public class PanelFichero implements IPanelFichero {
     @Override
     public void inicializarContenido() {
         this.btnNuevoArchivo.addActionListener(e -> {
-            this.crearPack.setVisible(true);
+            String path = this.arbol.getCurrentPath();
+            if (!path.endsWith(".py")) {
+                this.modalCrearFichero.setVisible(getFolderPath(this.arbol.getCurrentPath()));
+            } else {
+                mostrarError(this.panel, new Exceptions("Debe seleccionar un directorio para crear un archivo.", null));
+            }
         });
 
         this.btnVerificar.addActionListener(e -> {
@@ -69,8 +74,6 @@ public class PanelFichero implements IPanelFichero {
                         mostrarError(this.panel, ex);
                     }
                 }
-            } else {
-                mostrarError(this.panel, new Exceptions("No se ha seleccionado ningún archivo.", null));
             }
         });
 
@@ -125,7 +128,13 @@ public class PanelFichero implements IPanelFichero {
         return this.panel;
     }
 
-    public void crearPack(String text, String text2) {
+    @Override
+    public void crearFichero(String nombre, String directorioSeleccionado) {
+        try {
+            this.controller.crearArchivo(directorioSeleccionado, nombre);
+        } catch (Exceptions e) {
+            mostrarError(panel, e);
+        }
     }
 
     /**
@@ -133,7 +142,7 @@ public class PanelFichero implements IPanelFichero {
      * @param path nombre del archivo
      * @return True si es un fichero con extensión .py
      */
-    private String esArchivo(String path) {
+    public String esArchivo(String path) {
         if (path.endsWith(".py")) {
             return "archivo ";
         } else {
@@ -144,6 +153,10 @@ public class PanelFichero implements IPanelFichero {
     private String getFileName(String path) {
         String[] parts = path.split("\\\\");
         return parts[parts.length - 1];
+    }
+
+    private String getFolderPath(String path) {
+        return "src"+ File.separator +path.split("\\\\")[0];
     }
 
 }

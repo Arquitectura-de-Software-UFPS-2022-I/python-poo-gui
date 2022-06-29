@@ -62,6 +62,15 @@ public interface IProyectoController {
      * @param contenido representa el directorio raiz donde se guardo.
      */
     void guardarArchivo(String path, String contenido) throws Exceptions;
+
+    /**
+     * Crear un nuevo archivo en el directorio indicado
+     *
+     * Se debe de pedir el directorio y el nombre
+     * @param path representa el directorio relativo del archivo nuevo.
+     * @param nombre representa el nombre del archivo nuevo.
+     */
+    void crearArchivo(String path, String nombre) throws Exceptions;
     
     /**
     * Creacion de clase.

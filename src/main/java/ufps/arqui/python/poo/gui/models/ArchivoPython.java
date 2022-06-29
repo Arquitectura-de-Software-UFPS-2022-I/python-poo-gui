@@ -56,9 +56,9 @@ public class ArchivoPython {
             addClase(clasePython);
                 
             String contenidoClase = "class " + nombre + "(object):\n\tpass\n";
-            this.contenido.append(contenidoClase);
                 
             AdministrarArchivo.escribirArchivo(this.getArchivo(), contenidoClase, true);
+            this.leerContenido();
         }else{
             throw new Exceptions("Ya existe una clase con el mismo nombre en el archivo");
         }
@@ -108,10 +108,5 @@ public class ArchivoPython {
 
     public StringBuilder getContenido() {
         return contenido;
-    }
-    
-    public void setContenido(String contenido){
-        this.contenido.setLength(0);
-        this.contenido.append(contenido);
     }
 }

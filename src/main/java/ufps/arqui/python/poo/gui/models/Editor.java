@@ -72,7 +72,7 @@ public class Editor extends Observable{
 
     public void guardarArchivo(ArchivoPython archivoPython, String contenido) throws Exceptions {
         AdministrarArchivo.escribirArchivo(archivoPython.getArchivo(), contenido, false);
-        archivoPython.setContenido(contenido);
+        archivoPython.leerContenido();
         this.ultimoArchivoAbierto = archivoPython;
         
         this.update("actualizacionArchivo");
