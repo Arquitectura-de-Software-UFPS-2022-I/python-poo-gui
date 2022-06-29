@@ -123,7 +123,7 @@ public class PanelClass implements IPanelView{
                     try{
                         controller.abrirArchivo(relativePathFile);
                     }catch(Exceptions e){
-                        mostrarError(e);
+                        mostrarError(panel, e);
                     }
                 }
             }
