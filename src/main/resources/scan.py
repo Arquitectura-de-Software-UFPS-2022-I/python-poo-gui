@@ -175,24 +175,22 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
             dict_folders_list.append(directorio)
     errores = []
     for file in list_of_files:
-        try:
-            #name -> nombre de clase
-            #cls -> tipo de clase
-            ## Eliminar modulos previamente importados.
-            exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
-            for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
-                folder = "\\".join(file.split("\\")[:-1])
-                #print(folder)
-                #print(cls, name, folder)
-                if folder not in dict_folders:
-                    dict_folders[folder] = {}
+        ## Eliminar modulos previamente importados.
+        exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
 
-                    directorio = Directorio(folder)
-                    dict_folders_class[folder] = directorio
-                    dict_folders_list.append(directorio)
+        module = file.split("\\")[-1].split(".")[0]
+        path_module = file[:-3].replace("\\", ".")
 
-                directorio = dict_folders_class[folder]
+        if module not in dict_modules:
+            archivo = directorio.get_file(module)
+            if archivo is None:
+                archivo = ArchivoPython(module, path_module)
+                directorio.archivos.append(archivo)
 
+        #name -> nombre de clase
+        #cls -> tipo de clase
+        for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
+            try:
                 #module -> archivo python
                 #class_name -> nombre de clase
                 module = str(cls).split("'")[1].split(".")[-2]
@@ -221,8 +219,8 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
 
                             clase_python.herencia.append(ClasePython(class_name, path_mod_herencia))
                     archivo.clases.append(clase_python)
-        except Exception as err:
-            errores.append(str(err))
+            except Exception as err:
+                errores.append(str(err))
     return [dict_folders_class, errores]
 
 
