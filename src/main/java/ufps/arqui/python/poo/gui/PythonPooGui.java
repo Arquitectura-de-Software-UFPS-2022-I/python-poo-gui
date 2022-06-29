@@ -97,7 +97,7 @@ public class PythonPooGui {
         window.dispose();
 
         //Selecciona el proyecto desde aca para testear
-//        proyecto.setDirectorioRaiz(new File("C:\\Users\\stiwa\\Documents\\workdirectory"));
+        proyecto.setDirectorioRaiz(new File("C:\\Users\\USUARIO\\Documents\\a_testcmd"));
     }
 
 }

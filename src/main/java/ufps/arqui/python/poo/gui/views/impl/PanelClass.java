@@ -35,7 +35,11 @@ public class PanelClass implements IPanelView{
      * JLabel representación visual del nombre de una clase de python
      */
     private JLabel lblName;
-    
+
+    private JPopupMenu menuClase;
+    private JMenuItem eliminarClase;
+    private JMenuItem modificarClase;
+
     /**
      * Ruta del archivo que contiene la clase actual
      */
@@ -82,6 +86,13 @@ public class PanelClass implements IPanelView{
 
     @Override
     public void inicializarContenido() {
+
+        this.menuClase = new JPopupMenu();
+        this.eliminarClase = new JMenuItem("Eliminar Clase");
+        this.modificarClase = new JMenuItem("Modificar Clase");
+        this.menuClase.add(this.eliminarClase);
+        this.menuClase.add(this.modificarClase);
+
         this.panel.setBackground(new Color(243, 215, 174));
         this.panel.setBorder(BorderFactory.createLineBorder(Color.black));
         this.panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -113,25 +124,43 @@ public class PanelClass implements IPanelView{
      * Añade los eventos la clase(PanelClass)
      */
     private void draggableMode() {
+
+        // Evento del menú para limpiar la terminal al darle click primario.
+        this.modificarClase.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    try {
+                        controller.abrirArchivo(relativePathFile);
+                    } catch (Exceptions ex) {
+                        mostrarError(panel, ex);
+                    }
+                }
+            }
+        });
+
+        // Evento del menú para limpiar la terminal al darle click primario.
+        this.eliminarClase.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    try {
+                        controller.eliminarClase(lblName.getText());
+                    }catch(Exceptions ex){
+                        mostrarError(panel, ex);
+                    }
+                }
+            }
+        });
+
+        // Evento para mover panel
         this.panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent ev) {
                 location.move(ev.getX(), ev.getY());
-            }
-            
-            public void mouseClicked(MouseEvent event){
-                if (event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
-                    try{
-                        controller.abrirArchivo(relativePathFile);
-                    }catch(Exceptions e){
-                        mostrarError(panel, e);
-                    }
-                }
-                if (event.getClickCount() == 1 && event.getButton() == MouseEvent.BUTTON1) {
-                    try{
-                        controller.eliminarClase(lblName.getText());
-                    }catch(Exceptions e){
-                        mostrarError(panel, e);
-                    }
+                if (ev.getButton() == MouseEvent.BUTTON3) {
+                    menuClase.show(ev.getComponent(), ev.getX(), ev.getY());
                 }
             }
         });

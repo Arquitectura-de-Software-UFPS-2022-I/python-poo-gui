@@ -274,12 +274,18 @@ public class Proyecto extends Observable implements Observer {
             if (m.getTipo().esLineClass()) {
                 try {
                     LineasClase lineasClase = gson.fromJson(m.getLinea(), LineasClase.class);
-//                    File file = new File(lineasClase.getArchivo());
-//                    StringBuilder contenido =  new StringBuilder();
-//                    AdministrarArchivo.abrirArchivo(file, contenido);
-//                    String inicio = contenido.substring(0, lineasClase.getInicio());
-//                    String fin = contenido.substring(lineasClase.getFin(), contenido.length());
-//                    AdministrarArchivo.escribirArchivo(file, inicio+fin, true);
+                    File file = new File(lineasClase.getArchivo());
+                    StringBuilder contenido =  new StringBuilder();
+                    AdministrarArchivo.abrirArchivo(file, contenido);
+                    String[] lineas = contenido.toString().split("\n");
+                    String inicio = "";
+                    for (int i = 0; i<lineas.length; i++) {
+                        if (i <= lineasClase.getInicio()-1 || i >= lineasClase.getFin()+1) {
+                            inicio += lineas[i]+"\n";
+                        }
+                    }
+                    AdministrarArchivo.escribirArchivo(file, inicio, false);
+                    this.escanearProyecto();
                 } catch (Exception e) {
                 }
             }

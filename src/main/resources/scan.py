@@ -117,10 +117,10 @@ def get_lines_class(class_name):
     codigo, index = inspect.findsource(class_name)
     index_last = index
     for ind_linea in range(index+1, len(codigo)):
-        index_last += 1
         if codigo[ind_linea].startswith('class '):
             break
-    data = {'inicio': str(index), 'fin': str(index_last-1), 'archivo': str(file).replace("'", ""), 'clase': class_name.__name__}
+        index_last += 1
+    data = {'inicio': str(index), 'fin': str(index_last), 'archivo': str(file).replace("'", ""), 'clase': class_name.__name__}
     print("get_lines_class:"+json.dumps(json.loads(str(data).replace("'", '"'))))
 
 #List all python files in current folder and subdirectories and save in a list
