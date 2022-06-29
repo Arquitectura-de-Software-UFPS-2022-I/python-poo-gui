@@ -96,8 +96,6 @@ public class PythonPooGui {
         // Cerrar splash cuando la interfaz ya es visible.
         window.dispose();
 
-        //Selecciona el proyecto desde aca para testear
-        proyecto.setDirectorioRaiz(new File("C:\\Users\\USUARIO\\Documents\\a_testcmd"));
     }
 
 }
