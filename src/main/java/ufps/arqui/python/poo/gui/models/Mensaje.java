@@ -30,6 +30,9 @@ public class Mensaje {
         } else if (linea.startsWith("import_modules:")) {
             this.linea = this.linea.replaceAll("import_modules:", "");
             this.tipo = TipoMensaje.IMPORTS;
+        } else if (linea.startsWith("errores_importacion:")) {
+            this.linea = this.linea.replaceAll("errores_importacion:", "");
+            this.tipo = TipoMensaje.ERROR;
         }
     }
 

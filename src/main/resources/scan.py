@@ -173,59 +173,66 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
             directorio = Directorio(folder)
             dict_folders_class[folder] = directorio
             dict_folders_list.append(directorio)
-
+    errores = []
     for file in list_of_files:
-        #name -> nombre de clase
-        #cls -> tipo de clase
-        ## Eliminar modulos previamente importados.
-        exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
-        for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
-            folder = "\\".join(file.split("\\")[:-1])
-            #print(folder)
-            #print(cls, name, folder)
-            if folder not in dict_folders:
-                dict_folders[folder] = {}
-                
-                directorio = Directorio(folder)
-                dict_folders_class[folder] = directorio
-                dict_folders_list.append(directorio)
+        try:
+            #name -> nombre de clase
+            #cls -> tipo de clase
+            ## Eliminar modulos previamente importados.
+            exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
+            for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
+                folder = "\\".join(file.split("\\")[:-1])
+                #print(folder)
+                #print(cls, name, folder)
+                if folder not in dict_folders:
+                    dict_folders[folder] = {}
 
-            directorio = dict_folders_class[folder]
+                    directorio = Directorio(folder)
+                    dict_folders_class[folder] = directorio
+                    dict_folders_list.append(directorio)
 
-            #module -> archivo python
-            #class_name -> nombre de clase
-            module = str(cls).split("'")[1].split(".")[-2]
-            path_module = ".".join(str(cls).split("'")[1].split(".")[:-1])
-            
-            #Evita repetir el archivo debido al import
-            if module not in dict_modules:
-                archivo = directorio.get_file(module)
-                if archivo is None:
-                    archivo = ArchivoPython(module, path_module)
-                    directorio.archivos.append(archivo)
+                directorio = dict_folders_class[folder]
 
-            if module not in dict_folders[folder]:
+                #module -> archivo python
+                #class_name -> nombre de clase
+                module = str(cls).split("'")[1].split(".")[-2]
+                path_module = ".".join(str(cls).split("'")[1].split(".")[:-1])
+
+                #Evita repetir el archivo debido al import
                 if module not in dict_modules:
-                    dict_modules.append(module)
-                    dict_folders[folder][module] = []
-            
-            clase_path = cls.__module__ + "." + name
-            if clase_path not in dict_class:
-                dict_class.append(clase_path)
-                clase_python = ClasePython(name, path_module)
-                if len(cls.__bases__) != 1 or cls.__bases__[0].__name__ != "object":
-                    for type_class in cls.__bases__:
-                        class_split = str(type_class).split("'")[1].split(".")
-                        path_mod_herencia, class_name = ".".join(class_split[:-1]), class_split[-1]
+                    archivo = directorio.get_file(module)
+                    if archivo is None:
+                        archivo = ArchivoPython(module, path_module)
+                        directorio.archivos.append(archivo)
 
-                        clase_python.herencia.append(ClasePython(class_name, path_mod_herencia))
-                archivo.clases.append(clase_python)
+                if module not in dict_folders[folder]:
+                    if module not in dict_modules:
+                        dict_modules.append(module)
+                        dict_folders[folder][module] = []
 
-    return dict_folders_class
+                clase_path = cls.__module__ + "." + name
+                if clase_path not in dict_class:
+                    dict_class.append(clase_path)
+                    clase_python = ClasePython(name, path_module)
+                    if len(cls.__bases__) != 1 or cls.__bases__[0].__name__ != "object":
+                        for type_class in cls.__bases__:
+                            class_split = str(type_class).split("'")[1].split(".")
+                            path_mod_herencia, class_name = ".".join(class_split[:-1]), class_split[-1]
+
+                            clase_python.herencia.append(ClasePython(class_name, path_mod_herencia))
+                    archivo.clases.append(clase_python)
+        except Exception as err:
+            errores.append(str(err))
+    return [dict_folders_class, errores]
 
 
 def scanner_project():
     dict_folders_class = list_all_python_class_with_hierarchy(list_files("src"))
+    errores = dict_folders_class[1]
+    if errores:
+        for error in errores:
+            print("errores_importacion:{}".format(error))
+    dict_folders_class = dict_folders_class[0]
     src = dict_folders_class["src"]
     del dict_folders_class["src"]
     for val in dict_folders_class.values():
