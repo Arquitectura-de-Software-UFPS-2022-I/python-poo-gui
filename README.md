@@ -93,7 +93,6 @@ Esto permite la división del trabajo. Además, debido a que la tecnología de l
 _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 
 * [Java](https://www.java.com/es/) - Lenguaje de Programación
-* [Java Swing](https://www.java.com/es/) - Biblioteca Gráfica
 * [Python](https://www.python.org) - Lenguaje de Programación
 * [Maven](https://maven.apache.org) - Herramienta de Software
 
@@ -105,7 +104,7 @@ _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 ![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg)
 
 ## Archivo .jar
-[jar](https://drive.google.com/file/d/12lzgeMw9VZAk2EmKo7QuT54squjGC2yH/view?usp=sharing) Archivo ejecutable
+[jar](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/dist/blue-py.jar) Archivo ejecutable
 
 
  ## Autores 
