@@ -2,7 +2,7 @@
 
 ![version](https://img.shields.io/badge/version-1.0.0-blue.svg) 
 
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/Logo.jpg)
+<p align="center"><img src="https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/Logo.jpg" width="74" height="64"></p>
 
 *Blue Py - IDE* El proyecto consiste en el desarrollo de un entorno integrado de desarrollo para el lenguaje de programación Python; que busca principalmente apoyar la enseñanza y el aprendizaje de la Programación Orientada a Objetos (POO) en el lenguaje de programación Python.
  
@@ -65,9 +65,8 @@ Los objetivos de Blue Py son:
 
 ## Arquitectura 
 
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura.jpg)
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura_Descomposici%C3%B3n.jpg)
-
+<p align="center"><img src="https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura.jpg" width="74" height="64"></p>
+<p align="center"><img src="https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura_Descomposici%C3%B3n.jpg" width="74" height="64"></p>
 
 La arquitectura seleccionada para el desarrollo del proyecto es la arquitectura Modelo Vista Control II (MVC II), en esta arquitectura el módulo Modelo proporciona toda la funcionalidad básica y los datos compatibles con una base de datos. 
  
@@ -80,7 +79,7 @@ Esto permite la división del trabajo. Además, debido a que la tecnología de l
 
 ## Diagrama de clases
 
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/BluePy_Model.jpg)
+<p align="center"><img src="https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/BluePy_Model.jpg" width="74" height="64"></p>
 
 * PythonFile: Representa el archivo de python que se creará por medio del IDE, dicho archivo contendrá todas las clases creadas por el usuario.
 * PythonClass: Representa la clase de Python creada por el usuario la cual contará con todos los atributos o relaciones (herencia) que este le defina después de su creación. 
@@ -101,7 +100,7 @@ _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 
 ## Estructura 
 
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg)
+<p align="center"><img src="https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg" width="74" height="64"></p>
 
 ## Archivo .jar
 [jar](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/dist/blue-py.jar) Archivo ejecutable
