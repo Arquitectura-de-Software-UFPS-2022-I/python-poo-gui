@@ -70,7 +70,7 @@ Los objetivos de Blue Py son:
 ## Arquitectura 
 
 ![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura.jpg)
-![Image](https://github.com/ariasRonaldo25/PlantillaReadme/blob/main/doc/img/arquitectura_Descomposición.jpg)
+
 
 La arquitectura seleccionada para el desarrollo del proyecto es la arquitectura Modelo Vista Control II (MVC II), en esta arquitectura el módulo Modelo proporciona toda la funcionalidad básica y los datos compatibles con una base de datos. 
  
@@ -104,36 +104,6 @@ _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 
 
 
-
-## Estructura 
-
-Within the download you'll find the following directories and files:
-
-```
-material-dashboard
-    ├── assets
-    │   ├── css
-    │   ├── fonts
-    │   ├── img
-    │   ├── js
-    │   │   ├── core
-    │   │   ├── plugins
-    │   │   └── material-dashboard.js
-    │   │   └── material-dashboard.js.map
-    │   │   └── material-dashboard.min.js
-    │   └── scss
-    │       ├── material-dashboard
-    │       └── material-dashboard.scss
-    ├── docs
-    │   ├── documentation.html
-    ├── pages
-    ├── CHANGELOG.md
-    ├── gulpfile.js
-    ├── package.json
-```
-
-
-
 ## Recursos 
 
 Para conocer más a fondo sobre el proyecto se puede observar en:
@@ -141,7 +111,7 @@ Para conocer más a fondo sobre el proyecto se puede observar en:
 - Documentación: <https://drive.google.com/drive/folders/1b5IwBA2nswt6BmnGF4TCFswfDyvEJSMG?usp=sharing>
 - Logo: <https://drive.google.com/file/d/1RZad8ROvUr8UAhoP-5HsbQ67BKp78J0I/view?usp=sharing>
 - Arquitectura: <https://drive.google.com/file/d/1w468Mrg2pxUDPG9z96OeO12LVybCw4hw/view?usp=sharing> 
-- Organigrama: <>
+- Organigrama: <https://drive.google.com/file/d/1YqTwy6_69v94K2KcEk_ARYnCsohTzVtR/view?usp=sharing>
 - Manual de Usuario: <>
 
 
