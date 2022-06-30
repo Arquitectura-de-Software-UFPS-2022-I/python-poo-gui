@@ -171,7 +171,7 @@ public class ModalAyuda {
      */
     public void mostrarPDF() {
         try {
-            File path = new File(PythonPooGui.class.getClassLoader().getResource("Manual_test.pdf").getFile());
+            File path = new File(PythonPooGui.class.getClassLoader().getResource("Manual de Usuario Blue Py.pdf").getFile());
             Desktop.getDesktop().open(path);
         } catch (IOException ex) {
             ex.printStackTrace();
