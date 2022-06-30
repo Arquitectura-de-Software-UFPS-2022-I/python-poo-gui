@@ -70,7 +70,7 @@ Los objetivos de Blue Py son:
 ## Arquitectura 
 
 ![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura.jpg)
-![Image](https://github.com/ariasRonaldo25/PlantillaReadme/blob/main/doc/img/arquitectura_Descomposición.jpg)
+
 
 La arquitectura seleccionada para el desarrollo del proyecto es la arquitectura Modelo Vista Control II (MVC II), en esta arquitectura el módulo Modelo proporciona toda la funcionalidad básica y los datos compatibles con una base de datos. 
  
