@@ -65,7 +65,7 @@ Los objetivos de Blue Py son:
 
 ## Arquitectura 
 
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/resources/img/arquitectura.jpg)
+![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura.jpg)
 ![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/arquitectura_Descomposici%C3%B3n.jpg)
 
 
@@ -102,38 +102,11 @@ _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 
 ## Estructura 
 
-Within the download you'll find the following directories and files:
-
-```
-material-dashboard
-    ├── assets
-    │   ├── css
-    │   ├── fonts
-    │   ├── img
-    │   ├── js
-    │   │   ├── core
-    │   │   ├── plugins
-    │   │   └── material-dashboard.js
-    │   │   └── material-dashboard.js.map
-    │   │   └── material-dashboard.min.js
-    │   └── scss
-    │       ├── material-dashboard
-    │       └── material-dashboard.scss
-    ├── docs
-    │   ├── documentation.html
-    ├── pages
-    ├── CHANGELOG.md
-    ├── gulpfile.js
-    ├── package.json
-```
-
+![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg)
 
 ## Archivo .jar
 [jar](https://drive.google.com/file/d/12lzgeMw9VZAk2EmKo7QuT54squjGC2yH/view?usp=sharing) Archivo ejecutable
 
-## Estructura un proyecto
-
-![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg)
 
  ## Autores 
 
