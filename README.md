@@ -129,21 +129,11 @@ material-dashboard
 
 
 ## Archivo .jar
-![jar](https://drive.google.com/file/d/12lzgeMw9VZAk2EmKo7QuT54squjGC2yH/view?usp=sharing) Archivo ejecutable
+[jar](https://drive.google.com/file/d/12lzgeMw9VZAk2EmKo7QuT54squjGC2yH/view?usp=sharing) Archivo ejecutable
 
 ## Estructura un proyecto
 
 ![Image](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/img/estrucura_proyecto.jpg)
-
-
-## Autores 
-
-- Documentación: <https://drive.google.com/drive/folders/1b5IwBA2nswt6BmnGF4TCFswfDyvEJSMG?usp=sharing>
-- Logo: <https://drive.google.com/file/d/1RZad8ROvUr8UAhoP-5HsbQ67BKp78J0I/view?usp=sharing>
-- Arquitectura: <https://drive.google.com/file/d/1w468Mrg2pxUDPG9z96OeO12LVybCw4hw/view?usp=sharing> 
-- Organigrama: <https://drive.google.com/file/d/1YqTwy6_69v94K2KcEk_ARYnCsohTzVtR/view?usp=sharing>
-- Manual de Usuario: <>
-
 
  ## Autores 
 
