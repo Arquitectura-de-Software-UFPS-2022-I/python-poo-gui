@@ -54,14 +54,14 @@ class ArchivoPython:
 class Directorio:
     def __init__(self, directorio):
         self.directorio = directorio
-        self.name = directorio.split("\\")[-1]
+        self.name = directorio.split(os.sep)[-1]
         self.archivos = []
         self.directorios = []
     
     def set_absolute_path(self, absolute_path):
-        self.directorio = absolute_path + "\\" + self.directorio
+        self.directorio = absolute_path + os.sep + self.directorio
         for file in self.archivos:
-            file.file = self.directorio + "\\" + file.file + ".py"
+            file.file = self.directorio + os.sep + file.file + ".py"
 
         for folder in self.directorios:
             folder.set_absolute_path(absolute_path)
@@ -128,7 +128,7 @@ def list_files(path):
     files = []
     dir_names = []
     for root, dirs, filenames in os.walk(path):
-        dir_names += ['{}\\{}'.format(root, dir_name) for dir_name in dirs if dir_name != "__pycache__"]
+        dir_names += ['{}{}{}'.format(root, os.sep, dir_name) for dir_name in dirs if dir_name != "__pycache__"]
         for filename in filenames:
             if filename.endswith(".py") and filename != "__init__.py" and filename != "scan.py":
                 files.append(os.path.join(root, filename))
@@ -189,12 +189,12 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
     errores = []
     for file in list_of_files:
         ## Eliminar modulos previamente importados.
-        exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace("\\", ".")))
+        exec('if "{0}" in sys.modules.keys():del sys.modules["{0}"]'.format(file[:-3].replace(os.sep, ".")))
 
-        folder = "\\".join(file.split("\\")[:-1])
+        folder = os.sep.join(file.split(os.sep)[:-1])
         directorio = dict_folders_class[folder]
-        module = file.split("\\")[-1].split(".")[0]
-        path_module = file[:-3].replace("\\", ".")
+        module = file.split(os.sep)[-1].split(".")[0]
+        path_module = file[:-3].replace(os.sep, ".")
 
         if module not in dict_modules:
             archivo = directorio.get_file(module)
@@ -205,7 +205,7 @@ def list_all_python_class_with_hierarchy(list_of_files_folder):
         try:
             #name -> nombre de clase
             #cls -> tipo de clase
-            for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace("\\", ".")), inspect.isclass):
+            for name, cls in inspect.getmembers(importlib.import_module(file[:-3].replace(os.sep, ".")), inspect.isclass):
                 #module -> archivo python
                 #class_name -> nombre de clase
                 module = str(cls).split("'")[1].split(".")[-2]
@@ -249,7 +249,7 @@ def scanner_project():
     src = dict_folders_class["src"]
     del dict_folders_class["src"]
     for val in dict_folders_class.values():
-        src.push_folder(val, val.directorio.split("\\")[1:])
+        src.push_folder(val, val.directorio.split(os.sep)[1:])
     src.set_absolute_path(os.getcwd())
     module_names = src.get_names_modules()
     import_modules = []
