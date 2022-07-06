@@ -107,6 +107,9 @@ _Las herramientas utilizadas para el desarrollo del proyecto fueron:_
 ## Archivo .jar
 [jar](https://github.com/Arquitectura-de-Software-UFPS-2022-I/python-poo-gui/blob/main/dist/blue-py.jar) Archivo ejecutable
 
+## Sitio Web
+
+[sitio web](https://ariasronaldo25.github.io/Blue-Py-site/) Proyecto Blue Py- Ide
 
  ## Autores 
 
